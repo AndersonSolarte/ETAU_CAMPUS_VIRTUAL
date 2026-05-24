@@ -1,8 +1,12 @@
-# Moodle Layer
+# Moodle Workspace
 
-Este directorio aloja personalizaciones seguras del LMS.
+Estructura base para personalizaciones y extensiones seguras del LMS.
 
-- `theme/tau_enterprise`: theme hijo basado en RemUI.
-- Plugins comerciales como RemUI y Edwiser Course Format deben instalarse en el contenedor Moodle siguiendo su licenciamiento oficial.
-- No modificar el core de Moodle.
+- `theme/`: themes y theme hijo institucional.
+- `local/`: plugins locales de integración.
+- `mod/`: módulos de actividad futuros.
+- `blocks/`: bloques personalizados futuros.
+- `moodledata/`: almacenamiento persistente para entornos Docker locales.
+
+No instalar ni modificar el core manualmente aquí.
 

@@ -7,6 +7,8 @@ dist/
 build/
 .vite/
 coverage/
+*.tsbuildinfo
+vite.config.d.ts
 
 # Environment
 .env
@@ -36,4 +38,3 @@ apps/moodle/.cache/
 
 # Prisma
 apps/api-node/prisma/dev.db
-

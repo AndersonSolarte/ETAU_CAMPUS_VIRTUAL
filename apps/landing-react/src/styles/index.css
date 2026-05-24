@@ -7,13 +7,19 @@
 
 body {
   margin: 0;
+  min-width: 320px;
+  background: #f7fbff;
 }
 
 a {
   text-decoration: none;
 }
 
+button,
+input {
+  font: inherit;
+}
+
 * {
   box-sizing: border-box;
 }
-

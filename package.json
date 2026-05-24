@@ -8,9 +8,9 @@
     "apps/api-node"
   ],
   "scripts": {
-    "dev": "npm-run-all --parallel dev:landing dev:api",
-    "dev:landing": "npm --workspace apps/landing-react run dev",
-    "dev:api": "npm --workspace apps/api-node run dev",
+    "dev": "npm-run-all --parallel frontend backend",
+    "frontend": "npm --workspace apps/landing-react run dev",
+    "backend": "npm --workspace apps/api-node run dev",
     "build": "npm-run-all build:landing build:api",
     "build:landing": "npm --workspace apps/landing-react run build",
     "build:api": "npm --workspace apps/api-node run build",
@@ -25,4 +25,3 @@
     "node": ">=22.0.0"
   }
 }
-

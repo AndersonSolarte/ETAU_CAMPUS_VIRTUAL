@@ -3,8 +3,8 @@ services:
     image: nginx:1.28-alpine
     container_name: tau_nginx
     depends_on:
-      - landing
-      - api
+      - landing-react
+      - api-node
       - moodle
     ports:
       - "80:80"
@@ -14,9 +14,9 @@ services:
     networks:
       - tau_network
 
-  landing:
+  landing-react:
     image: node:22-alpine
-    container_name: tau_landing
+    container_name: tau_landing_react
     working_dir: /app
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 3000"
     volumes:
@@ -28,9 +28,9 @@ services:
     networks:
       - tau_network
 
-  api:
+  api-node:
     image: node:22-alpine
-    container_name: tau_api
+    container_name: tau_api_node
     working_dir: /app
     command: sh -c "npm install && npm run dev"
     volumes:
@@ -76,8 +76,11 @@ services:
       BITNAMI_DEBUG: "false"
     volumes:
       - moodle_app_data:/bitnami/moodle
-      - ./docker/moodledata:/bitnami/moodledata
+      - ./apps/moodle/moodledata:/bitnami/moodledata
       - ./apps/moodle/theme/tau_enterprise:/bitnami/moodle/theme/tau_enterprise
+      - ./apps/moodle/local:/bitnami/moodle/local
+      - ./apps/moodle/mod:/bitnami/moodle/mod
+      - ./apps/moodle/blocks:/bitnami/moodle/blocks
     networks:
       - tau_network
 
@@ -116,4 +119,3 @@ volumes:
 networks:
   tau_network:
     driver: bridge
-
