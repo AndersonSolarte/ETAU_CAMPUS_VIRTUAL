@@ -1,0 +1,119 @@
+services:
+  nginx:
+    image: nginx:1.28-alpine
+    container_name: tau_nginx
+    depends_on:
+      - landing
+      - api
+      - moodle
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - tau_network
+
+  landing:
+    image: node:22-alpine
+    container_name: tau_landing
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 3000"
+    volumes:
+      - ./apps/landing-react:/app
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: ${VITE_API_URL}
+    networks:
+      - tau_network
+
+  api:
+    image: node:22-alpine
+    container_name: tau_api
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./apps/api-node:/app
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      JWT_SECRET: ${JWT_SECRET}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      MOODLE_BASE_URL: http://moodle
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - tau_network
+
+  moodle:
+    image: bitnami/moodle:5.0.2
+    container_name: tau_moodle
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8081:8080"
+    environment:
+      MOODLE_DATABASE_TYPE: pgsql
+      MOODLE_DATABASE_HOST: ${MOODLE_DATABASE_HOST}
+      MOODLE_DATABASE_PORT_NUMBER: 5432
+      MOODLE_DATABASE_NAME: ${MOODLE_DATABASE_NAME}
+      MOODLE_DATABASE_USER: ${MOODLE_DATABASE_USER}
+      MOODLE_DATABASE_PASSWORD: ${MOODLE_DATABASE_PASSWORD}
+      MOODLE_USERNAME: admin
+      MOODLE_PASSWORD: admin_change_me
+      MOODLE_EMAIL: admin@tau.local
+      MOODLE_SITE_NAME: TAU Campus Virtual
+      MOODLE_SKIP_BOOTSTRAP: "no"
+      MOODLE_SMTP_HOST: ""
+      BITNAMI_DEBUG: "false"
+    volumes:
+      - moodle_app_data:/bitnami/moodle
+      - ./docker/moodledata:/bitnami/moodledata
+      - ./apps/moodle/theme/tau_enterprise:/bitnami/moodle/theme/tau_enterprise
+    networks:
+      - tau_network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: tau_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - tau_network
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: tau_redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tau_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  moodle_app_data:
+
+networks:
+  tau_network:
+    driver: bridge
+

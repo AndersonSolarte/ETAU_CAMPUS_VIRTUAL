@@ -1,0 +1,28 @@
+{
+  "name": "tau-campus-virtual",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Enterprise LMS platform based on Moodle 5.x, React and Node.js",
+  "workspaces": [
+    "apps/landing-react",
+    "apps/api-node"
+  ],
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:landing dev:api",
+    "dev:landing": "npm --workspace apps/landing-react run dev",
+    "dev:api": "npm --workspace apps/api-node run dev",
+    "build": "npm-run-all build:landing build:api",
+    "build:landing": "npm --workspace apps/landing-react run build",
+    "build:api": "npm --workspace apps/api-node run build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
+

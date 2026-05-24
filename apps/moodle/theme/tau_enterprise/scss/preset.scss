@@ -1,0 +1,10 @@
+$tau-primary: #006d77;
+$tau-secondary: #0f172a;
+$tau-accent: #e29578;
+
+body {
+  --tau-primary: #{$tau-primary};
+  --tau-secondary: #{$tau-secondary};
+  --tau-accent: #{$tau-accent};
+}
+
