@@ -4,16 +4,16 @@
   "version": "0.1.0",
   "description": "Enterprise LMS platform based on Moodle 5.x, React and Node.js",
   "workspaces": [
-    "apps/landing-react",
-    "apps/api-node"
+    "apps/frontend",
+    "apps/backend"
   ],
   "scripts": {
     "dev": "npm-run-all --parallel frontend backend",
-    "frontend": "npm --workspace apps/landing-react run dev",
-    "backend": "npm --workspace apps/api-node run dev",
+    "frontend": "npm --workspace apps/frontend run dev",
+    "backend": "npm --workspace apps/backend run dev",
     "build": "npm-run-all build:landing build:api",
-    "build:landing": "npm --workspace apps/landing-react run build",
-    "build:api": "npm --workspace apps/api-node run build",
+    "build:landing": "npm --workspace apps/frontend run build",
+    "build:api": "npm --workspace apps/backend run build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f"

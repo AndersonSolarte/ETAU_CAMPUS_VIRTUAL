@@ -3,8 +3,8 @@ services:
     image: nginx:1.28-alpine
     container_name: tau_nginx
     depends_on:
-      - landing-react
-      - api-node
+      - frontend
+      - backend
       - moodle
     ports:
       - "80:80"
@@ -14,13 +14,13 @@ services:
     networks:
       - tau_network
 
-  landing-react:
+  frontend:
     image: node:22-alpine
-    container_name: tau_landing_react
+    container_name: tau_frontend
     working_dir: /app
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 3000"
     volumes:
-      - ./apps/landing-react:/app
+      - ./apps/frontend:/app
     ports:
       - "3000:3000"
     environment:
@@ -28,13 +28,13 @@ services:
     networks:
       - tau_network
 
-  api-node:
+  backend:
     image: node:22-alpine
-    container_name: tau_api_node
+    container_name: tau_backend
     working_dir: /app
     command: sh -c "npm install && npm run dev"
     volumes:
-      - ./apps/api-node:/app
+      - ./apps/backend:/app
     ports:
       - "4000:4000"
     environment:

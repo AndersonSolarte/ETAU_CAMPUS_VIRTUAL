@@ -28,8 +28,8 @@ Arquitectura enterprise para un campus virtual moderno con Moodle 5.x como motor
 ```txt
 TAU_CAMPUS_VIRTUAL/
 ├── apps/
-│   ├── landing-react/
-│   ├── api-node/
+│   ├── frontend/
+│   ├── backend/
 │   └── moodle/
 ├── docker/
 │   ├── nginx/
@@ -47,8 +47,8 @@ TAU_CAMPUS_VIRTUAL/
 
 ## Servicios
 
-- `landing`: app React/Vite en `localhost:3000`
-- `api`: backend Express en `localhost:4000`
+- `frontend`: app React/Vite en `localhost:3000`
+- `backend`: backend Express en `localhost:4000`
 - `moodle`: LMS Moodle en `localhost:8080` vía Nginx
 - `postgres`: base de datos principal en `localhost:5432`
 - `redis`: caché y base para realtime en `localhost:6379`
@@ -66,7 +66,7 @@ TAU_CAMPUS_VIRTUAL/
 
 ## Scripts
 
-- `npm run dev`: levanta `landing-react` y `api-node` en local
+- `npm run dev`: levanta `frontend` y `backend` en local
 - `npm run build`: compila apps Node/React
 - `npm run docker:up`: inicia la plataforma completa
 - `npm run docker:down`: detiene contenedores
@@ -95,4 +95,3 @@ TAU_CAMPUS_VIRTUAL/
 - SSO
 - Analítica y dashboards
 - Módulos IA
-

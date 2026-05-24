@@ -11,9 +11,8 @@
 
 ## Mapa de módulos
 
-- `apps/landing-react`: sitio institucional y acceso moderno.
-- `apps/api-node`: APIs, webhooks, auth futura, analytics.
+- `apps/frontend`: sitio institucional y acceso moderno.
+- `apps/backend`: APIs, webhooks, auth futura, analytics.
 - `apps/moodle`: personalizaciones seguras por theme/plugin.
 - `docker/`: composición local y base de despliegue.
 - `infra/`: espacio reservado para IaC, CI/CD y observabilidad.
-
