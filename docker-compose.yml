@@ -325,6 +325,29 @@ services:
     networks:
       - tau_network
 
+  # ── Aplica branding TAU (CSS, escudo, colores) ──────────────────────────────
+  # Se ejecuta DESPUÉS de que Moodle esté healthy para garantizar que la BD
+  # esté lista. Si en algún momento el diseño se pierde, reiniciar este servicio:
+  #   docker compose run --rm moodle-branding
+  moodle-branding:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_branding
+    depends_on:
+      moodle:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    command: ["bash", "-c", "php /scripts/configure-moove.php && php /scripts/palette-wine.php"]
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./apps/moodle/theme/tau_branding:/var/www/html/theme/tau_branding:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
   moodle-demo-data:
     image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
     container_name: tau_moodle_demo_data

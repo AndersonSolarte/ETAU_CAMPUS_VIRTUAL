@@ -341,11 +341,11 @@ $extrascss = <<<'NEWSCSS'
 [data-bs-theme="dark"] body#page-login-index,
 [data-bs-theme="dark"] #page-login-index #page {
     background-image:
-        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Ccircle cx='40' cy='40' r='1.5'/%3E%3Ccircle cx='0' cy='0' r='1.5'/%3E%3Ccircle cx='80' cy='0' r='1.5'/%3E%3Ccircle cx='0' cy='80' r='1.5'/%3E%3Ccircle cx='80' cy='80' r='1.5'/%3E%3C/g%3E%3C/svg%3E"),
-        radial-gradient(ellipse at 15% 50%, rgba(198,43,58,.22) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(45,106,159,.25) 0%, transparent 50%),
-        linear-gradient(135deg, #0d1117 0%, #161b22 45%, #0f1f38 100%) !important;
-    background-color: #0d1117 !important;
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='1.5'/%3E%3Ccircle cx='0' cy='0' r='1.5'/%3E%3Ccircle cx='80' cy='0' r='1.5'/%3E%3Ccircle cx='0' cy='80' r='1.5'/%3E%3Ccircle cx='80' cy='80' r='1.5'/%3E%3C/g%3E%3C/svg%3E"),
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 22%),
+        radial-gradient(circle at 82% 16%, rgba(111,168,255,.18) 0%, rgba(111,168,255,0) 20%),
+        linear-gradient(180deg, #eef6ff 0%, #e6f1ff 52%, #ddeafe 100%) !important;
+    background-color: #eef6ff !important;
     background-size: 80px 80px, cover, cover, cover !important;
 }
 [data-bs-theme="light"] body#page-login-index,
@@ -354,10 +354,10 @@ $extrascss = <<<'NEWSCSS'
 :not([data-bs-theme="dark"]) #page-login-index #page {
     background-image:
         url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='1.5'/%3E%3Ccircle cx='0' cy='0' r='1.5'/%3E%3Ccircle cx='80' cy='0' r='1.5'/%3E%3Ccircle cx='0' cy='80' r='1.5'/%3E%3Ccircle cx='80' cy='80' r='1.5'/%3E%3C/g%3E%3C/svg%3E"),
-        radial-gradient(ellipse at 15% 50%, rgba(198,43,58,.08) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(45,106,159,.1) 0%, transparent 50%),
-        linear-gradient(135deg, #f8f9fa 0%, #e9ecef 45%, #dee2e6 100%) !important;
-    background-color: #f8f9fa !important;
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 22%),
+        radial-gradient(circle at 82% 16%, rgba(111,168,255,.18) 0%, rgba(111,168,255,0) 20%),
+        linear-gradient(180deg, #eef6ff 0%, #e6f1ff 52%, #ddeafe 100%) !important;
+    background-color: #eef6ff !important;
     background-size: 80px 80px, cover, cover, cover !important;
 }
 /* Layout centering is handled by the <style> tag injected via additionalhtmlhead */
@@ -1342,10 +1342,9 @@ body#page-login-index .login-identityprovider-btn:hover { border-color: #c62b3a 
     z-index: 2 !important;
 }
 #mooveslideshow .carousel-item img {
-    max-height: 480px !important;
-    object-fit: cover !important;
-    border-radius: 20px !important;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.18) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
 }
 .tau-banner-overlay {
     position: absolute !important;
@@ -1445,16 +1444,64 @@ body#page-login-index .login-identityprovider-btn:hover { border-color: #c62b3a 
 @keyframes tauDecoIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 @media (max-width: 991px) { .tau-banner-deco { display: none !important; } }
 .tau-banner-card {
-    background: rgba(15, 2, 5, 0.5) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-left: 5px solid #c62b3a !important;
-    border-radius: 24px !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 0 !important;
     padding: 30px 36px !important;
     max-width: 480px !important;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: none !important;
     text-align: left !important;
+}
+/* Logo TAU + lema derecha (inscripción/mural) */
+.tau-logo-deco {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0 !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+}
+.tau-deco-logo {
+    width: clamp(150px,15vw,195px) !important;
+    height: auto !important;
+    display: block !important;
+    filter: drop-shadow(0 8px 28px rgba(0,0,0,.6)) !important;
+    margin-bottom: 14px !important;
+}
+.tau-ins-wrap {
+    text-align: center !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 200px !important;
+}
+.tau-ins-line {
+    display: block !important;
+    width: 32px !important;
+    height: 2px !important;
+    background: #c62b3a !important;
+    margin: 0 auto 10px !important;
+    border-radius: 1px !important;
+}
+.tau-ins-text {
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-style: italic !important;
+    font-size: .98rem !important;
+    color: rgba(255,255,255,.95) !important;
+    line-height: 1.55 !important;
+    margin: 0 0 7px !important;
+    display: block !important;
+}
+.tau-ins-attr {
+    font-family: system-ui, sans-serif !important;
+    font-style: normal !important;
+    font-size: .58rem !important;
+    color: rgba(255,255,255,.38) !important;
+    letter-spacing: .1em !important;
+    text-transform: uppercase !important;
+    display: block !important;
 }
 .tau-banner-pretitle {
     font-size: 0.7rem !important;
@@ -2125,7 +2172,9 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
   'if(item&&!item.querySelector(".tau-banner-overlay")){' .
     'var overlay=document.createElement("div");' .
     'overlay.className="tau-banner-overlay";' .
-    'overlay.innerHTML=\'<div class="tau-banner-card">\' +' .
+    'overlay.innerHTML=' .
+    /* Texto sin cuadro, directo sobre el hero */
+    '\'<div class="tau-banner-card">\' +' .
       '\'<div class="tau-banner-pretitle tau-banner-animate">Universidad CESMAG<\/div>\' +' .
       '\'<h1 class="tau-banner-title tau-banner-animate">TAU <span class="tau-accent-text">Campus Virtual<\/span><\/h1>\' +' .
       '\'<div class="tau-banner-subtitle tau-banner-animate">UNICESMAG<\/div>\' +' .
@@ -2134,30 +2183,12 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
         '\'<a href="#apoyo-academico" class="btn btn-tau-banner-explore">Explorar Cursos<\/a>\' +' .
       '\'<\/div>\' +' .
     '\'<\/div>\' +' .
-    /* ── Decorativo lado derecho ── */
-    '\'<div class="tau-banner-deco">\' +' .
-      '\'<div class="tau-deco-ring-wrap">\' +' .
-        /* Anillo exterior girando lento */
-        '\'<svg class="tau-deco-svg-outer" viewBox="0 0 188 188" fill="none" xmlns="http://www.w3.org/2000/svg">\' +' .
-          '\'<circle cx="94" cy="94" r="88" stroke="rgba(198,43,58,0.18)" stroke-width="1.5"\/>\' +' .
-          '\'<circle cx="94" cy="94" r="88" stroke="rgba(198,43,58,0.55)" stroke-width="1.5" stroke-dasharray="12 180" stroke-linecap="round"\/>\' +' .
-          '\'<circle cx="94" cy="6" r="4.5" fill="#c62b3a" opacity=".75"\/>\' +' .
-          '\'<circle cx="182" cy="94" r="3.5" fill="#c62b3a" opacity=".55"\/>\' +' .
-          '\'<circle cx="94" cy="182" r="4" fill="#c62b3a" opacity=".65"\/>\' +' .
-          '\'<circle cx="6" cy="94" r="3" fill="#c62b3a" opacity=".45"\/>\' +' .
-        '\'<\/svg>\' +' .
-        /* Anillo interior girando inverso */
-        '\'<svg class="tau-deco-svg-inner" viewBox="0 0 188 188" fill="none" xmlns="http://www.w3.org/2000/svg">\' +' .
-          '\'<circle cx="94" cy="94" r="65" stroke="rgba(198,43,58,0.12)" stroke-width="1"\/>\' +' .
-          '\'<circle cx="94" cy="94" r="65" stroke="rgba(198,43,58,0.40)" stroke-width="1" stroke-dasharray="6 90" stroke-linecap="round"\/>\' +' .
-          '\'<line x1="94" y1="29" x2="94" y2="159" stroke="rgba(198,43,58,0.07)" stroke-width="1"\/>\' +' .
-          '\'<line x1="29" y1="94" x2="159" y2="94" stroke="rgba(198,43,58,0.07)" stroke-width="1"\/>\' +' .
-        '\'<\/svg>\' +' .
-        '\'<div class="tau-deco-center"><div class="tau-deco-num">+180<\/div><div class="tau-deco-lbl">Cursos activos<\/div><\/div>\' +' .
-      '\'<\/div>\' +' .
-      '\'<div class="tau-deco-pills">\' +' .
-        '\'<div class="tau-deco-pill"><span class="tau-deco-pill-num">+2.4K<\/span><span class="tau-deco-pill-lbl">Estudiantes<\/span><\/div>\' +' .
-        '\'<div class="tau-deco-pill"><span class="tau-deco-pill-num">98%<\/span><span class="tau-deco-pill-lbl">Satisfacción<\/span><\/div>\' +' .
+    /* Logo TAU + lema lado derecho */
+    '\'<div class="tau-banner-deco tau-logo-deco">\' +' .
+      '\'<img src="\/theme\/tau_branding\/assets\/official\/tau-official-icon.png" class="tau-deco-logo" alt="TAU">\' +' .
+      '\'<div class="tau-deco-lema">\' +' .
+        '\'“Hombres nuevos<br>para tiempos nuevos”\' +' .
+        '\'<span>— Fray Guillermo de Castellana, OFMCap.<\/span>\' +' .
       '\'<\/div>\' +' .
     '\'<\/div>\';' .
     'item.appendChild(overlay);' .
@@ -2898,17 +2929,6 @@ $loginStyle_disabled = '<style>'
     . '.course-card .card-text{display:none!important;}'
     . '#mooveslideshow .carousel-caption{display:none!important;}'
     . '#mooveslideshow .carousel-item{position:relative!important;overflow:hidden!important;border-radius:20px!important;}'
-    . '#mooveslideshow .carousel-item img{max-height:480px!important;object-fit:cover!important;border-radius:20px!important;box-shadow:0 16px 40px rgba(0,0,0,0.18)!important;}'
-    . '.tau-banner-overlay{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;display:flex!important;align-items:center!important;padding-left:6%!important;z-index:10!important;box-sizing:border-box!important;}'
-    . '.tau-banner-card{background:rgba(15,2,5,0.65)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;border:1px solid rgba(255,255,255,0.15)!important;border-left:6px solid #c62b3a!important;border-radius:28px!important;padding:36px 40px!important;max-width:480px!important;box-shadow:0 30px 70px rgba(0,0,0,0.5)!important;text-align:left!important;}'
-    . '.tau-banner-pretitle{font-size:0.78rem!important;font-weight:700!important;letter-spacing:3px!important;color:#e87a84!important;text-transform:uppercase!important;margin-bottom:6px!important;display:block!important;}'
-    . '.tau-banner-title{font-size:2.4rem!important;font-weight:800!important;color:#fff!important;line-height:1.15!important;margin-bottom:8px!important;letter-spacing:-0.8px!important;}'
-    . '.tau-accent-text{background:linear-gradient(90deg,#fff 0%,#ffc5cb 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;}'
-    . '.tau-banner-subtitle{font-size:0.85rem!important;font-weight:700!important;color:#fff!important;background:linear-gradient(135deg,#c62b3a 0%,#a32230 100%)!important;padding:4px 12px!important;border-radius:6px!important;display:inline-block!important;margin-bottom:16px!important;letter-spacing:1px!important;}'
-    . '.tau-banner-desc{font-size:0.92rem!important;color:rgba(255,255,255,0.9)!important;line-height:1.6!important;margin-bottom:24px!important;font-weight:400!important;}'
-    . '.btn-tau-banner-explore{background:linear-gradient(135deg,#c62b3a 0%,#8e1f2d 100%)!important;border:none!important;color:#fff!important;border-radius:14px!important;padding:12px 28px!important;font-weight:700!important;font-size:0.88rem!important;letter-spacing:0.5px!important;box-shadow:0 8px 24px rgba(198,43,58,0.3)!important;transition:all 0.22s ease!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-decoration:none!important;}'
-    . '.btn-tau-banner-explore:hover{transform:translateY(-2px)!important;box-shadow:0 12px 28px rgba(198,43,58,0.4)!important;color:#fff!important;}'
-    . '@media(max-width:767px){.tau-banner-overlay{position:relative!important;padding:20px!important;background:#0d1117!important;display:block!important;height:auto!important;}.tau-banner-card{max-width:100%!important;border-radius:16px!important;padding:20px!important;margin:0 auto!important;}.tau-banner-title{font-size:1.6rem!important;}}'
     . '#numbers{background:#ffffff!important;padding:5.625rem 0!important;}'
     . '[data-bs-theme="dark"] #numbers{background:#12121a!important;}'
     . '#numbers .sectionheading h2{font-family:\'Manrope\',sans-serif!important;font-size:2.2rem!important;font-weight:800!important;color:#1e1e2f!important;line-height:1.25!important;letter-spacing:-0.8px!important;margin-bottom:20px!important;}'
@@ -2970,7 +2990,7 @@ $darkModeScript = '<script>
 $fontHead = '<link rel="preconnect" href="https://fonts.googleapis.com">'
     . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
     . '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">'
-    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260614c">'
+    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260615f">'
     . '<style>#page-my-index #page-header .mb-2, #page-my-index .mb-2 span.h2, #page-my-index .welcome-message { display: none !important; }</style>'
     . '<script>(function(){var t=localStorage.getItem("tau-theme")||"light";document.documentElement.setAttribute("data-bs-theme",t);})();</script>';
 set_config('additionalhtmlhead', $fontHead);

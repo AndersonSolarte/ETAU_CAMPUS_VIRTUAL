@@ -83,7 +83,7 @@ function local_tau_course_creator_ai_before_footer(): string {
     $html = '';
 
     // Always load core preloader and dark mode theme scripts
-    $html .= '<script src="/local/tau_course_creator_ai/assets/js/tau_preloader.js?v=20260614c" defer></script>';
+    $html .= '<script src="/local/tau_course_creator_ai/assets/js/tau_preloader.js?v=20260615f" defer></script>';
     $html .= '<script src="/local/tau_course_creator_ai/assets/js/tau_darkmode.js" defer></script>';
 
     // Page-specific custom scripts
@@ -128,7 +128,7 @@ function local_tau_course_creator_ai_before_footer(): string {
 
         $html .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>';
         $html .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>';
-        $html .= '<script src="/local/tau_course_creator_ai/assets/js/tau_frontpage.js?v=20260615" defer></script>';
+        $html .= '<script src="/local/tau_course_creator_ai/assets/js/tau_frontpage.js?v=20260615a" defer></script>';
     }
 
     if ($PAGE->pagetype === 'my-index') {
@@ -147,5 +147,3 @@ function local_tau_course_creator_ai_before_footer(): string {
 
     return $html;
 }
-
-

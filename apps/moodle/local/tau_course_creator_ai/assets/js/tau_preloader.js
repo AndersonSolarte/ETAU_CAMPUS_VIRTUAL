@@ -11,8 +11,14 @@
         preloader.innerHTML = '<div class="tau-pl-inner">' +
             '<div class="tau-pl-ring-wrap">' +
                 '<svg class="tau-pl-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-                    '<circle cx="50" cy="50" r="44" stroke="rgba(63,118,195,0.16)" stroke-width="2"/>' +
-                    '<circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="#c62b3a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="188 88"/>' +
+                    '<defs>' +
+                        '<linearGradient id="tau-pl-grad" x1="0%" y1="0%" x2="100%" y2="100%">' +
+                            '<stop offset="0%" stop-color="#c62b3a"/>' +
+                            '<stop offset="100%" stop-color="#e87a84"/>' +
+                        '</linearGradient>' +
+                    '</defs>' +
+                    '<circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.08)" stroke-width="1.8"/>' +
+                    '<circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="url(#tau-pl-grad)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="90 186"/>' +
                 '</svg>' +
                 '<img class="tau-pl-icon" src="/pluginfile.php/1/theme_moove/favicon/0/tau-official-icon.png" alt="TAU">' +
             '</div>' +
@@ -66,7 +72,7 @@
             if (document.readyState === "complete") {
                 hideLoader();
             }
-        }, 15000);
+        }, 60000);
     }
 
     document.addEventListener("click", function(e) {
