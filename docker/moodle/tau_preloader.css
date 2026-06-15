@@ -1,0 +1,90 @@
+/* TAU Campus Virtual - Preloader Styles */
+#tau-preloader {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 22%),
+        radial-gradient(circle at 82% 16%, rgba(111,168,255,.18) 0%, rgba(111,168,255,0) 20%),
+        linear-gradient(180deg, #eef6ff 0%, #e6f1ff 52%, #ddeafe 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important;
+    animation: tauPlIn .18s ease both !important;
+}
+
+#tau-preloader.tau-pl-out {
+    animation: tauPlOut .28s ease both !important;
+    pointer-events: none !important;
+}
+
+.tau-pl-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    padding: 32px 38px !important;
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.52) !important;
+    border: 1px solid rgba(140,181,235,.34) !important;
+    box-shadow: 0 20px 50px rgba(62,109,173,.12) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+}
+
+.tau-pl-ring-wrap {
+    position: relative !important;
+    width: 120px !important;
+    height: 120px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.tau-pl-svg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 120px !important;
+    height: 120px !important;
+    animation: tauSpinLoop 0.8s linear infinite !important;
+}
+
+.tau-pl-arc {
+    transform-box: fill-box !important;
+    transform-origin: center !important;
+}
+
+.tau-pl-icon {
+    width: 72px !important;
+    height: 72px !important;
+    object-fit: contain !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.tau-pl-label {
+    font-family: 'Manrope', system-ui, sans-serif !important;
+    font-size: .95rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .28em !important;
+    text-transform: uppercase !important;
+    color: #c62b3a !important;
+    text-shadow: 0 2px 10px rgba(255,255,255,0.8) !important;
+}
+
+@keyframes tauPlIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes tauPlOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes tauSpinLoop {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
