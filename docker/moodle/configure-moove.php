@@ -2990,7 +2990,7 @@ $darkModeScript = '<script>
 $fontHead = '<link rel="preconnect" href="https://fonts.googleapis.com">'
     . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
     . '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">'
-    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260615f">'
+    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260615i">'
     . '<style>#page-my-index #page-header .mb-2, #page-my-index .mb-2 span.h2, #page-my-index .welcome-message { display: none !important; }</style>'
     . '<script>(function(){var t=localStorage.getItem("tau-theme")||"light";document.documentElement.setAttribute("data-bs-theme",t);})();</script>';
 set_config('additionalhtmlhead', $fontHead);

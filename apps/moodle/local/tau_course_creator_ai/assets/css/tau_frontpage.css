@@ -36,74 +36,76 @@ body#page-login-index .course-card .card-text {
 }
 
 .tau-banner-card {
-    background: rgba(15,2,5,0.45) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    border-left: 6px solid #c62b3a !important;
+    background: rgba(10, 5, 8, 0.35) !important;
+    backdrop-filter: blur(24px) saturate(130%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(130%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 24px !important;
-    padding: 36px 40px !important;
-    max-width: 460px !important;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35) !important;
+    padding: 44px 48px !important;
+    max-width: 480px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     text-align: left !important;
+    position: relative !important;
 }
 
 .tau-banner-pretitle {
-    font-size: 0.78rem !important;
+    font-size: 0.72rem !important;
     font-weight: 700 !important;
-    letter-spacing: 3px !important;
-    color: #e87a84 !important;
+    letter-spacing: 4px !important;
+    color: rgba(255, 255, 255, 0.5) !important;
     text-transform: uppercase !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 8px !important;
     display: block !important;
 }
 
 .tau-banner-title {
-    font-size: 2.4rem !important;
+    font-size: 2.6rem !important;
     font-weight: 800 !important;
     color: #fff !important;
     line-height: 1.15 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
     letter-spacing: -0.8px !important;
 }
 
 .tau-accent-text {
-    background: linear-gradient(90deg, #fff 0%, #ffc5cb 100%) !important;
+    background: linear-gradient(135deg, #ff8e99 0%, #c62b3a 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
 
 .tau-banner-subtitle {
-    font-size: 0.85rem !important;
+    font-size: 0.78rem !important;
     font-weight: 700 !important;
-    color: #fff !important;
-    background: linear-gradient(135deg, #c62b3a 0%, #a32230 100%) !important;
-    padding: 4px 12px !important;
-    border-radius: 6px !important;
+    color: #ff9da7 !important;
+    background: rgba(198, 43, 58, 0.08) !important;
+    border: 1px solid rgba(198, 43, 58, 0.2) !important;
+    padding: 4px 14px !important;
+    border-radius: 50px !important;
     display: inline-block !important;
-    margin-bottom: 16px !important;
-    letter-spacing: 1px !important;
+    margin-bottom: 20px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
 }
 
 .tau-banner-desc {
-    font-size: 0.92rem !important;
-    color: rgba(255,255,255,0.9) !important;
-    line-height: 1.6 !important;
-    margin-bottom: 24px !important;
+    font-size: 0.9rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.7 !important;
+    margin-bottom: 28px !important;
     font-weight: 400 !important;
 }
 
 .btn-tau-banner-explore {
-    background: linear-gradient(135deg, #c62b3a 0%, #8e1f2d 100%) !important;
-    border: none !important;
+    background: #c62b3a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: #fff !important;
-    border-radius: 14px !important;
-    padding: 12px 28px !important;
+    border-radius: 50px !important;
+    padding: 12px 32px !important;
     font-weight: 700 !important;
     font-size: 0.88rem !important;
     letter-spacing: 0.5px !important;
-    box-shadow: 0 8px 24px rgba(198,43,58,0.3) !important;
-    transition: all 0.22s ease !important;
+    box-shadow: 0 10px 20px rgba(198, 43, 58, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -111,47 +113,60 @@ body#page-login-index .course-card .card-text {
 }
 
 .btn-tau-banner-explore:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 12px 28px rgba(198,43,58,0.4) !important;
+    background: #e03243 !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 15px 30px rgba(198, 43, 58, 0.35) !important;
     color: #fff !important;
 }
 
 /* Motto quote and logo card on the right */
 .tau-logo-deco {
-    background: rgba(15,2,5,0.55) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
+    background: rgba(10, 5, 8, 0.35) !important;
+    backdrop-filter: blur(24px) saturate(130%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(130%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 24px !important;
-    padding: 36px 32px !important;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.45) !important;
+    padding: 48px 40px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    max-width: 300px !important;
+    max-width: 340px !important;
     width: 100% !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
 }
 
 .tau-banner-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .tau-banner-card:hover,
 .tau-logo-deco:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(255,255,255,0.22) !important;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.55) !important;
+    transform: translateY(-4px) !important;
+    border-color: rgba(198, 43, 58, 0.3) !important;
+    box-shadow: 0 40px 80px rgba(198, 43, 58, 0.15), 0 30px 60px rgba(0, 0, 0, 0.4) !important;
+}
+
+@keyframes tauLogoPulse {
+    0% { filter: drop-shadow(0 0 15px rgba(198, 43, 58, 0.3)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35)); }
+    50% { filter: drop-shadow(0 0 25px rgba(198, 43, 58, 0.55)) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35)); }
+    100% { filter: drop-shadow(0 0 15px rgba(198, 43, 58, 0.3)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35)); }
 }
 
 .tau-deco-logo {
-    width: 96px !important;
+    width: 90px !important;
     height: auto !important;
     display: block !important;
-    filter: drop-shadow(0 0 20px rgba(198,43,58,0.4)) drop-shadow(0 8px 20px rgba(0,0,0,0.4)) !important;
-    margin-bottom: 20px !important;
+    margin: 0 auto 28px !important;
+    animation: tauLogoPulse 4s infinite ease-in-out !important;
+    transition: transform 0.4s ease !important;
+}
+
+.tau-logo-deco:hover .tau-deco-logo {
+    transform: scale(1.06) rotate(2deg) !important;
 }
 
 .tau-ins-wrap {
@@ -161,31 +176,34 @@ body#page-login-index .course-card .card-text {
 
 .tau-ins-line {
     display: block !important;
-    width: 32px !important;
-    height: 2px !important;
-    background: #c62b3a !important;
-    margin: 0 auto 14px !important;
+    width: 80px !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, #c62b3a, transparent) !important;
+    margin: 0 auto 24px !important;
     border-radius: 1px !important;
 }
 
 .tau-ins-text {
     font-family: Georgia, "Times New Roman", serif !important;
     font-style: italic !important;
-    font-size: 1rem !important;
-    color: rgba(255,255,255,0.95) !important;
-    line-height: 1.55 !important;
-    margin: 0 0 12px !important;
+    font-size: 1.15rem !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    line-height: 1.7 !important;
+    margin: 0 0 18px !important;
     display: block !important;
+    letter-spacing: 0.1px !important;
+    font-weight: 300 !important;
 }
 
 .tau-ins-attr {
-    font-family: system-ui, sans-serif !important;
+    font-family: system-ui, -apple-system, sans-serif !important;
     font-style: normal !important;
-    font-size: 0.65rem !important;
-    color: rgba(255,255,255,0.5) !important;
-    letter-spacing: 0.1em !important;
+    font-size: 0.62rem !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    letter-spacing: 3px !important;
     text-transform: uppercase !important;
-    display: block !important;
+    display: block;
+    font-weight: 600 !important;
 }
 
 @media(max-width: 900px) {
@@ -199,14 +217,14 @@ body#page-login-index .course-card .card-text {
     .tau-banner-card {
         max-width: 100% !important;
         border-radius: 16px !important;
-        padding: 20px !important;
+        padding: 30px 24px !important;
         margin: 0 auto !important;
     }
     .tau-logo-deco {
         display: none !important;
     }
     .tau-banner-title {
-        font-size: 1.6rem !important;
+        font-size: 1.8rem !important;
     }
 }
 

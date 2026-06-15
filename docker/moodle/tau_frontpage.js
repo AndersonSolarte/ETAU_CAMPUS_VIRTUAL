@@ -113,7 +113,13 @@
             clearInterval(checkGsapLoader);
             gsap.from(document.querySelector(".tau-banner-card"), {
                 opacity: 0,
-                x: -60,
+                x: -50,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+            gsap.from(document.querySelector(".tau-logo-deco"), {
+                opacity: 0,
+                x: 50,
                 duration: 1.2,
                 ease: "power3.out"
             });
