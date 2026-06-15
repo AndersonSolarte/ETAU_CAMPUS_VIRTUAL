@@ -1,0 +1,14 @@
+/* TAU Campus Virtual - Master Stylesheet */
+
+/* Import all modular component stylesheets */
+@import url('tau_preloader.css?v=20260614c');
+@import url('tau_darkmode.css?v=20260615');
+@import url('tau_login.css?v=20260615');
+@import url('tau_dashboard.css?v=20260615');
+@import url('tau_frontpage.css?v=20260615');
+
+/* Global Moodle footer cleanup rules */
+footer .copyright, 
+footer .madeby {
+    display: none !important;
+}

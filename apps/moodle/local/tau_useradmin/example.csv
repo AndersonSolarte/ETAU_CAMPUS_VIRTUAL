@@ -1,0 +1,3 @@
+idnumber,status,firstname,lastname,email,country,department,city,phone1
+1085327166,activo,Andrea,Lopez,andrea.lopez@unicesmag.edu.co,CO,Narino,Pasto,3001234567
+1085327167,inactivo,Carlos,Ruiz,carlos.ruiz@unicesmag.edu.co,CO,Cundinamarca,Bogota,3009876543

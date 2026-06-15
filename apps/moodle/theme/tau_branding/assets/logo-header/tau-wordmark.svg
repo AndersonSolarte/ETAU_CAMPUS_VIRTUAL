@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" fill="none">
+  <rect x="0" y="0" width="52" height="10" rx="3" fill="#1f4b99"/>
+  <rect x="21" y="10" width="10" height="34" rx="2" fill="#1f4b99"/>
+  <rect x="0" y="46" width="52" height="3" rx="1.5" fill="#d9a441"/>
+  <rect x="64" y="4" width="1.5" height="40" rx="0.75" fill="#1f4b99" opacity="0.2"/>
+  <text x="76" y="30" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-weight="700" font-size="26" fill="#1f4b99" letter-spacing="-0.5">TAU</text>
+  <text x="76" y="46" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-weight="400" font-size="10.5" fill="#1f4b99" letter-spacing="2.5" opacity="0.75">CAMPUS VIRTUAL</text>
+</svg>

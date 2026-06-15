@@ -3,111 +3,383 @@ services:
     image: nginx:1.28-alpine
     container_name: tau_nginx
     depends_on:
-      - frontend
-      - backend
-      - moodle
+      moodle:
+        condition: service_healthy
     ports:
-      - "80:80"
       - "8080:8080"
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    networks:
-      - tau_network
-
-  frontend:
-    image: node:22-alpine
-    container_name: tau_frontend
-    working_dir: /app
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 3000"
-    volumes:
-      - ./apps/frontend:/app
-    ports:
-      - "3000:3000"
-    environment:
-      VITE_API_URL: ${VITE_API_URL}
-    networks:
-      - tau_network
-
-  backend:
-    image: node:22-alpine
-    container_name: tau_backend
-    working_dir: /app
-    command: sh -c "npm install && npm run dev"
-    volumes:
-      - ./apps/backend:/app
-    ports:
-      - "4000:4000"
-    environment:
-      NODE_ENV: development
-      PORT: 4000
-      JWT_SECRET: ${JWT_SECRET}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
-      MOODLE_BASE_URL: http://moodle
-    depends_on:
-      - postgres
-      - redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     networks:
       - tau_network
 
   moodle:
-    image: bitnami/moodle:5.0.2
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
     container_name: tau_moodle
     depends_on:
-      - postgres
-      - redis
-    ports:
-      - "8081:8080"
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      moodle-code:
+        condition: service_completed_successfully
+      moodle-init:
+        condition: service_completed_successfully
+      moodle-themes-sync:
+        condition: service_completed_successfully
+      moodle-performance:
+        condition: service_completed_successfully
+      moodle-permissions:
+        condition: service_completed_successfully
+      moodle-theme-upgrade:
+        condition: service_completed_successfully
+      moodle-plugins-upgrade:
+        condition: service_completed_successfully
+    restart: unless-stopped
     environment:
-      MOODLE_DATABASE_TYPE: pgsql
-      MOODLE_DATABASE_HOST: ${MOODLE_DATABASE_HOST}
-      MOODLE_DATABASE_PORT_NUMBER: 5432
-      MOODLE_DATABASE_NAME: ${MOODLE_DATABASE_NAME}
-      MOODLE_DATABASE_USER: ${MOODLE_DATABASE_USER}
-      MOODLE_DATABASE_PASSWORD: ${MOODLE_DATABASE_PASSWORD}
-      MOODLE_USERNAME: admin
-      MOODLE_PASSWORD: admin_change_me
-      MOODLE_EMAIL: admin@tau.local
-      MOODLE_SITE_NAME: TAU Campus Virtual
-      MOODLE_SKIP_BOOTSTRAP: "no"
-      MOODLE_SMTP_HOST: ""
-      BITNAMI_DEBUG: "false"
+      MOODLE_URL: ${MOODLE_URL}
+      APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      MOODLE_REVERSEPROXY_ADDRESSES: ${MOODLE_REVERSEPROXY_ADDRESSES}
+      MOODLE_CACHE_PREFIX: ${MOODLE_CACHE_PREFIX}
+      MOODLE_SESSION_PREFIX: ${MOODLE_SESSION_PREFIX}
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      GOOGLE_OAUTH_ALLOWED_DOMAIN: ${GOOGLE_OAUTH_ALLOWED_DOMAIN}
     volumes:
-      - moodle_app_data:/bitnami/moodle
-      - ./apps/moodle/moodledata:/bitnami/moodledata
-      - ./apps/moodle/theme/tau_enterprise:/bitnami/moodle/theme/tau_enterprise
-      - ./apps/moodle/local:/bitnami/moodle/local
-      - ./apps/moodle/mod:/bitnami/moodle/mod
-      - ./apps/moodle/blocks:/bitnami/moodle/blocks
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+      # Live-mount all custom TAU local plugins & blocks for instant local updates
+      - ./apps/moodle/local/tau_course_creator_ai:/var/www/html/local/tau_course_creator_ai
+      - ./apps/moodle/local/tau_ai_provider:/var/www/html/local/tau_ai_provider
+      - ./apps/moodle/local/tau_assign_ai:/var/www/html/local/tau_assign_ai
+      - ./apps/moodle/local/tau_forum_ai:/var/www/html/local/tau_forum_ai
+      - ./apps/moodle/local/tau_student_life_story:/var/www/html/local/tau_student_life_story
+      - ./apps/moodle/local/tau_smart_rules_ai:/var/www/html/local/tau_smart_rules_ai
+      - ./apps/moodle/local/tau_ranking_activities_ai:/var/www/html/local/tau_ranking_activities_ai
+      - ./apps/moodle/local/tau_share_certificate_ai:/var/www/html/local/tau_share_certificate_ai
+      - ./apps/moodle/local/tau_soporte:/var/www/html/local/tau_soporte
+      - ./apps/moodle/local/tau_useradmin:/var/www/html/local/tau_useradmin
+      - ./apps/moodle/local/tau_certificate:/var/www/html/local/tau_certificate
+      - ./apps/moodle/blocks/tau_tutor_ai:/var/www/html/blocks/tau_tutor_ai
+      - ./apps/moodle/blocks/tau_recommended_courses:/var/www/html/blocks/tau_recommended_courses
+    healthcheck:
+      test: ["CMD-SHELL", "php -r 'exit(@file_get_contents(\"http://127.0.0.1/\") === false ? 1 : 0);'"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     networks:
       - tau_network
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:${POSTGRES_IMAGE_TAG}
     container_name: tau_postgres
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     restart: unless-stopped
+    ports:
+      - "5438:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       - tau_network
 
   redis:
-    image: redis:7.4-alpine
+    image: redis:${REDIS_IMAGE_TAG}
     container_name: tau_redis
-    command: redis-server --appendonly yes
-    ports:
-      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    restart: unless-stopped
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "PING"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - tau_network
+
+  moodle-code:
+    image: alpine/git:latest
+    container_name: tau_moodle_code
+    entrypoint: ["/bin/sh", "/scripts/bootstrap-code.sh"]
+    environment:
+      MOODLE_GIT_REPOSITORY: ${MOODLE_GIT_REPOSITORY}
+      MOODLE_GIT_BRANCH: ${MOODLE_GIT_BRANCH}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodle:/scripts:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-init:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_init
+    depends_on:
+      postgres:
+        condition: service_healthy
+      moodle-code:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/init-moodle.sh"]
+    environment:
+      MOODLE_URL: ${MOODLE_URL}
+      APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
+      MOODLE_SITE_NAME: ${MOODLE_SITE_NAME}
+      MOODLE_SHORT_NAME: ${MOODLE_SHORT_NAME}
+      MOODLE_SITE_SUMMARY: ${MOODLE_SITE_SUMMARY}
+      MOODLE_USERNAME: ${MOODLE_USERNAME}
+      MOODLE_PASSWORD: ${MOODLE_PASSWORD}
+      MOODLE_EMAIL: ${MOODLE_EMAIL}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-permissions:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_permissions
+    depends_on:
+      moodle-themes-sync:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/fix-permissions.sh"]
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-themes-sync:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_themes_sync
+    depends_on:
+      moodle-code:
+        condition: service_completed_successfully
+      moodle-init:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/sync-themes.sh"]
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./apps/moodle/theme:/theme-src:ro
+      - ./docker/moodle:/scripts:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-moove-fetch:
+    image: alpine/git:latest
+    container_name: tau_moodle_moove_fetch
+    entrypoint: ["/bin/sh", "/scripts/fetch-moove.sh"]
+    environment:
+      MOODLE_DEFAULT_THEME: ${MOODLE_DEFAULT_THEME}
+      MOOVE_BRANCH: ${MOOVE_BRANCH:-main}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodle:/scripts:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-plugins-sync:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_plugins_sync
+    depends_on:
+      moodle-code:
+        condition: service_completed_successfully
+      moodle-init:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/sync-plugins.sh"]
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./apps/moodle/local:/plugins-src/local:ro
+      - ./apps/moodle/blocks:/plugins-src/blocks:ro
+      - ./apps/moodle/enrol:/plugins-src/enrol:ro
+      - ./docker/moodle:/scripts:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-plugins-upgrade:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_plugins_upgrade
+    depends_on:
+      postgres:
+        condition: service_healthy
+      moodle-plugins-sync:
+        condition: service_completed_successfully
+      moodle-themes-sync:
+        condition: service_completed_successfully
+      moodle-permissions:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/register-plugins.sh"]
+    environment:
+      OLLAMA_ENABLE: ${OLLAMA_ENABLE:-true}
+      OLLAMA_PROVIDER_NAME: ${OLLAMA_PROVIDER_NAME:-Ollama Local}
+      OLLAMA_ENDPOINT: ${OLLAMA_ENDPOINT:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.2:3b}
+      OLLAMA_PREFER: ${OLLAMA_PREFER:-true}
+      OLLAMA_DISABLE_OPENAI: ${OLLAMA_DISABLE_OPENAI:-true}
+      OLLAMA_ENABLE_BASIC_AUTH: ${OLLAMA_ENABLE_BASIC_AUTH:-false}
+      OLLAMA_USERNAME: ${OLLAMA_USERNAME:-}
+      OLLAMA_PASSWORD: ${OLLAMA_PASSWORD:-}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-theme-upgrade:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_theme_upgrade
+    depends_on:
+      postgres:
+        condition: service_healthy
+      moodle-themes-sync:
+        condition: service_completed_successfully
+      moodle-moove-fetch:
+        condition: service_completed_successfully
+      moodle-permissions:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/register-themes.sh"]
+    environment:
+      APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
+      MOODLE_DEFAULT_THEME: ${MOODLE_DEFAULT_THEME}
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      GOOGLE_OAUTH_ALLOWED_DOMAIN: ${GOOGLE_OAUTH_ALLOWED_DOMAIN}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-performance:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_performance
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      moodle-init:
+        condition: service_completed_successfully
+      moodle-theme-upgrade:
+        condition: service_completed_successfully
+    command: ["bash", "/scripts/optimize-moodle.sh"]
+    environment:
+      MOODLE_URL: ${MOODLE_URL}
+      APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      MOODLE_REVERSEPROXY_ADDRESSES: ${MOODLE_REVERSEPROXY_ADDRESSES}
+      MOODLE_CACHE_PREFIX: ${MOODLE_CACHE_PREFIX}
+      MOODLE_SESSION_PREFIX: ${MOODLE_SESSION_PREFIX}
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-demo-data:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_demo_data
+    depends_on:
+      moodle:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    command: ["bash", "/scripts/seed-demo-data.sh"]
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+    restart: "no"
+    networks:
+      - tau_network
+
+  moodle-cron:
+    image: moodlehq/moodle-php-apache:${MOODLE_PHP_IMAGE_TAG}
+    container_name: tau_moodle_cron
+    depends_on:
+      moodle:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ["bash", "/scripts/run-cron.sh"]
+    environment:
+      MOODLE_URL: ${MOODLE_URL}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      MOODLE_REVERSEPROXY_ADDRESSES: ${MOODLE_REVERSEPROXY_ADDRESSES}
+    restart: unless-stopped
+    volumes:
+      - moodle_app_data:/var/www/html
+      - ./docker/moodledata:/var/www/moodledata
+      - ./docker/moodle:/scripts:ro
+      - ./docker/php/conf.d/zz-tau-performance.ini:/usr/local/etc/php/conf.d/zz-tau-performance.ini:ro
+      # Live-mount all custom TAU local plugins & blocks for instant local updates
+      - ./apps/moodle/local/tau_course_creator_ai:/var/www/html/local/tau_course_creator_ai
+      - ./apps/moodle/local/tau_ai_provider:/var/www/html/local/tau_ai_provider
+      - ./apps/moodle/local/tau_assign_ai:/var/www/html/local/tau_assign_ai
+      - ./apps/moodle/local/tau_forum_ai:/var/www/html/local/tau_forum_ai
+      - ./apps/moodle/local/tau_student_life_story:/var/www/html/local/tau_student_life_story
+      - ./apps/moodle/local/tau_smart_rules_ai:/var/www/html/local/tau_smart_rules_ai
+      - ./apps/moodle/local/tau_ranking_activities_ai:/var/www/html/local/tau_ranking_activities_ai
+      - ./apps/moodle/local/tau_share_certificate_ai:/var/www/html/local/tau_share_certificate_ai
+      - ./apps/moodle/local/tau_soporte:/var/www/html/local/tau_soporte
+      - ./apps/moodle/local/tau_useradmin:/var/www/html/local/tau_useradmin
+      - ./apps/moodle/local/tau_certificate:/var/www/html/local/tau_certificate
+      - ./apps/moodle/blocks/tau_tutor_ai:/var/www/html/blocks/tau_tutor_ai
+      - ./apps/moodle/blocks/tau_recommended_courses:/var/www/html/blocks/tau_recommended_courses
     networks:
       - tau_network
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" fill="none">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1f3a"/>
+      <stop offset="100%" stop-color="#1f4b99"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="300" fill="url(#g1)"/>
+  <text x="48" y="100" font-family="monospace" font-size="13" fill="#4a7fd4" opacity="0.4">&lt;?php declare(strict_types=1);</text>
+  <text x="48" y="122" font-family="monospace" font-size="13" fill="#4a7fd4" opacity="0.35">function greet(string $name): string {</text>
+  <text x="48" y="144" font-family="monospace" font-size="13" fill="#d9a441" opacity="0.45">    return "Hola, " . $name . "!";</text>
+  <text x="48" y="166" font-family="monospace" font-size="13" fill="#4a7fd4" opacity="0.35">}</text>
+  <rect x="0" y="280" width="800" height="4" fill="#d9a441" opacity="0.6"/>
+  <text x="48" y="240" font-family="Arial, sans-serif" font-weight="700" font-size="28" fill="white">Programación</text>
+  <text x="48" y="264" font-family="Arial, sans-serif" font-size="13" fill="white" opacity="0.65">Fundamentos y desarrollo de software</text>
+</svg>

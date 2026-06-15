@@ -1,0 +1,378 @@
+/* TAU Campus Virtual - Dashboard Styles */
+@keyframes tauDashIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#tau-personal-dashboard {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(88,16,28,.08);
+    margin-bottom: 2rem;
+    background: #fff;
+    border: 1px solid rgba(198,43,58,.08);
+    animation: tauDashIn .5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.tau-pd-header {
+    background: linear-gradient(135deg, #8d182a 0%, #c62b3a 100%);
+    padding: 2.3rem 2.5rem 2.0rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.tau-pd-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 90% 10%, rgba(255,255,255,.12) 0%, transparent 40%), linear-gradient(90deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+}
+
+.tau-pd-greeting {
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: .35rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tau-pd-subtitle {
+    font-size: .95rem;
+    opacity: .9;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+    max-width: 600px;
+}
+
+.tau-pd-prog-wrap {
+    margin-top: 1.4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tau-pd-prog-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    opacity: .9;
+    font-weight: 700;
+    margin-bottom: .55rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.tau-pd-prog-bar {
+    height: 10px;
+    background: rgba(255,255,255,.2);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+
+.tau-pd-prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fff 0%, #fff 100%);
+    border-radius: 999px;
+    transition: width 1.2s cubic-bezier(.34,1.56,.64,1);
+    width: 0;
+}
+
+.tau-pd-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 24px;
+    background: #fdfdfd;
+}
+
+@media(max-width: 992px) {
+    .tau-pd-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 576px) {
+    .tau-pd-stats { grid-template-columns: 1fr; }
+}
+
+.tau-pd-stat {
+    background: #fff;
+    border: 1px solid rgba(198,43,58,.08);
+    border-radius: 16px;
+    padding: 1.8rem 1.4rem;
+    text-align: center;
+    position: relative;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tau-pd-stat:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(198,43,58,.12);
+    border-color: rgba(198,43,58,.25);
+}
+
+.tau-pd-stat::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: transparent;
+    transition: background .3s;
+}
+
+.tau-stat-card-1::after { background: linear-gradient(90deg, #8d182a, #c62b3a); }
+.tau-stat-card-2::after { background: linear-gradient(90deg, #1e3a8a, #3b82f6); }
+.tau-stat-card-3::after { background: linear-gradient(90deg, #0f766e, #14b8a6); }
+.tau-stat-card-4::after { background: linear-gradient(90deg, #b02230, #e84393); }
+
+.tau-pd-stat-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 8px 20px rgba(0,0,0,.04);
+}
+
+.tau-pd-stat:hover .tau-pd-stat-badge {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tau-stat-card-1 .tau-pd-stat-badge { color: #c62b3a; background: rgba(198,43,58,.08); }
+.tau-stat-card-2 .tau-pd-stat-badge { color: #1e3a8a; background: rgba(30,58,138,.08); }
+.tau-stat-card-3 .tau-pd-stat-badge { color: #0f766e; background: rgba(15,118,110,.08); }
+.tau-stat-card-4 .tau-pd-stat-badge { color: #d63031; background: rgba(214,48,49,.08); }
+
+.tau-pd-stat-badge svg {
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.tau-pd-stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: .5rem;
+    letter-spacing: -.05em;
+    font-variant-numeric: tabular-nums;
+    transition: color .3s;
+}
+
+.tau-stat-card-1 .tau-pd-stat-number { color: #8d182a; }
+.tau-stat-card-2 .tau-pd-stat-number { color: #1e3a8a; }
+.tau-stat-card-3 .tau-pd-stat-number { color: #0f766e; }
+.tau-stat-card-4 .tau-pd-stat-number { color: #b02230; }
+
+.tau-pd-stat-label {
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #555;
+    margin: 0;
+}
+
+/* Dark mode overrides for dashboard */
+[data-bs-theme="dark"] #tau-personal-dashboard {
+    background: #1e1e2e;
+    border-color: rgba(232,113,124,.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+[data-bs-theme="dark"] .tau-pd-stats {
+    background: #151522;
+}
+
+[data-bs-theme="dark"] .tau-pd-stat {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,.06);
+}
+
+[data-bs-theme="dark"] .tau-pd-stat:hover {
+    border-color: rgba(232,113,124,.3);
+    box-shadow: 0 12px 28px rgba(232,113,124,.15);
+}
+
+[data-bs-theme="dark"] .tau-stat-card-1 .tau-pd-stat-badge { color: #ff6b81; background: rgba(232,113,124,.15); }
+[data-bs-theme="dark"] .tau-stat-card-2 .tau-pd-stat-badge { color: #70a1ff; background: rgba(112,161,255,.15); }
+[data-bs-theme="dark"] .tau-stat-card-3 .tau-pd-stat-badge { color: #2ed573; background: rgba(46,213,115,.15); }
+[data-bs-theme="dark"] .tau-stat-card-4 .tau-pd-stat-badge { color: #ffa502; background: rgba(255,165,2,.15); }
+
+[data-bs-theme="dark"] .tau-stat-card-1 .tau-pd-stat-number { color: #ff6b81; }
+[data-bs-theme="dark"] .tau-stat-card-2 .tau-pd-stat-number { color: #70a1ff; }
+[data-bs-theme="dark"] .tau-stat-card-3 .tau-pd-stat-number { color: #2ed573; }
+[data-bs-theme="dark"] .tau-stat-card-4 .tau-pd-stat-number { color: #ffa502; }
+
+[data-bs-theme="dark"] .tau-pd-stat-label {
+    color: #aaa;
+}
+
+.tau-teacher-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+    padding-top: .55rem;
+    border-top: 1px solid rgba(0,0,0,.055);
+    font-size: .74rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tau-tr-icon {
+    flex-shrink: 0;
+    font-size: .85rem;
+    line-height: 1;
+}
+
+.tau-tr-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    font-weight: 600;
+    color: #666;
+}
+
+[data-bs-theme="dark"] .tau-teacher-row { border-top-color: rgba(255,255,255,.06); }
+[data-bs-theme="dark"] .tau-tr-name { color: #777; }
+
+/* Course Header Actions Buttons */
+.tau-header-buttons-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 12px !important;
+    flex-wrap: nowrap !important;
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: 1140px !important;
+    margin-left: auto !important;
+}
+
+.tau-header-buttons-container > a,
+.tau-header-buttons-container > form,
+.tau-header-buttons-container > button {
+    flex: 1 1 0% !important;
+    max-width: 380px !important;
+    width: 100% !important;
+    height: 42px !important;
+    border-radius: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center !important;
+}
+
+.tau-header-buttons-container > form {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.tau-header-buttons-container > form > div {
+    width: 100% !important;
+    height: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.tau-header-buttons-container > form button,
+.tau-header-buttons-container > form input[type="submit"] {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.tau-btn-manage {
+    background: #ffffff !important;
+    color: #c62b3a !important;
+    border: 2px solid #c62b3a !important;
+    box-shadow: 0 2px 6px rgba(198,43,58,0.08) !important;
+}
+
+.tau-btn-manage:hover {
+    background: #fff2f3 !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 14px rgba(198, 43, 58, 0.16) !important;
+}
+
+.tau-btn-create,
+.tau-header-buttons-container > form button,
+.tau-header-buttons-container > form input[type="submit"] {
+    background: #c62b3a !important;
+    color: #ffffff !important;
+    border: 2px solid #c62b3a !important;
+    box-shadow: 0 4px 10px rgba(198, 43, 58, 0.18) !important;
+}
+
+.tau-btn-create:hover,
+.tau-header-buttons-container > form button:hover,
+.tau-header-buttons-container > form input[type="submit"]:hover {
+    background: #b02230 !important;
+    border-color: #b02230 !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 8px 18px rgba(198, 43, 58, 0.28) !important;
+}
+
+.tau-btn-ai {
+    background: linear-gradient(135deg, #c62b3a 0%, #8d182a 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(198, 43, 58, 0.25) !important;
+}
+
+.tau-btn-ai:hover {
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 8px 20px rgba(198, 43, 58, 0.4) !important;
+}
+
+/* Hide Moodle's native welcome greeting on the dashboard to prevent redundancy */
+#page-my-index .mb-2 span.h2,
+#page-my-index #page-header .mb-2,
+#page-my-index .welcome-message {
+    display: none !important;
+}
+

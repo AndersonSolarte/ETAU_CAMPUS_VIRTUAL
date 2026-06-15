@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/tau_smart_rules_ai/db" VERSION="20260524" COMMENT="Smart Rules AI">
+  <TABLES>
+    <TABLE NAME="local_tau_smart_rules" COMMENT="AI automation rules">
+      <FIELDS>
+        <FIELD NAME="id"          TYPE="int"  LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid"    TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="name"        TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="trigger"     TYPE="char" LENGTH="50"  NOTNULL="true" DEFAULT="inactivity"/>
+        <FIELD NAME="condition_value" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="action"      TYPE="char" LENGTH="50"  NOTNULL="true" DEFAULT="send_message"/>
+        <FIELD NAME="action_data" TYPE="text"              NOTNULL="false"/>
+        <FIELD NAME="active"      TYPE="int"  LENGTH="1"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="timecreated" TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="lastrun"     TYPE="int"  LENGTH="10" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="active"   UNIQUE="false" FIELDS="active"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

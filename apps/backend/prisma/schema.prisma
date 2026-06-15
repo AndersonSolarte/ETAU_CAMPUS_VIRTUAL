@@ -14,3 +14,56 @@ model IntegrationEvent {
   createdAt DateTime @default(now())
 }
 
+// ─── AI Course Builder ────────────────────────────────────────────────────────
+
+model AiCourseJob {
+  id             String    @id @default(cuid())
+  status         String    @default("pending") // pending | processing | completed | failed
+  prompt         String
+  requestPayload Json?
+  blueprint      Json?
+  moodleCourseId Int?
+  tokensUsed     Int?
+  modelUsed      String?
+  durationMs     Int?
+  errorMessage   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("ai_course_jobs")
+}
+
+// Stores reusable academic course templates created by admins
+model AiCourseTemplate {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  subjectArea  String
+  level        String   // beginner | intermediate | advanced
+  defaultWeeks Int      @default(8)
+  blueprint    Json     // partial CourseBlueprint skeleton
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([subjectArea, level])
+  @@map("ai_course_templates")
+}
+
+// Tracks token consumption per generation for cost control
+model AiUsageLog {
+  id          String   @id @default(cuid())
+  jobId       String
+  model       String
+  inputTokens Int      @default(0)
+  outputTokens Int     @default(0)
+  totalTokens Int      @default(0)
+  estimatedCostUsd Float @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([jobId])
+  @@index([createdAt])
+  @@map("ai_usage_logs")
+}

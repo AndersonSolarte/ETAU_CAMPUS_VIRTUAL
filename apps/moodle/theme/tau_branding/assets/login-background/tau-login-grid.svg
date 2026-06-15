@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <radialGradient id="rg1" cx="25%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#1f4b99" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0b1f3a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rg2" cx="80%" cy="70%" r="45%">
+      <stop offset="0%" stop-color="#d9a441" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#d9a441" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rg3" cx="60%" cy="20%" r="35%">
+      <stop offset="0%" stop-color="#4a7fd4" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#4a7fd4" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.2" fill="white" opacity="0.08"/>
+    </pattern>
+    <pattern id="grid" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" stroke-width="0.5" opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1920" height="1080" fill="#0b1f3a"/>
+
+  <!-- Gradient overlays -->
+  <rect width="1920" height="1080" fill="url(#rg1)"/>
+  <rect width="1920" height="1080" fill="url(#rg2)"/>
+  <rect width="1920" height="1080" fill="url(#rg3)"/>
+
+  <!-- Grid lines -->
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+
+  <!-- Dot pattern -->
+  <rect width="1920" height="1080" fill="url(#dots)"/>
+
+  <!-- Abstract accent shapes -->
+  <circle cx="240" cy="180" r="320" fill="#1f4b99" opacity="0.12"/>
+  <circle cx="1700" cy="900" r="280" fill="#d9a441" opacity="0.07"/>
+  <circle cx="960" cy="540" r="500" fill="#1f4b99" opacity="0.04"/>
+
+  <!-- Geometric lines -->
+  <line x1="0" y1="0" x2="600" y2="1080" stroke="#4a7fd4" stroke-width="0.5" opacity="0.08"/>
+  <line x1="200" y1="0" x2="800" y2="1080" stroke="#4a7fd4" stroke-width="0.5" opacity="0.06"/>
+  <line x1="1920" y1="0" x2="1300" y2="1080" stroke="#4a7fd4" stroke-width="0.5" opacity="0.08"/>
+  <line x1="1720" y1="0" x2="1100" y2="1080" stroke="#4a7fd4" stroke-width="0.5" opacity="0.06"/>
+
+  <!-- Hexagon accent (top-left area) -->
+  <polygon points="120,60 180,60 210,112 180,164 120,164 90,112" fill="none" stroke="#d9a441" stroke-width="1" opacity="0.2"/>
+  <polygon points="200,120 240,120 260,155 240,190 200,190 180,155" fill="none" stroke="#4a7fd4" stroke-width="0.8" opacity="0.15"/>
+
+  <!-- Small hexagons scattered -->
+  <polygon points="1600,100 1625,100 1637,121 1625,142 1600,142 1588,121" fill="none" stroke="#d9a441" stroke-width="0.8" opacity="0.18"/>
+  <polygon points="1750,200 1770,200 1780,217 1770,234 1750,234 1740,217" fill="none" stroke="#4a7fd4" stroke-width="0.8" opacity="0.12"/>
+
+  <!-- Bottom decorative line -->
+  <rect x="0" y="1074" width="1920" height="6" fill="#d9a441" opacity="0.3"/>
+  <rect x="0" y="1074" width="480" height="6" fill="#d9a441" opacity="0.5"/>
+</svg>

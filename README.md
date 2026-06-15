@@ -12,7 +12,7 @@ Arquitectura enterprise para un campus virtual moderno con Moodle 5.x como motor
 
 ## Stack
 
-- Moodle 5.x oficial sobre imagen `bitnami/moodle`
+- Moodle 5.x oficial sobre imagen `moodlehq/moodle-php-apache`
 - PostgreSQL 16
 - Redis 7
 - Node.js 22 LTS style runtime
@@ -45,14 +45,13 @@ TAU_CAMPUS_VIRTUAL/
 └── package.json
 ```
 
-## Servicios
+## Servicios Docker
 
-- `frontend`: app React/Vite en `localhost:3000`
-- `backend`: backend Express en `localhost:4000`
-- `moodle`: LMS Moodle en `localhost:8080` vía Nginx
-- `postgres`: base de datos principal en `localhost:5432`
-- `redis`: caché y base para realtime en `localhost:6379`
-- `nginx`: reverse proxy frontal en `localhost`
+- `moodle`: LMS Moodle servido detrás de Nginx en `http://localhost:8080`
+- `postgres`: base de datos principal de Moodle
+- `redis`: servicio preparado para caché/sesiones
+- `nginx`: reverse proxy frontal para Moodle
+- `moodle-cron`: ejecuta `admin/cli/cron.php` cada minuto
 
 ## Arranque rápido
 
@@ -60,9 +59,10 @@ TAU_CAMPUS_VIRTUAL/
 2. Ajustar secretos y credenciales.
 3. Levantar servicios con `docker compose up -d`.
 4. Acceder a:
-   - Landing: `http://localhost`
-   - API: `http://localhost/api/health`
    - Moodle: `http://localhost:8080`
+5. Primer acceso administrador:
+   - Usuario: `admin`
+   - Password inicial: `admin123*`
 
 ## Scripts
 
@@ -76,8 +76,72 @@ TAU_CAMPUS_VIRTUAL/
 
 - El core de Moodle no se modifica.
 - La personalización debe hacerse con themes y plugins.
-- Se prepara el theme hijo `tau_enterprise` para branding institucional.
-- RemUI y Edwiser Course Format quedan previstos como dependencias funcionales del LMS, no embebidos en el core.
+- Boost Union se instala desde código versionado en `apps/moodle/theme/boost_union` y se sincroniza automáticamente al volumen de Moodle.
+- `apps/moodle/theme/tau_branding` queda listo para logos, favicon, fondo de login y SCSS institucional.
+- Para que Docker Desktop en Windows no degrade tanto el rendimiento, los themes no se sirven desde bind mount directo: se copian al volumen Linux interno del contenedor.
+
+## Boost Union
+
+- Versión instalada en el repositorio: `v5.0-r26`
+- Compatibilidad declarada por el plugin: Moodle `5.0`
+- Activación automática en Docker:
+  - `docker compose up -d`
+  - el servicio `moodle-theme-upgrade` ejecuta `upgrade.php`, detecta el plugin y configura `boost_union` como theme por defecto
+
+## Branding TAU
+
+- Header logo: `apps/moodle/theme/tau_branding/assets/logo-header/`
+- Favicon: `apps/moodle/theme/tau_branding/assets/favicon/`
+- Login background: `apps/moodle/theme/tau_branding/assets/login-background/`
+- SCSS base: `apps/moodle/theme/tau_branding/scss/custom.scss`
+- Tokens de color: `apps/moodle/theme/tau_branding/tokens/colors.css`
+
+## Actualizar Boost Union
+
+1. Descargar un nuevo tag compatible desde `moodle-theme_boost_union`.
+2. Reemplazar el contenido de `apps/moodle/theme/boost_union`.
+3. Ejecutar `docker compose up -d`.
+4. Verificar logs de `moodle-theme-upgrade`.
+
+## Rendimiento
+
+- PHP 8.3:
+  - `memory_limit=512M`
+  - `max_execution_time=180`
+  - `upload_max_filesize=256M`
+  - `post_max_size=256M`
+  - OPcache activo con memoria ampliada
+- Moodle:
+  - sesiones en Redis
+  - caché de aplicación y caché de sesión MUC mapeadas a Redis
+  - `localcachedir` en `moodledata/localcache`
+  - reverse proxy validado para `localhost:8080` con `Host` interno hacia Moodle
+  - cron automático cada minuto con `moodle-cron`
+- Nginx:
+  - gzip
+  - proxy buffering
+  - keepalive
+  - headers de caché para estáticos
+- PostgreSQL:
+  - `shared_buffers=256MB`
+  - `work_mem=8MB`
+  - `effective_cache_size=768MB`
+  - `max_connections=200`
+
+## Ajustar branding y rendimiento
+
+- PHP tuning: `docker/php/conf.d/zz-tau-performance.ini`
+- PostgreSQL tuning: `docker/postgres/postgresql.conf`
+- Nginx tuning: `docker/nginx/default.conf`
+- Optimización Moodle/Redis: `docker/moodle/optimize-moodle.php`
+- Cron Moodle: `docker/moodle/run-cron.sh`
+- Direcciones de proxy confiables: `MOODLE_REVERSEPROXY_ADDRESSES` en `.env`
+
+## Validación operativa
+
+- Reiniciar stack: `docker compose up -d`
+- Ver estado: `docker compose ps`
+- Ver cron: `docker compose logs moodle-cron --tail 50`
 
 ## Git y flujo de ramas
 
@@ -87,6 +151,24 @@ TAU_CAMPUS_VIRTUAL/
 - Usuario GitHub objetivo: `@ftandersonsolarte`
 
 ## Desarrollo futuro
+
+## Branding operativo
+
+- El branding enterprise de Boost Union se aplica automÃ¡ticamente en cada `docker compose up -d`.
+- Logos: `apps/moodle/theme/tau_branding/assets/logo-header/`
+- Favicon: `apps/moodle/theme/tau_branding/assets/favicon/`
+- Fondo del login: `apps/moodle/theme/tau_branding/assets/login-background/`
+- SCSS institucional: `apps/moodle/theme/tau_branding/scss/custom.scss`
+- AutomatizaciÃ³n del branding: `docker/moodle/apply-boost-union-branding.php`
+
+## CÃ³mo cambiar branding
+
+1. Reemplazar logos SVG en `apps/moodle/theme/tau_branding/assets/logo-header/`.
+2. Reemplazar favicon en `apps/moodle/theme/tau_branding/assets/favicon/`.
+3. Ajustar el fondo del login en `apps/moodle/theme/tau_branding/assets/login-background/`.
+4. Editar colores, layout y microinteracciones en `apps/moodle/theme/tau_branding/scss/custom.scss`.
+5. Ejecutar `docker compose up -d`.
+6. Revisar `docker compose logs moodle-theme-upgrade --tail 100`.
 
 - Branding TAU y design tokens
 - Theme hijo completo para Moodle

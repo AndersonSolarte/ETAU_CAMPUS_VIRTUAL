@@ -1,17 +1,27 @@
-export function DashboardPage() {
-  return (
-    <div>
-      <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
-        Dashboard Seed
-      </p>
-      <h1 className="mt-3 text-3xl font-semibold text-white">
-        Centro de operación institucional
-      </h1>
-      <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300">
-        Layout base para futuros widgets, accesos por rol, KPIs operativos e
-        integración con datos de Moodle y servicios externos.
-      </p>
-    </div>
-  );
-}
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { useAppStore } from "@/store/app.store";
+import { AdminDashboardPage } from "./admin-dashboard-page";
+
+const ROLE_ROUTE = {
+  admin: null,        // renders AdminDashboardPage inline (index route)
+  teacher: "/dashboard/docente",
+  student: "/dashboard/estudiante",
+} as const;
+
+export function DashboardPage() {
+  const session = useAppStore((s) => s.session);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!session) return;
+    const redirect = ROLE_ROUTE[session.role];
+    if (redirect) navigate(redirect, { replace: true });
+  }, [session, navigate]);
+
+  // Admin stays on /dashboard index; others are redirected above
+  if (!session || session.role !== "admin") return null;
+
+  return <AdminDashboardPage />;
+}

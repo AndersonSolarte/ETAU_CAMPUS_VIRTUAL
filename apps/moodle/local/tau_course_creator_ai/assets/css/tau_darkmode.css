@@ -1,0 +1,34 @@
+/* TAU Campus Virtual - Dark Mode Switcher Styles */
+#tau-theme-toggle {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    background: #c62b3a !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(198,43,58,.3) !important;
+    z-index: 9999 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background .3s, transform .25s, box-shadow .3s !important;
+}
+
+#tau-theme-toggle:hover {
+    background: #a32230 !important;
+    transform: scale(1.1) !important;
+}
+
+[data-bs-theme="dark"] #tau-theme-toggle {
+    background: #2a2a3e !important;
+    color: rgba(255,255,255,.75) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.4) !important;
+}
+
+[data-bs-theme="dark"] #tau-theme-toggle:hover {
+    background: #383858 !important;
+}

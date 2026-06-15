@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+
+    <!-- Base: dark navy-maroon, never pure black -->
+    <linearGradient id="base" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1a0610"/>
+      <stop offset="42%"  stop-color="#160c14"/>
+      <stop offset="100%" stop-color="#0f0309"/>
+    </linearGradient>
+
+    <!-- MAIN BLOOM: large warm crimson glow — left-center -->
+    <radialGradient id="g-main" cx="280" cy="560" r="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#c62b3a" stop-opacity="0.55"/>
+      <stop offset="30%"  stop-color="#8b1929" stop-opacity="0.40"/>
+      <stop offset="65%"  stop-color="#4a0d18" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#4a0d18" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ACCENT BLOOM: upper right, lighter -->
+    <radialGradient id="g-accent" cx="1680" cy="160" r="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#c62b3a" stop-opacity="0.28"/>
+      <stop offset="50%"  stop-color="#8b1929" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#8b1929" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- BOTTOM BLOOM: lower right warmth -->
+    <radialGradient id="g-bottom" cx="1820" cy="1020" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#8b1929" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#8b1929" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- CENTER: very soft crimson warmth throughout -->
+    <radialGradient id="g-center" cx="960" cy="540" r="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#5c1120" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#5c1120" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- VIGNETTE: dark border -->
+    <radialGradient id="g-vig" cx="960" cy="540" r="960" gradientUnits="userSpaceOnUse">
+      <stop offset="40%"  stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.60"/>
+    </radialGradient>
+
+    <!-- Dot micro-grid -->
+    <pattern id="dots" x="0" y="0" width="44" height="44" patternUnits="userSpaceOnUse">
+      <circle cx="22" cy="22" r="1" fill="#e8b4bb" opacity="0.10"/>
+    </pattern>
+
+    <!-- Hairline grid -->
+    <pattern id="grid" x="0" y="0" width="88" height="88" patternUnits="userSpaceOnUse">
+      <path d="M 88 0 L 0 0 0 88" fill="none" stroke="#c62b3a" stroke-width="0.5" opacity="0.10"/>
+    </pattern>
+
+  </defs>
+
+  <!-- ░░ LAYER 0 — base fill ░░ -->
+  <rect width="1920" height="1080" fill="url(#base)"/>
+
+  <!-- ░░ LAYER 1 — color atmosphere ░░ -->
+  <rect width="1920" height="1080" fill="url(#g-center)"/>
+  <rect width="1920" height="1080" fill="url(#g-main)"/>
+  <rect width="1920" height="1080" fill="url(#g-accent)"/>
+  <rect width="1920" height="1080" fill="url(#g-bottom)"/>
+
+  <!-- ░░ LAYER 2 — structure (grid + dots) ░░ -->
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+  <rect width="1920" height="1080" fill="url(#dots)"/>
+
+  <!-- ░░ LAYER 3 — concentric arcs, left anchor ░░ -->
+  <circle cx="0" cy="540" r="180" fill="none" stroke="#c62b3a" stroke-width="1.8" opacity="0.28"/>
+  <circle cx="0" cy="540" r="300" fill="none" stroke="#c62b3a" stroke-width="1.4" opacity="0.20"/>
+  <circle cx="0" cy="540" r="440" fill="none" stroke="#c62b3a" stroke-width="1.2" opacity="0.16"/>
+  <circle cx="0" cy="540" r="600" fill="none" stroke="#c62b3a" stroke-width="1.0" opacity="0.12"/>
+  <circle cx="0" cy="540" r="780" fill="none" stroke="#c62b3a" stroke-width="0.8" opacity="0.08"/>
+
+  <!-- ░░ LAYER 4 — arcs, bottom-right corner ░░ -->
+  <circle cx="1920" cy="1080" r="220" fill="none" stroke="#8b1929" stroke-width="1.4" opacity="0.22"/>
+  <circle cx="1920" cy="1080" r="380" fill="none" stroke="#8b1929" stroke-width="1.0" opacity="0.14"/>
+  <circle cx="1920" cy="1080" r="560" fill="none" stroke="#8b1929" stroke-width="0.8" opacity="0.09"/>
+
+  <!-- ░░ LAYER 5 — arcs, upper-right ░░ -->
+  <circle cx="1920" cy="0" r="300" fill="none" stroke="#c62b3a" stroke-width="1.0" opacity="0.14"/>
+  <circle cx="1920" cy="0" r="480" fill="none" stroke="#c62b3a" stroke-width="0.7" opacity="0.09"/>
+
+  <!-- ░░ LAYER 6 — diagonal accent lines ░░ -->
+  <line x1="150"  y1="0"    x2="880"  y2="760"  stroke="#c62b3a" stroke-width="1.2" opacity="0.14"/>
+  <line x1="240"  y1="0"    x2="960"  y2="740"  stroke="#c62b3a" stroke-width="0.7" opacity="0.09"/>
+  <line x1="60"   y1="0"    x2="780"  y2="780"  stroke="#c62b3a" stroke-width="0.6" opacity="0.07"/>
+  <line x1="1770" y1="1080" x2="1040" y2="300"  stroke="#c62b3a" stroke-width="1.2" opacity="0.14"/>
+  <line x1="1870" y1="1080" x2="1130" y2="320"  stroke="#c62b3a" stroke-width="0.7" opacity="0.09"/>
+
+  <!-- ░░ LAYER 7 — glowing node dots ░░ -->
+  <!-- On left arcs -->
+  <circle cx="0"   cy="360" r="5"   fill="#c62b3a" opacity="0.60"/>
+  <circle cx="0"   cy="720" r="5"   fill="#c62b3a" opacity="0.55"/>
+  <circle cx="180" cy="540" r="5"   fill="#c62b3a" opacity="0.50"/>
+  <circle cx="300" cy="228" r="4"   fill="#c62b3a" opacity="0.42"/>
+  <circle cx="300" cy="852" r="4"   fill="#c62b3a" opacity="0.38"/>
+  <circle cx="440" cy="131" r="3.5" fill="#e85a6e" opacity="0.38"/>
+  <circle cx="440" cy="949" r="3.5" fill="#e85a6e" opacity="0.34"/>
+  <!-- On diagonal lines -->
+  <circle cx="515" cy="380" r="3"   fill="#ff8090" opacity="0.35"/>
+  <circle cx="700" cy="565" r="2.5" fill="#ff8090" opacity="0.28"/>
+  <circle cx="1405" cy="700" r="3"  fill="#c62b3a" opacity="0.38"/>
+  <!-- Upper right -->
+  <circle cx="1800" cy="80"  r="4"  fill="#c62b3a" opacity="0.45"/>
+  <circle cx="1650" cy="18"  r="3"  fill="#c62b3a" opacity="0.35"/>
+  <!-- Bottom right -->
+  <circle cx="1920" cy="860" r="4"  fill="#8b1929" opacity="0.45"/>
+  <circle cx="1760" cy="980" r="3"  fill="#8b1929" opacity="0.35"/>
+
+  <!-- ░░ LAYER 8 — glow halos behind key nodes ░░ -->
+  <circle cx="180" cy="540" r="22" fill="#c62b3a" opacity="0.10"/>
+  <circle cx="180" cy="540" r="12" fill="#c62b3a" opacity="0.18"/>
+  <circle cx="0"   cy="360" r="18" fill="#c62b3a" opacity="0.12"/>
+  <circle cx="0"   cy="720" r="18" fill="#c62b3a" opacity="0.10"/>
+
+  <!-- ░░ LAYER 9 — decorative corner micro-geometry ░░ -->
+  <!-- top-left: nested diamond -->
+  <rect x="44" y="44" width="52" height="52" rx="4"
+        fill="none" stroke="#c62b3a" stroke-width="1.2" opacity="0.28"
+        transform="rotate(45 70 70)"/>
+  <rect x="55" y="55" width="30" height="30" rx="2"
+        fill="none" stroke="#c62b3a" stroke-width="0.8" opacity="0.20"
+        transform="rotate(45 70 70)"/>
+  <circle cx="70" cy="70" r="3.5" fill="#c62b3a" opacity="0.45"/>
+
+  <!-- top-right: nested diamond -->
+  <rect x="1824" y="44" width="52" height="52" rx="4"
+        fill="none" stroke="#c62b3a" stroke-width="1.2" opacity="0.22"
+        transform="rotate(45 1850 70)"/>
+  <rect x="1835" y="55" width="30" height="30" rx="2"
+        fill="none" stroke="#c62b3a" stroke-width="0.8" opacity="0.16"
+        transform="rotate(45 1850 70)"/>
+
+  <!-- ░░ LAYER 10 — horizontal centerline accent (left side) ░░ -->
+  <line x1="0" y1="540" x2="180" y2="540" stroke="#c62b3a" stroke-width="2" opacity="0.50"/>
+  <line x1="0" y1="540" x2="440" y2="540" stroke="#c62b3a" stroke-width="0.8" opacity="0.20"/>
+
+  <!-- ░░ LAYER 11 — vignette ░░ -->
+  <rect width="1920" height="1080" fill="url(#g-vig)"/>
+
+  <!-- ░░ LAYER 12 — bottom fade ░░ -->
+  <defs>
+    <linearGradient id="g-bfade" x1="0" y1="880" x2="0" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.50"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="880" width="1920" height="200" fill="url(#g-bfade)"/>
+
+  <!-- ░░ LAYER 13 — left crimson bar (brand identity) ░░ -->
+  <rect x="0" y="0" width="5" height="1080" fill="#6b1020" opacity="0.80"/>
+  <rect x="0" y="0" width="5" height="460"  fill="#c62b3a" opacity="0.95"/>
+  <!-- bar terminus dot -->
+  <circle cx="2.5" cy="460" r="7" fill="#c62b3a" opacity="0.70"/>
+  <circle cx="2.5" cy="460" r="3" fill="#ff8090" opacity="0.80"/>
+
+</svg>

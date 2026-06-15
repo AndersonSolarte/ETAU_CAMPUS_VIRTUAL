@@ -1,0 +1,844 @@
+{
+  "courseName": "Introducción al Big Data",
+  "courseShortName": "BIGDATA101",
+  "courseDescription": "<p>Este curso semestral introduce los fundamentos, tecnologías y aplicaciones del Big Data en el contexto profesional actual. Los estudiantes desarrollarán competencias para comprender, analizar y proponer soluciones basadas en el procesamiento masivo de datos, desde los conceptos teóricos hasta casos de aplicación real en sectores como salud, finanzas, logística y educación.</p><p><strong>Duración:</strong> 16 semanas | <strong>Créditos:</strong> 3 | <strong>Modalidad:</strong> Virtual | <strong>Programa:</strong> Ingeniería de Sistemas</p>",
+  "teacherName": "Docente TAU — Programa de Ingeniería de Sistemas",
+  "sections": [
+    {
+      "title": "Bienvenida y Orientación al Curso",
+      "summary": "<p>Espacio de orientación inicial: conoce la metodología, el sistema de evaluación, el equipo docente y tus compañeros de curso. Lee detenidamente el contrato pedagógico antes de iniciar la Unidad 1.</p>",
+      "activities": [
+        {
+          "type": "resource",
+          "category": "tema",
+          "title": "Presentación y diapositivas del curso — Introducción al Big Data",
+          "description": "Bienvenida oficial al curso: objetivos de aprendizaje, estructura por unidades, metodología virtual y perfil del egresado."
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Contrato Pedagógico y Metodología del Curso",
+          "description": "Normas de convivencia, compromisos académicos y metodología del curso.",
+          "content": "<h3>Metodología del Curso</h3><p>Este curso se desarrolla en modalidad virtual asincrónica con actividades semanales estructuradas. El estudiante debe dedicar aproximadamente <strong>8 horas semanales</strong> entre lectura de materiales, participación en foros y desarrollo de talleres evaluativos.</p><h3>Sistema de Evaluación</h3><ul><li><strong>Evaluación Unidad 1</strong> — 10%</li><li><strong>Taller 1: Mapa mental 5 Vs</strong> — 10%</li><li><strong>Evaluación Unidad 2</strong> — 15%</li><li><strong>Taller 2: Diagrama arquitectura</strong> — 15%</li><li><strong>Evaluación Unidad 3</strong> — 25%</li><li><strong>Proyecto Final integrador</strong> — 25%</li></ul><p><strong>Nota mínima de aprobación:</strong> 60/100</p><h3>Comunicación con el Docente</h3><p>Las consultas académicas deben realizarse exclusivamente a través del <em>Foro de Inquietudes</em> del curso. El docente responderá en un plazo máximo de <strong>48 horas hábiles</strong>. Para urgencias administrativas escriba al correo institucional.</p><h3>Política de Entregas</h3><p>Las actividades tienen fecha límite publicada en el calendario del curso. No se aceptan entregas tardías salvo causas de fuerza mayor debidamente justificadas ante la coordinación académica.</p>"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "¿Qué es Big Data? — Introducción general (Wikipedia en español)",
+          "description": "Lectura introductoria recomendada para familiarizarse con el concepto antes de iniciar la Unidad 1.",
+          "externalurl": "https://es.wikipedia.org/wiki/Big_data"
+        },
+        {
+          "type": "forum",
+          "category": "actividad",
+          "title": "Foro de Bienvenida: ¿Quién soy y qué espero del curso?",
+          "description": "Preséntate ante tus compañeros y el docente. Cuéntanos: ¿quién eres?, ¿cuál es tu programa académico?, ¿qué experiencia tienes con datos o tecnología? y ¿qué esperas aprender en este curso? Recuerda comentar al menos la presentación de dos compañeros.",
+          "forumtype": "general"
+        }
+      ]
+    },
+    {
+      "title": "Unidad 1: Fundamentos del Big Data",
+      "summary": "<p>En esta unidad exploraremos el origen, la definición y las dimensiones esenciales del Big Data. Comprenderemos por qué este fenómeno ha transformado la manera en que las organizaciones capturan, almacenan y analizan información. Al finalizar, el estudiante podrá identificar las 5 Vs, distinguir tipos de datos y reconocer los primeros casos de uso reales.</p><p><strong>Semanas:</strong> 1–5 | <strong>Peso evaluativo:</strong> 20%</p>",
+      "activities": [
+        {
+          "type": "resource",
+          "category": "tema",
+          "title": "Presentación y diapositivas: Las 5 Vs del Big Data",
+          "description": "Presentación interactiva sobre las dimensiones fundamentales del Big Data: Volumen, Velocidad, Variedad, Veracidad y Valor, con ejemplos del mundo real."
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 1.1 — Historia y Evolución del Big Data",
+          "description": "Recorrido histórico por los hitos que dieron origen al fenómeno del Big Data, desde las primeras bases de datos distribuidas hasta el ecosistema actual.",
+          "content": "<h3>Historia y Evolución del Big Data</h3><p>El término <em>Big Data</em> surgió a principios del siglo XXI para describir el fenómeno de la explosión de datos digitales. Aunque los datos masivos siempre existieron, fue el avance de internet, los dispositivos móviles y las redes sociales lo que catapultó su volumen a escalas sin precedentes.</p><h3>Hitos históricos clave</h3><ul><li><strong>1990s:</strong> Primeras bases de datos distribuidas y Data Warehouses empresariales en grandes corporaciones.</li><li><strong>2001:</strong> Doug Laney de META Group propone las 3 Vs originales del Big Data: Volumen, Velocidad y Variedad.</li><li><strong>2004:</strong> Google publica los papers de MapReduce y Google File System, sentando las bases técnicas del procesamiento distribuido.</li><li><strong>2006:</strong> Yahoo lanza Hadoop como proyecto open source, basado en los conceptos de los papers de Google.</li><li><strong>2010–2015:</strong> Explosión del ecosistema: Spark, Kafka, Hive, HBase, Pig, ZooKeeper y decenas de herramientas especializadas.</li><li><strong>2016–presente:</strong> Convergencia del Big Data con Machine Learning, Inteligencia Artificial y Cloud Computing.</li></ul><p>Hoy se generan aproximadamente <strong>2.5 quintillones de bytes de datos por día</strong> a nivel global, y este volumen sigue creciendo exponencialmente con el auge del Internet de las Cosas (IoT), los vehículos autónomos y los dispositivos conectados.</p><h3>¿Por qué es relevante para Colombia y América Latina?</h3><p>La región ha dado pasos significativos en adopción de Big Data, especialmente en el sector financiero, retail y gobierno. Empresas como Bancolombia, Grupo Éxito y entidades como el DANE han implementado plataformas de análisis masivo de datos para mejorar la toma de decisiones estratégicas.</p>"
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 1.2 — Las 5 Dimensiones del Big Data",
+          "description": "Análisis detallado de las 5 Vs del Big Data con ejemplos prácticos, tipos de datos y diferencias entre datos estructurados, semiestructurados y no estructurados.",
+          "content": "<h3>Las 5 Dimensiones del Big Data</h3><p>Aunque el modelo original propuesto por Doug Laney en 2001 contemplaba solo 3 Vs, el modelo ha evolucionado hasta incluir 5 dimensiones fundamentales que definen al Big Data en la actualidad.</p><h3>1. Volumen</h3><p>Hace referencia a la <strong>cantidad masiva de datos</strong> generados. Hablamos de terabytes, petabytes, exabytes y zettabytes. Una sola transacción bancaria genera kilobytes de metadatos; millones de transacciones diarias generan petabytes anuales.</p><h3>2. Velocidad</h3><p>Es la <strong>rapidez con la que se generan, procesan y analizan los datos</strong>. En tiempo real (streaming) o en lotes (batch). Los sistemas de detección de fraude procesan miles de transacciones por segundo.</p><h3>3. Variedad</h3><p>La <strong>diversidad de tipos, formatos y fuentes</strong> de datos: estructurados (tablas SQL), semiestructurados (JSON, XML) y no estructurados (textos, imágenes, videos, audios, posts en redes sociales). El 80% de los datos empresariales actuales son no estructurados.</p><h3>4. Veracidad</h3><p>La <strong>confiabilidad, calidad y exactitud</strong> de los datos. Datos inconsistentes, duplicados o incorrectos generan análisis erróneos con graves consecuencias en la toma de decisiones. La limpieza de datos (data cleansing) es una etapa crítica en cualquier proyecto.</p><h3>5. Valor</h3><p>La capacidad de los datos para <strong>generar información útil y accionable</strong>. Es la dimensión más importante: enormes volúmenes de datos sin análisis son simplemente ruido. El objetivo final del Big Data es extraer valor real que mejore procesos, reduzca costos o genere ventajas competitivas.</p><h3>Tipos de Datos en el Ecosistema Big Data</h3><ul><li><strong>Estructurados:</strong> Bases de datos relacionales, hojas de cálculo, registros transaccionales.</li><li><strong>Semiestructurados:</strong> JSON, XML, correos electrónicos con metadatos, logs de servidor.</li><li><strong>No estructurados:</strong> Textos libres, imágenes, videos, audios, publicaciones en redes sociales.</li></ul>"
+        },
+        {
+          "type": "h5pactivity",
+          "category": "tema",
+          "title": "Actividad H5P — Video Interactivo: ¿Qué es el Big Data?",
+          "description": "Video interactivo con preguntas incrustadas sobre los fundamentos del Big Data. Importe el archivo 5vs-bigdata-interactive-video.h5p desde el Banco de Contenido.",
+          "h5p_type": "InteractiveVideo",
+          "h5p_import_note": "Importar: 5vs-bigdata-interactive-video.h5p al Content Bank antes de activar.",
+          "grade": 0
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Recurso: Big Data — Portal oficial de IBM (en español)",
+          "description": "Documentación complementaria de IBM sobre conceptos, casos de uso y tecnologías Big Data.",
+          "externalurl": "https://www.ibm.com/es-es/topics/big-data"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Artículo: Historia del Big Data — Cronología completa",
+          "description": "Lectura opcional para profundizar en los hitos que dieron origen al ecosistema de datos masivos.",
+          "externalurl": "https://es.wikipedia.org/wiki/Historia_de_la_inform%C3%A1tica"
+        },
+        {
+          "type": "forum",
+          "category": "actividad",
+          "title": "Debate 1: ¿El Big Data es una amenaza o una oportunidad para la sociedad?",
+          "description": "Con base en las lecturas de la Unidad 1, construya un argumento fundamentado respondiendo: ¿considera que el Big Data representa principalmente una oportunidad de desarrollo o una amenaza para la privacidad y la autonomía individual? Su participación debe tener mínimo 200 palabras y comentar la postura de al menos dos compañeros.",
+          "forumtype": "general"
+        },
+        {
+          "type": "assign",
+          "category": "actividad",
+          "title": "Taller 1: Mapa Mental de las 5 Vs del Big Data",
+          "description": "Elabore un mapa mental completo que represente las 5 Vs del Big Data (Volumen, Velocidad, Variedad, Veracidad y Valor). Para cada dimensión incluya: definición precisa, al menos 2 ejemplos del contexto colombiano o latinoamericano, herramientas o tecnologías asociadas, y su importancia estratégica para las organizaciones. Entregue en formato PDF o imagen de alta resolución (mínimo 300 DPI). Valor: 10% de la nota final."
+        },
+        {
+          "type": "quiz",
+          "category": "evaluacion",
+          "title": "Evaluación Unidad 1: Fundamentos del Big Data",
+          "description": "Evaluación formativa sobre los fundamentos conceptuales del Big Data, las 5 Vs y los primeros casos de uso. Tiempo estimado: 15 minutos. Intentos permitidos: 2.",
+          "questions": [
+            {
+              "question": "<p>¿Cuáles son las 5 Vs más reconocidas en el modelo estándar del Big Data?</p>",
+              "answers": [
+                "Volumen, Velocidad, Variedad, Veracidad y Valor",
+                "Velocidad, Variables, Virtualidad, Vectores y Versatilidad",
+                "Volumen, Visualización, Varianza, Vectores y Valor",
+                "Velocidad, Variedad, Verificación, Virtualidad y Velocidad"
+              ],
+              "correct": 0,
+              "feedback": "Las 5 Vs del Big Data son: Volumen (cantidad de datos), Velocidad (rapidez de generación y procesamiento), Variedad (diversidad de formatos y fuentes), Veracidad (confiabilidad) y Valor (utilidad para la toma de decisiones). Propuestas originalmente por Doug Laney en 2001 como 3 Vs y ampliadas posteriormente."
+            },
+            {
+              "question": "<p>¿Cuál es la definición más completa y precisa de Big Data?</p>",
+              "answers": [
+                "Conjuntos de datos tan grandes y complejos que requieren herramientas y métodos no convencionales para su captura, almacenamiento y análisis",
+                "Bases de datos relacionales de gran capacidad almacenadas exclusivamente en la nube pública",
+                "Software especializado para el análisis estadístico de datos empresariales en tiempo real",
+                "Tecnología de almacenamiento masivo en servidores físicos de alto rendimiento y bajo costo"
+              ],
+              "correct": 0,
+              "feedback": "Big Data se define como aquellos conjuntos de datos cuyo volumen, velocidad o variedad no pueden ser gestionados eficientemente por las herramientas y métodos tradicionales. No se limita al almacenamiento: abarca todo el ciclo desde la captura hasta el análisis y la generación de valor."
+            },
+            {
+              "question": "<p>En el contexto del Big Data, ¿qué representa con mayor precisión la dimensión 'Variedad'?</p>",
+              "answers": [
+                "La diversidad de tipos, formatos y fuentes de datos: estructurados, semiestructurados y no estructurados",
+                "La velocidad con la que los datos son generados y procesados en tiempo real por los sistemas",
+                "La cantidad total de datos almacenados expresada en petabytes o exabytes",
+                "El grado de exactitud y confiabilidad de los datos procesados en un sistema distribuido"
+              ],
+              "correct": 0,
+              "feedback": "La Variedad hace referencia a la heterogeneidad de los datos: textos, imágenes, videos, audios, datos de sensores IoT, publicaciones en redes sociales, registros de bases de datos, etc. Se estima que el 80% de los datos empresariales actuales son no estructurados."
+            },
+            {
+              "question": "<p>¿Cuál de los siguientes documentos académicos contribuyó a formalizar las bases técnicas del procesamiento masivo de datos?</p>",
+              "answers": [
+                "El paper de Google 'MapReduce: Simplified Data Processing on Large Clusters' publicado en 2004",
+                "El manifiesto de código abierto de Linux publicado por Linus Torvalds en 1991",
+                "La propuesta de Tim Berners-Lee sobre la World Wide Web presentada en 1989",
+                "El modelo relacional de Edgar Codd publicado en la revista ACM en 1970"
+              ],
+              "correct": 0,
+              "feedback": "El paper de Google sobre MapReduce (2004), escrito por Jeffrey Dean y Sanjay Ghemawat, formalizó el paradigma de procesamiento distribuido que se convirtió en la base técnica del ecosistema Hadoop. Junto con el paper del Google File System (GFS), sentó los cimientos del Big Data moderno."
+            },
+            {
+              "question": "<p>¿Qué representa exactamente la 'V' de Veracidad en las dimensiones del Big Data?</p>",
+              "answers": [
+                "La confiabilidad, calidad y precisión de los datos analizados en un sistema Big Data",
+                "La rapidez con la que los datos fluyen a través de los sistemas de procesamiento distribuido",
+                "La capacidad de almacenar petabytes de información en múltiples nodos replicados",
+                "La diversidad de tecnologías utilizadas para procesar y analizar diferentes tipos de datos"
+              ],
+              "correct": 0,
+              "feedback": "La Veracidad (Veracity) hace referencia a la calidad y exactitud de los datos. Datos incorrectos, incompletos o de baja calidad generan análisis erróneos con consecuencias graves. Por eso la limpieza de datos (data cleansing) es una etapa crítica en todo proyecto de Big Data."
+            },
+            {
+              "question": "<p>¿Cuál es la diferencia fundamental entre datos estructurados y datos no estructurados?</p>",
+              "answers": [
+                "Los datos estructurados siguen un modelo predefinido con esquema fijo (tablas/filas), mientras los no estructurados no tienen formato o esquema predefinido",
+                "Los datos estructurados son siempre más voluminosos que los datos no estructurados en cualquier sistema",
+                "Los datos no estructurados solo existen en plataformas de redes sociales como Twitter o Facebook",
+                "Los datos estructurados son exclusivos de las bases de datos NoSQL y los no estructurados de las relacionales"
+              ],
+              "correct": 0,
+              "feedback": "Datos estructurados: organizados con un esquema definido en tablas con filas y columnas (bases de datos relacionales, Excel). Datos no estructurados: sin formato predefinido (textos libres, imágenes, videos, emails). Los datos semiestructurados tienen alguna organización pero sin esquema rígido (JSON, XML, logs)."
+            },
+            {
+              "question": "<p>¿Qué representa la 'V' de Valor en el modelo de las 5 Vs del Big Data?</p>",
+              "answers": [
+                "La capacidad de los datos para generar información útil, accionable y estratégica para la toma de decisiones organizacionales",
+                "El costo económico total del almacenamiento y procesamiento de grandes volúmenes de datos distribuidos",
+                "La velocidad de procesamiento de los algoritmos analíticos aplicados sobre conjuntos masivos de datos",
+                "El número total de variables y atributos analizados simultáneamente en un modelo predictivo de Big Data"
+              ],
+              "correct": 0,
+              "feedback": "El Valor es la dimensión más importante: los datos por sí solos no tienen valor si no se transforman en información útil que genere ventajas competitivas, mejore procesos, reduzca costos o permita tomar mejores decisiones. Sin análisis que genere valor, el Big Data es simplemente ruido costoso."
+            },
+            {
+              "question": "<p>¿Cuál de los siguientes NO es un caso de uso real del Big Data?</p>",
+              "answers": [
+                "Predicción meteorológica mediante análisis de datos históricos de temperatura",
+                "Detección de fraudes en tarjetas de crédito procesando millones de transacciones en tiempo real",
+                "Sistema de recomendaciones de contenido en Netflix basado en el historial del usuario",
+                "Registro contable diario de transacciones en un software ERP empresarial estándar"
+              ],
+              "correct": 3,
+              "feedback": "El registro contable en un ERP estándar es una operación OLTP clásica que no requiere infraestructura Big Data. Los demás casos — predicción meteorológica (petabytes de datos históricos), detección de fraudes en tiempo real (miles de transacciones/segundo) y recomendaciones Netflix (millones de perfiles) — son casos reales de Big Data."
+            },
+            {
+              "question": "<p>¿Aproximadamente cuántos datos se generan a nivel global cada día según estimaciones actuales (2024)?</p>",
+              "answers": [
+                "Aproximadamente 2.5 quintillones de bytes (2.5 × 10^18 bytes) diariamente a nivel global",
+                "Exactamente 1 terabyte por segundo acumulado en todos los centros de datos del mundo",
+                "500 gigabytes por hora generados únicamente en plataformas de redes sociales",
+                "10 petabytes diarios generados exclusivamente por correos electrónicos corporativos"
+              ],
+              "correct": 0,
+              "feedback": "Se estima que se generan aproximadamente 2.5 quintillones de bytes cada día a nivel global, incluyendo redes sociales, sensores IoT, transacciones financieras, datos de salud, tráfico web, comunicaciones y dispositivos conectados. Este volumen crece exponencialmente cada año."
+            },
+            {
+              "question": "<p>¿En qué sector surgieron algunas de las primeras y más grandes implementaciones de Big Data a escala industrial?</p>",
+              "answers": [
+                "Internet y comercio electrónico: Google (búsquedas), Amazon (recomendaciones) y Yahoo (publicidad)",
+                "Industria farmacéutica y biotecnología para análisis de ensayos clínicos masivos",
+                "Sector público y administración gubernamental para gestión de registros ciudadanos",
+                "Industria manufacturera y producción en cadena para optimización de inventarios físicos"
+              ],
+              "correct": 0,
+              "feedback": "Google, Amazon, Yahoo y posteriormente Facebook fueron los pioneros en implementar sistemas de Big Data a escala industrial para gestionar búsquedas de millones de usuarios, sistemas de recomendación, perfiles publicitarios y redes sociales. Estas empresas desarrollaron muchas de las tecnologías que hoy conforman el ecosistema Big Data open source."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Unidad 2: Tecnologías y Ecosistema Hadoop",
+      "summary": "<p>En esta unidad profundizamos en las tecnologías que hacen posible el procesamiento masivo de datos: el ecosistema Hadoop, HDFS, MapReduce, Apache Spark y las herramientas complementarias. Al finalizar, el estudiante comprenderá la arquitectura distribuida y podrá seleccionar las tecnologías adecuadas según el tipo de problema.</p><p><strong>Semanas:</strong> 6–10 | <strong>Peso evaluativo:</strong> 30%</p>",
+      "activities": [
+        {
+          "type": "resource",
+          "category": "tema",
+          "title": "Presentación y diapositivas: Arquitectura Hadoop y su Ecosistema",
+          "description": "Presentación interactiva sobre la arquitectura del ecosistema Hadoop: HDFS, MapReduce, YARN, Hive, HBase, Spark y Kafka, con diagramas de flujo de datos."
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 2.1 — Hadoop: HDFS y MapReduce",
+          "description": "Estudio profundo del sistema de archivos distribuido HDFS y del modelo de programación MapReduce, pilares fundamentales del ecosistema Hadoop.",
+          "content": "<h3>Apache Hadoop: El Pilar del Big Data Open Source</h3><p>Apache Hadoop es un framework de software de código abierto que permite el almacenamiento y procesamiento distribuido de grandes conjuntos de datos en clústeres de computadores de bajo costo. Fue desarrollado por Doug Cutting y Mike Cafarella en 2005-2006, inspirado en los papers de Google sobre GFS y MapReduce.</p><h3>HDFS — Hadoop Distributed File System</h3><p>HDFS es el sistema de archivos distribuido de Hadoop. Sus características principales son:</p><ul><li><strong>Bloques de datos:</strong> Los archivos se dividen en bloques de 128 MB (configurable) distribuidos entre múltiples DataNodes.</li><li><strong>Replicación:</strong> Cada bloque se replica por defecto 3 veces en diferentes nodos, garantizando tolerancia a fallos.</li><li><strong>NameNode:</strong> Nodo maestro que gestiona los metadatos: dónde está cada bloque, qué archivos existen y la estructura de directorios.</li><li><strong>DataNode:</strong> Nodos esclavos que almacenan físicamente los bloques de datos y reportan al NameNode.</li><li><strong>Lectura secuencial:</strong> Optimizado para leer archivos grandes secuencialmente, no para acceso aleatorio frecuente.</li></ul><h3>MapReduce — El Modelo de Procesamiento</h3><p>MapReduce es el modelo de programación que permite procesar grandes volúmenes de datos en paralelo:</p><ul><li><strong>Fase Map:</strong> Divide el trabajo y transforma los datos de entrada en pares clave-valor. Se ejecuta en paralelo en múltiples nodos.</li><li><strong>Fase Shuffle:</strong> Agrupa y ordena los pares clave-valor intermedios por clave.</li><li><strong>Fase Reduce:</strong> Agrega los resultados de cada grupo de claves y genera la salida final.</li></ul><p><strong>Ejemplo clásico — Conteo de palabras:</strong> Map emite (palabra, 1) por cada ocurrencia; Reduce suma todos los 1 por cada palabra. Aplicado a terabytes de texto en cientos de nodos simultáneamente.</p><h3>YARN — Yet Another Resource Negotiator</h3><p>YARN es el gestor de recursos del clúster en Hadoop 2.x+. Separa la gestión de recursos del procesamiento, permitiendo ejecutar no solo MapReduce sino también Spark, Tez y otras aplicaciones sobre el mismo clúster.</p>"
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 2.2 — Apache Spark y el Ecosistema Big Data",
+          "description": "Exploración de Apache Spark, el motor de procesamiento en memoria que supera a MapReduce, y las herramientas complementarias del ecosistema: Kafka, Hive, HBase, Sqoop y ZooKeeper.",
+          "content": "<h3>Apache Spark — El Motor del Big Data Moderno</h3><p>Apache Spark es un motor de procesamiento distribuido en memoria desarrollado en UC Berkeley (2009) y donado a la Apache Software Foundation. Su principal ventaja: puede ser <strong>hasta 100 veces más rápido que Hadoop MapReduce</strong> para ciertos workloads al mantener los datos en memoria RAM en lugar de escribir a disco entre etapas.</p><h3>Componentes de Apache Spark</h3><ul><li><strong>Spark Core:</strong> Motor base con el concepto de RDD (Resilient Distributed Dataset), la abstracción fundamental de colecciones distribuidas inmutables y tolerantes a fallos.</li><li><strong>Spark SQL:</strong> Módulo para consultas SQL y procesamiento de DataFrames estructurados.</li><li><strong>Spark Streaming:</strong> Procesamiento de streams de datos en tiempo casi real (micro-batches).</li><li><strong>MLlib:</strong> Biblioteca de Machine Learning distribuido sobre Spark.</li><li><strong>GraphX:</strong> API para procesamiento de grafos y análisis de redes.</li></ul><h3>Otras Herramientas Clave del Ecosistema</h3><ul><li><strong>Apache Kafka:</strong> Plataforma de streaming distribuido para ingesta de datos en tiempo real con alta disponibilidad. Ideal para logs, métricas y eventos de IoT.</li><li><strong>Apache Hive:</strong> Interfaz SQL (HiveQL) para consultar datos almacenados en HDFS sin programar MapReduce directamente. Ideal para analistas de datos.</li><li><strong>Apache HBase:</strong> Base de datos NoSQL orientada a columnas sobre HDFS. Permite acceso aleatorio en tiempo real a datos en HDFS.</li><li><strong>Apache Sqoop:</strong> Herramienta para transferir datos masivamente entre bases de datos relacionales (MySQL, Oracle, PostgreSQL) y HDFS/Hive.</li><li><strong>Apache ZooKeeper:</strong> Servicio de coordinación distribuida: sincronización, configuración centralizada y naming entre servicios del clúster.</li><li><strong>Apache Pig:</strong> Plataforma de scripting de alto nivel (Pig Latin) para crear programas MapReduce sin escribir Java.</li></ul><h3>MapReduce vs Spark — ¿Cuándo usar cada uno?</h3><ul><li><strong>MapReduce:</strong> Trabajos batch muy grandes, ETL masivo, casos donde la tolerancia a fallos es prioritaria sobre velocidad.</li><li><strong>Spark:</strong> Análisis iterativo, Machine Learning, procesamiento en tiempo real, consultas SQL interactivas, grafos.</li></ul>"
+        },
+        {
+          "type": "glossary",
+          "category": "tema",
+          "title": "Glosario — Términos Técnicos Esenciales del Big Data",
+          "description": "Repertorio de términos técnicos fundamentales del ecosistema Big Data. Consulta este glosario durante todo el curso para reforzar el vocabulario especializado.",
+          "terms": [
+            {
+              "concept": "Big Data",
+              "definition": "Conjuntos de datos que exceden la capacidad de procesamiento de las herramientas convencionales por su Volumen, Velocidad y Variedad. Requieren infraestructuras especializadas para su almacenamiento, procesamiento y análisis."
+            },
+            {
+              "concept": "Hadoop",
+              "definition": "Framework de software de código abierto para almacenamiento distribuido (HDFS) y procesamiento paralelo (MapReduce) de grandes volúmenes de datos en clústeres de hardware commodity."
+            },
+            {
+              "concept": "HDFS",
+              "definition": "Hadoop Distributed File System: sistema de archivos distribuido que almacena datos divididos en bloques de 128 MB, replicados por defecto 3 veces en diferentes DataNodes para tolerancia a fallos."
+            },
+            {
+              "concept": "MapReduce",
+              "definition": "Modelo de programación para procesamiento paralelo de datos: la fase Map transforma datos en pares clave-valor, y la fase Reduce agrega los resultados por clave en múltiples nodos simultáneamente."
+            },
+            {
+              "concept": "Apache Spark",
+              "definition": "Motor de procesamiento distribuido en memoria hasta 100 veces más rápido que MapReduce para workloads iterativos. Soporta batch, streaming, SQL, Machine Learning y grafos en una sola plataforma unificada."
+            },
+            {
+              "concept": "RDD",
+              "definition": "Resilient Distributed Dataset: abstracción fundamental de Apache Spark. Colección de datos distribuida, inmutable y tolerante a fallos que se puede procesar en paralelo sobre múltiples nodos del clúster."
+            },
+            {
+              "concept": "Data Lake",
+              "definition": "Repositorio centralizado que almacena datos en su formato original (raw) sin transformación previa, en cualquier escala. Permite análisis posteriores de datos estructurados, semiestructurados y no estructurados."
+            },
+            {
+              "concept": "Data Warehouse",
+              "definition": "Repositorio de datos estructurados, integrados y procesados, optimizado para análisis (OLAP) y generación de informes de negocio. Contrasta con el Data Lake en que requiere esquema previo (schema-on-write)."
+            },
+            {
+              "concept": "NoSQL",
+              "definition": "Categoría de bases de datos no relacionales diseñadas para escalar horizontalmente y manejar datos no estructurados o semiestructurados a gran escala. Incluye tipos: documentales (MongoDB), columnares (HBase), clave-valor (Redis) y grafos (Neo4j)."
+            },
+            {
+              "concept": "ETL",
+              "definition": "Extract, Transform, Load: proceso de extracción de datos de múltiples fuentes heterogéneas, transformación para cumplir con el esquema y calidad requeridos, y carga en el sistema de destino (Data Warehouse o Data Lake)."
+            },
+            {
+              "concept": "Apache Kafka",
+              "definition": "Plataforma de streaming distribuido para ingesta y transmisión de datos en tiempo real con alta disponibilidad y durabilidad. Utilizada para pipelines de datos, logs de eventos, métricas y aplicaciones IoT."
+            },
+            {
+              "concept": "Machine Learning",
+              "definition": "Rama de la Inteligencia Artificial que permite a los sistemas aprender patrones automáticamente de grandes volúmenes de datos sin ser programados explícitamente. Base del análisis predictivo en Big Data."
+            },
+            {
+              "concept": "Minería de Datos",
+              "definition": "Proceso de descubrimiento automático de patrones, correlaciones y conocimiento oculto en grandes conjuntos de datos usando técnicas estadísticas, matemáticas y de Machine Learning."
+            },
+            {
+              "concept": "IoT (Internet of Things)",
+              "definition": "Red global de dispositivos físicos interconectados (sensores, actuadores, electrodomésticos, vehículos, wearables) que generan y transmiten datos automáticamente, representando una de las principales fuentes de Big Data."
+            },
+            {
+              "concept": "GDPR",
+              "definition": "Reglamento General de Protección de Datos de la Unión Europea (2018): marco legal que establece los derechos de los ciudadanos europeos sobre sus datos personales y las obligaciones de las organizaciones que los procesan."
+            }
+          ]
+        },
+        {
+          "type": "h5pactivity",
+          "category": "tema",
+          "title": "Actividad H5P — Diagrama interactivo: Arquitectura del ecosistema Hadoop",
+          "description": "Explora la arquitectura completa del ecosistema Hadoop mediante un diagrama interactivo. Identifica cada componente y su función. Importar: hadoop-architecture-drag-drop.h5p desde el Content Bank.",
+          "h5p_type": "DragAndDrop",
+          "h5p_import_note": "Importar: hadoop-ecosystem-interactive.h5p al Content Bank antes de activar.",
+          "grade": 0
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Documentación oficial: Apache Hadoop",
+          "description": "Sitio oficial de Apache Hadoop con documentación técnica, guías de instalación y referencia completa del ecosistema.",
+          "externalurl": "https://hadoop.apache.org/"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Guía de inicio rápido: Apache Spark",
+          "description": "Tutorial oficial de Apache Spark para empezar a procesar datos distribuidos con el motor más popular del ecosistema Big Data.",
+          "externalurl": "https://spark.apache.org/docs/latest/quick-start.html"
+        },
+        {
+          "type": "forum",
+          "category": "actividad",
+          "title": "Laboratorio de Análisis: Caso Netflix y Big Data",
+          "description": "Netflix procesa diariamente más de 1 billón de eventos de usuarios para alimentar su sistema de recomendaciones. Investiga cómo Netflix utiliza Apache Spark, Kafka y su arquitectura distribuida. Responde: ¿qué tecnologías del ecosistema Hadoop/Spark identifica en el caso Netflix?, ¿cómo aplica cada una de las 5 Vs en este caso real? Extensión mínima: 300 palabras con fuentes citadas.",
+          "forumtype": "general"
+        },
+        {
+          "type": "assign",
+          "category": "actividad",
+          "title": "Taller 2: Diagrama de Arquitectura Big Data",
+          "description": "Diseñe un diagrama completo de arquitectura Big Data utilizando los componentes del ecosistema Hadoop/Spark. El diagrama debe incluir las capas: ingesta (Kafka/Sqoop), almacenamiento (HDFS), procesamiento (MapReduce/Spark), análisis (Hive/Spark SQL) y visualización. Incluya una descripción escrita de cada componente y su función (mínimo 600 palabras). Puede usar herramientas como draw.io, Lucidchart o diagramas manuales digitalizados. Entregue en PDF. Valor: 15% de la nota final."
+        },
+        {
+          "type": "quiz",
+          "category": "evaluacion",
+          "title": "Evaluación Unidad 2: Tecnologías y Ecosistema Hadoop",
+          "description": "Evaluación formativa sobre el ecosistema Hadoop, HDFS, MapReduce, Apache Spark y las tecnologías relacionadas. Tiempo estimado: 20 minutos. Intentos permitidos: 2.",
+          "questions": [
+            {
+              "question": "<p>¿Qué es HDFS (Hadoop Distributed File System) y cuál es su función principal?</p>",
+              "answers": [
+                "Sistema de archivos distribuido que almacena grandes volúmenes de datos en bloques replicados entre múltiples nodos del clúster",
+                "Base de datos relacional de alto rendimiento optimizada para consultas SQL en entornos Big Data",
+                "Protocolo de red para la transferencia masiva de archivos entre servidores en centros de datos",
+                "Lenguaje de consulta propio de Hadoop para acceder a datos estructurados de manera distribuida"
+              ],
+              "correct": 0,
+              "feedback": "HDFS divide los archivos en bloques de 128 MB y los distribuye entre múltiples DataNodes, replicando cada bloque 3 veces por defecto para tolerancia a fallos. El NameNode gestiona los metadatos de dónde está cada bloque."
+            },
+            {
+              "question": "<p>¿Cuál es la función del NameNode en una arquitectura HDFS?</p>",
+              "answers": [
+                "Gestionar los metadatos del sistema de archivos: localización de bloques, estructura de directorios y mapa de replicación",
+                "Almacenar físicamente los bloques de datos en los discos duros del servidor principal del clúster",
+                "Procesar y ejecutar las tareas MapReduce enviadas por los clientes de la aplicación",
+                "Coordinar la comunicación de red y el balanceo de carga entre los DataNodes del clúster"
+              ],
+              "correct": 0,
+              "feedback": "El NameNode es el nodo maestro de HDFS: mantiene el árbol del sistema de archivos y los metadatos de todos los archivos (qué bloques los componen y en qué DataNodes están). Es el punto único de gestión, por lo que su alta disponibilidad es crítica."
+            },
+            {
+              "question": "<p>¿Qué es Apache Spark y cuál es su principal ventaja sobre Hadoop MapReduce?</p>",
+              "answers": [
+                "Motor de procesamiento distribuido en memoria que puede ser hasta 100 veces más rápido que MapReduce al evitar escrituras a disco entre etapas",
+                "Sistema de gestión de bases de datos NoSQL diseñado específicamente para reemplazar HDFS en entornos Big Data",
+                "Reemplazo del sistema de archivos HDFS con mayor velocidad de escritura secuencial en discos SSD",
+                "Framework de visualización de datos para análisis exploratorio y generación de dashboards interactivos"
+              ],
+              "correct": 0,
+              "feedback": "Apache Spark mantiene los datos en memoria RAM entre las etapas de procesamiento (a diferencia de MapReduce que escribe a disco en cada etapa), lo que lo hace dramáticamente más rápido para workloads iterativos como Machine Learning y consultas interactivas."
+            },
+            {
+              "question": "<p>¿Qué modelo de programación usa Hadoop MapReduce para procesar grandes volúmenes de datos?</p>",
+              "answers": [
+                "Divide el procesamiento en dos fases: Map (transformación paralela en pares clave-valor) y Reduce (agregación de resultados por clave)",
+                "Procesamiento en tiempo real mediante streams de eventos continuos en memoria compartida entre nodos",
+                "Consultas SQL sobre tablas distribuidas en múltiples nodos usando el lenguaje HiveQL extendido",
+                "Ejecución secuencial de scripts Python sobre archivos CSV almacenados directamente en HDFS"
+              ],
+              "correct": 0,
+              "feedback": "MapReduce tiene 3 fases: 1) Map: aplica una función a cada registro y emite pares (clave, valor); 2) Shuffle: ordena y agrupa los pares por clave; 3) Reduce: agrega todos los valores de la misma clave y emite el resultado final."
+            },
+            {
+              "question": "<p>¿Qué es Apache Kafka y para qué se utiliza en el ecosistema Big Data?</p>",
+              "answers": [
+                "Plataforma de streaming distribuido para ingesta y transmisión de datos en tiempo real con alta disponibilidad y durabilidad",
+                "Motor de machine learning para análisis predictivo y clasificación de datos a escala masiva",
+                "Sistema de almacenamiento en columnas para Data Warehouses distribuidos de alto rendimiento",
+                "Herramienta de visualización de datos y generación de dashboards para análisis de Big Data"
+              ],
+              "correct": 0,
+              "feedback": "Apache Kafka es una plataforma de streaming distribuido basada en el patrón publicador-suscriptor. Se utiliza para construir pipelines de datos en tiempo real, capturar logs de aplicaciones, procesar eventos de IoT y alimentar sistemas de análisis en streaming."
+            },
+            {
+              "question": "<p>¿Qué función cumple Apache Hive dentro del ecosistema Hadoop?</p>",
+              "answers": [
+                "Proporciona una interfaz de consultas tipo SQL (HiveQL) para analizar datos almacenados en HDFS sin escribir código MapReduce",
+                "Motor de procesamiento en tiempo real de streams de datos para aplicaciones de baja latencia",
+                "Sistema de replicación automática de archivos entre clústeres Hadoop en diferentes centros de datos",
+                "Framework de machine learning integrado nativamente con Hadoop para modelos predictivos"
+              ],
+              "correct": 0,
+              "feedback": "Apache Hive traduce consultas HiveQL a trabajos MapReduce o Spark que se ejecutan sobre datos en HDFS. Permite a analistas y científicos de datos trabajar con Big Data usando SQL, sin necesidad de programar en Java."
+            },
+            {
+              "question": "<p>¿Qué es YARN (Yet Another Resource Negotiator) en el ecosistema Hadoop?</p>",
+              "answers": [
+                "Sistema de gestión de recursos del clúster que asigna CPU y memoria a las aplicaciones: Spark, MapReduce, Hive, etc.",
+                "Lenguaje de consulta alternativo a SQL diseñado para bases de datos distribuidas en entornos Big Data",
+                "Protocolo de comunicación segura entre el NameNode y los DataNodes en un clúster HDFS",
+                "Herramienta de monitoreo y generación de alertas para la salud de los nodos en un clúster Hadoop"
+              ],
+              "correct": 0,
+              "feedback": "YARN (introducido en Hadoop 2.x) separó la gestión de recursos del modelo de programación. El ResourceManager asigna recursos del clúster a múltiples aplicaciones (Spark, MapReduce, Tez) que pueden correr simultáneamente sobre el mismo clúster."
+            },
+            {
+              "question": "<p>¿Cuál es la diferencia principal entre HBase y Apache Hive?</p>",
+              "answers": [
+                "HBase es una base de datos NoSQL columnar para acceso aleatorio en tiempo real; Hive es para consultas analíticas batch sobre datos en HDFS",
+                "HBase procesa datos en streaming mientras que Hive únicamente procesa archivos planos en lotes diarios",
+                "HBase reemplaza completamente a HDFS mientras Hive reemplaza al modelo de programación MapReduce",
+                "HBase utiliza SQL estándar ANSI para consultas mientras que Hive utiliza un lenguaje propietario sin equivalencia"
+              ],
+              "correct": 0,
+              "feedback": "HBase permite acceso aleatorio en tiempo real a datos almacenados en HDFS (ideal para aplicaciones con escrituras/lecturas frecuentes). Hive es para análisis offline y consultas analíticas complejas sobre grandes volúmenes de datos históricos (latencia de segundos a minutos)."
+            },
+            {
+              "question": "<p>¿Qué es un RDD (Resilient Distributed Dataset) en Apache Spark?</p>",
+              "answers": [
+                "Colección de datos distribuida, inmutable y tolerante a fallos que es la abstracción fundamental del procesamiento en Spark",
+                "Base de datos relacional distribuida y optimizada específica para el motor de procesamiento Spark",
+                "Formato de archivo comprimido y optimizado para almacenar datos de manera eficiente en HDFS",
+                "Protocolo de comunicación y sincronización entre los nodos Worker de un clúster Apache Spark"
+              ],
+              "correct": 0,
+              "feedback": "Un RDD es la colección distribuida base de Spark: puede distribuirse entre múltiples nodos, es inmutable (operaciones crean nuevos RDDs), y es tolerante a fallos (puede reconstruirse desde el grafo de dependencias). Las operaciones pueden ser transformaciones (lazy) o acciones (ejecutan el cómputo)."
+            },
+            {
+              "question": "<p>¿Qué función cumple Apache ZooKeeper en un entorno de Big Data distribuido?</p>",
+              "answers": [
+                "Servicio de coordinación distribuida: sincronización, gestión de configuración centralizada y naming entre servicios del clúster",
+                "Motor de consultas SQL sobre datos distribuidos en múltiples nodos del ecosistema Hadoop",
+                "Sistema de caché en memoria para datos frecuentemente accedidos en el ecosistema Hadoop y Spark",
+                "Herramienta de compresión y optimización de datos almacenados en bloques HDFS del clúster"
+              ],
+              "correct": 0,
+              "feedback": "Apache ZooKeeper provee servicios de coordinación esenciales para sistemas distribuidos: elección de líder, configuración centralizada, barreras de sincronización y locks distribuidos. Es usado por HBase, Kafka, Storm y muchos otros componentes del ecosistema Big Data."
+            },
+            {
+              "question": "<p>En HDFS, ¿qué factor determina principalmente el nivel de tolerancia a fallos del sistema?</p>",
+              "answers": [
+                "El factor de replicación: por defecto cada bloque tiene 3 réplicas en diferentes DataNodes del clúster",
+                "La velocidad de escritura en disco de los DataNodes individuales que componen el clúster",
+                "El número de NameNodes secundarios configurados como respaldo en el clúster de producción",
+                "El tamaño de bloque configurado en el archivo hdfs-site.xml del sistema de archivos"
+              ],
+              "correct": 0,
+              "feedback": "El factor de replicación (dfs.replication, por defecto 3) determina cuántas copias de cada bloque existen en el clúster. HDFS coloca réplicas en diferentes racks para tolerar fallos de rack completo. Si un DataNode falla, las réplicas de otros nodos mantienen la disponibilidad."
+            },
+            {
+              "question": "<p>¿Qué es la arquitectura Lambda en el contexto del procesamiento de Big Data?</p>",
+              "answers": [
+                "Arquitectura que combina procesamiento batch (capa fría) y streaming en tiempo real (capa caliente) para análisis completo y consistente",
+                "Modelo de programación funcional basado en el cálculo lambda aplicado al procesamiento de datos masivos",
+                "Framework de machine learning que combina simultáneamente modelos supervisados y no supervisados",
+                "Lenguaje de programación desarrollado específicamente para el ecosistema Apache Hadoop"
+              ],
+              "correct": 0,
+              "feedback": "La arquitectura Lambda (propuesta por Nathan Marz) tiene 3 capas: Batch (procesa todos los datos históricos con alta precisión), Speed (procesa datos recientes en tiempo real con baja latencia) y Serving (combina resultados de ambas capas para respuestas completas y actualizadas)."
+            },
+            {
+              "question": "<p>¿Cuál es el tamaño de bloque por defecto en HDFS y por qué se eligió ese valor?</p>",
+              "answers": [
+                "128 MB, optimizado para maximizar el rendimiento en lecturas secuenciales de archivos grandes",
+                "1 GB, elegido para minimizar el número total de bloques y reducir la carga del NameNode",
+                "4 KB equivalente a los sectores de un sistema de archivos Linux estándar como ext4",
+                "512 bytes igual que los sectores físicos de los discos duros HDD tradicionales"
+              ],
+              "correct": 0,
+              "feedback": "El bloque de 128 MB (antes 64 MB en versiones anteriores) minimiza el número de búsquedas en disco (seek time) para lecturas secuenciales de archivos grandes. Es mucho mayor que los bloques de sistemas de archivos tradicionales (4 KB) porque HDFS está optimizado para streaming de datos grandes, no para acceso aleatorio."
+            },
+            {
+              "question": "<p>¿Qué es Apache Pig y cuál es su propósito en el ecosistema Hadoop?</p>",
+              "answers": [
+                "Plataforma de scripting de alto nivel (lenguaje Pig Latin) para crear flujos de procesamiento de datos sin escribir código MapReduce en Java",
+                "Sistema de gestión y priorización de colas de trabajos MapReduce en un clúster Hadoop de producción",
+                "Motor de indexación y búsqueda full-text sobre archivos de texto plano almacenados en HDFS",
+                "Herramienta de migración automática de datos entre bases de datos relacionales y el sistema HDFS"
+              ],
+              "correct": 0,
+              "feedback": "Apache Pig permite escribir flujos de transformación de datos complejos usando un lenguaje de alto nivel (Pig Latin) que es compilado automáticamente a trabajos MapReduce. Reduce el código necesario en hasta un 90% comparado con escribir MapReduce directamente en Java."
+            },
+            {
+              "question": "<p>¿Cuál es la función de Apache Sqoop en el ecosistema Hadoop?</p>",
+              "answers": [
+                "Herramienta para transferir datos masivamente entre bases de datos relacionales (MySQL, Oracle, PostgreSQL) y HDFS/Hive en ambas direcciones",
+                "Motor de procesamiento en tiempo real de streams de eventos para aplicaciones de análisis continuo",
+                "Sistema de control de acceso y seguridad para los recursos y servicios de un clúster Hadoop",
+                "Framework de visualización de datos y generación de reportes almacenados en el sistema HDFS"
+              ],
+              "correct": 0,
+              "feedback": "Apache Sqoop (SQL-to-Hadoop) permite importar datos de bases de datos relacionales a HDFS/Hive o exportar datos procesados de vuelta a RDBMS. Utiliza JDBC y puede paralelizar la transferencia dividiendo los datos en múltiples tareas MapReduce simultáneas."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Unidad 3: Aplicaciones, Ética y Futuro del Big Data",
+      "summary": "<p>En esta unidad exploramos las aplicaciones reales del Big Data en sectores estratégicos, analizamos las implicaciones éticas del uso masivo de datos y estudiamos las tendencias que definirán el futuro de esta disciplina. Al finalizar, el estudiante podrá proponer soluciones Big Data en contextos reales con criterio técnico y ético.</p><p><strong>Semanas:</strong> 11–14 | <strong>Peso evaluativo:</strong> 25%</p>",
+      "activities": [
+        {
+          "type": "resource",
+          "category": "tema",
+          "title": "Presentación y diapositivas: Big Data en Industrias y Sectores Estratégicos",
+          "description": "Presentación interactiva con casos de uso reales del Big Data en salud, finanzas, retail, logística, gobierno y educación, con análisis de impacto y tecnologías utilizadas."
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 3.1 — Aplicaciones del Big Data por Sectores",
+          "description": "Análisis exhaustivo de los casos de uso más relevantes del Big Data en sectores estratégicos: salud, finanzas, retail, logística, gobierno y educación.",
+          "content": "<h3>El Big Data en Acción: Sectores Estratégicos</h3><p>El Big Data ha dejado de ser una tecnología experimental para convertirse en una ventaja competitiva fundamental en prácticamente todos los sectores económicos. A continuación analizamos los casos más relevantes.</p><h3>Sector Salud</h3><ul><li><strong>Predicción de epidemias:</strong> Análisis de datos de movilidad, redes sociales y registros clínicos para anticipar brotes de enfermedades infecciosas (COVID-19 fue un caso paradigmático).</li><li><strong>Medicina personalizada:</strong> Análisis genómico masivo para diseñar tratamientos específicos según el perfil genético del paciente.</li><li><strong>Gestión hospitalaria:</strong> Optimización de camas, quirófanos y personal médico mediante análisis predictivo de demanda.</li></ul><h3>Sector Financiero</h3><ul><li><strong>Detección de fraudes en tiempo real:</strong> Sistemas que analizan miles de transacciones por segundo identificando patrones anómalos con más del 99% de precisión.</li><li><strong>Scoring crediticio:</strong> Modelos que usan cientos de variables (historial de navegación, comportamiento de compra, redes sociales) para evaluar el riesgo crediticio con mayor precisión que los modelos tradicionales.</li><li><strong>Trading algorítmico:</strong> Algoritmos que procesan noticias, redes sociales y datos de mercado para ejecutar operaciones en microsegundos.</li></ul><h3>Retail y Comercio Electrónico</h3><ul><li><strong>Sistemas de recomendación:</strong> Amazon y Netflix generan el 35-80% de sus ventas/visualizaciones mediante algoritmos de filtrado colaborativo alimentados por Big Data.</li><li><strong>Gestión predictiva de inventario:</strong> Predicción de demanda con semanas de anticipación para optimizar cadenas de suministro globales.</li><li><strong>Precios dinámicos:</strong> Ajuste automático de precios en tiempo real según demanda, competencia y comportamiento del usuario.</li></ul><h3>Logística y Transporte</h3><ul><li><strong>Optimización de rutas:</strong> UPS ahorra 100 millones de millas anuales con su sistema ORION que optimiza las rutas de 55,000 camiones en tiempo real.</li><li><strong>Mantenimiento predictivo:</strong> Sensores en vehículos y maquinaria generan datos que permiten predecir fallos antes de que ocurran, reduciendo costos de mantenimiento hasta un 30%.</li></ul><h3>Sector Público y Ciudades Inteligentes</h3><p>Las ciudades inteligentes usan datos de sensores urbanos, cámaras, transporte público y servicios para optimizar el tráfico, reducir el consumo energético, mejorar la seguridad ciudadana y personalizar los servicios públicos.</p><h3>Educación (Learning Analytics)</h3><p>Las plataformas LMS como Moodle utilizan Big Data para identificar estudiantes en riesgo de abandono, personalizar rutas de aprendizaje y medir la efectividad de los contenidos pedagógicos.</p>"
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Lectura 3.2 — Ética, Privacidad y Regulación del Big Data",
+          "description": "Análisis de las implicaciones éticas del uso masivo de datos: privacidad, sesgo algorítmico, derecho al olvido, regulación GDPR y la ley colombiana de protección de datos.",
+          "content": "<h3>El Desafío Ético del Big Data</h3><p>La capacidad de recopilar, cruzar y analizar datos masivos sobre comportamiento humano plantea interrogantes éticos profundos que toda organización y profesional de datos debe conocer y abordar responsablemente.</p><h3>Privacidad y Consentimiento</h3><p>El modelo de negocio de muchas plataformas digitales se basa en la recopilación de datos personales sin que los usuarios comprendan plenamente qué datos se recopilan, cómo se usan y con quién se comparten. El principio de <strong>consentimiento informado</strong> es la primera línea de defensa ética.</p><h3>Sesgo Algorítmico (Algorithmic Bias)</h3><p>Los algoritmos entrenados con datos históricos pueden perpetuar y amplificar discriminaciones existentes:</p><ul><li>Sistemas de selección de personal que discriminan por género o etnia porque los datos de entrenamiento reflejaban sesgos históricos.</li><li>Algoritmos de crédito que penalizan a personas de ciertos códigos postales correlacionados con minorías étnicas.</li><li>Sistemas de reconocimiento facial con tasas de error mucho más altas para personas de piel oscura.</li></ul><h3>GDPR — El Marco Regulatorio Europeo</h3><p>El Reglamento General de Protección de Datos (GDPR) de la UE, en vigor desde mayo de 2018, establece:</p><ul><li><strong>Derecho al acceso:</strong> Los ciudadanos pueden solicitar qué datos tiene una organización sobre ellos.</li><li><strong>Derecho al olvido:</strong> Pueden solicitar la eliminación de sus datos.</li><li><strong>Portabilidad de datos:</strong> Pueden transferir sus datos entre proveedores.</li><li><strong>Limitación de finalidad:</strong> Los datos solo pueden usarse para el fin declarado al recopilarlos.</li><li><strong>Minimización:</strong> Solo recopilar los datos estrictamente necesarios.</li></ul><p>Las multas por incumplimiento pueden alcanzar el <strong>4% de la facturación global anual</strong> o 20 millones de euros.</p><h3>Ley 1581 de 2012 — Colombia</h3><p>Colombia cuenta con su propio marco de protección de datos personales (Ley 1581 y Decreto 1377 de 2013) que establece derechos similares al GDPR para los ciudadanos colombianos y obligaciones para las organizaciones que tratan datos personales.</p><h3>Hacia un Big Data Responsable</h3><p>Los profesionales de datos tienen la responsabilidad de: aplicar principios de privacidad por diseño (privacy by design), auditar los modelos para detectar y corregir sesgos, garantizar la transparencia en el uso de datos, y defender el cumplimiento normativo en sus organizaciones.</p>"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Texto completo del GDPR — Reglamento General de Protección de Datos (inglés/español)",
+          "description": "Acceso al texto oficial del GDPR de la Unión Europea, la regulación de protección de datos más importante del mundo.",
+          "externalurl": "https://gdpr.eu/"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Sitio oficial: Apache Kafka — Plataforma de streaming",
+          "description": "Documentación oficial de Apache Kafka para comprender la arquitectura de streaming de datos en tiempo real.",
+          "externalurl": "https://kafka.apache.org/"
+        },
+        {
+          "type": "forum",
+          "category": "actividad",
+          "title": "Debate Ético: Algoritmos, Privacidad y Decisiones Humanas",
+          "description": "En 2016, el sistema de libertad condicional COMPAS en EE.UU. fue acusado de ser racialmente sesgado al predecir reincidencia criminal. Investigue este caso y responda: ¿Debe permitirse que algoritmos de Big Data tomen decisiones que afecten la libertad, el crédito o el empleo de las personas? ¿Qué salvaguardias éticas y legales son necesarias? Argumente con base en las lecturas y al menos una fuente externa. Extensión: mínimo 250 palabras.",
+          "forumtype": "general"
+        },
+        {
+          "type": "assign",
+          "category": "actividad",
+          "title": "Informe 3: Propuesta de Aplicación Big Data Sectorial",
+          "description": "Seleccione un sector económico colombiano (salud, agricultura, finanzas, transporte o educación) e identifique un problema real que afecte a ese sector. Proponga una solución basada en Big Data especificando: datos a recopilar y fuentes, tecnologías del ecosistema a utilizar (Hadoop, Spark, Kafka, etc.), arquitectura propuesta en capas, beneficios esperados y medibles, y consideraciones éticas y de privacidad según la Ley 1581. Extensión: 1200-1800 palabras. Valor: parte de la Evaluación Unidad 3."
+        },
+        {
+          "type": "quiz",
+          "category": "evaluacion",
+          "title": "Evaluación Final Unidad 3: Aplicaciones y Ética del Big Data",
+          "description": "Evaluación sumativa final sobre aplicaciones sectoriales del Big Data, ética, regulación GDPR/Ley 1581 y tendencias futuras. Tiempo estimado: 25 minutos. Intentos permitidos: 1.",
+          "questions": [
+            {
+              "question": "<p>¿Qué establece el GDPR (General Data Protection Regulation) de la Unión Europea respecto a los datos personales?</p>",
+              "answers": [
+                "Marco legal que regula los derechos de los ciudadanos europeos sobre sus datos personales y las obligaciones de las organizaciones que los procesan",
+                "Estándar técnico internacional de seguridad informática para sistemas de almacenamiento de Big Data empresarial",
+                "Protocolo multilateral para el intercambio comercial de datos entre empresas tecnológicas de diferentes países",
+                "Normativa contable sobre el período mínimo de retención de datos tributarios en organizaciones europeas"
+              ],
+              "correct": 0,
+              "feedback": "El GDPR, en vigor desde mayo de 2018, es el reglamento de privacidad más completo del mundo. Establece derechos como acceso, rectificación, olvido, portabilidad y limitación de uso. Las multas por incumplimiento pueden alcanzar el 4% de la facturación global anual o 20 millones de euros."
+            },
+            {
+              "question": "<p>¿Cuál es una aplicación real y comprobada del Big Data en el sector de la salud?</p>",
+              "answers": [
+                "Predicción de brotes epidémicos mediante análisis de datos clínicos, movilidad poblacional y redes sociales",
+                "Sustitución completa de médicos especialistas por sistemas de diagnóstico basados en inteligencia artificial",
+                "Eliminación de historias clínicas físicas mediante digitalización simple de formularios en papel",
+                "Gestión automatizada de citas médicas y agendas en centros de salud de pequeño tamaño"
+              ],
+              "correct": 0,
+              "feedback": "Durante la pandemia COVID-19, sistemas de Big Data analizaron datos de movilidad (Google, Apple), registros clínicos y publicaciones en redes sociales para anticipar brotes con días de anticipación. También se usa en genómica, gestión hospitalaria y desarrollo de medicamentos (drug discovery)."
+            },
+            {
+              "question": "<p>¿Qué es un Data Lake y cómo se diferencia de un Data Warehouse tradicional?</p>",
+              "answers": [
+                "Data Lake almacena datos crudos en cualquier formato sin transformación (schema-on-read); Data Warehouse almacena datos ya estructurados y procesados (schema-on-write)",
+                "Un Data Lake es simplemente un Data Warehouse más grande y más costoso con mayor capacidad de almacenamiento",
+                "El Data Lake solo puede almacenar datos generados en tiempo real mientras el Data Warehouse almacena únicamente históricos",
+                "El Data Lake reemplaza completamente al Data Warehouse en cualquier arquitectura moderna de datos empresariales"
+              ],
+              "correct": 0,
+              "feedback": "El Data Lake acepta cualquier dato en cualquier formato sin necesidad de definir el esquema primero (schema-on-read). El Data Warehouse requiere transformar y estructurar los datos antes de cargarlos (schema-on-write). Ambos pueden coexistir en una arquitectura empresarial moderna."
+            },
+            {
+              "question": "<p>¿Cuál es el principal riesgo ético asociado al uso de algoritmos de Big Data en decisiones que afectan a las personas?</p>",
+              "answers": [
+                "La perpetuación y amplificación de sesgos históricos que generan discriminación algorítmica en decisiones de empleo, crédito o justicia",
+                "El excesivo consumo de energía eléctrica de los centros de datos que procesan los algoritmos de Big Data",
+                "La incompatibilidad técnica entre diferentes sistemas de almacenamiento y procesamiento de datos masivos",
+                "El alto costo económico de implementación que limita el acceso de las pequeñas y medianas empresas"
+              ],
+              "correct": 0,
+              "feedback": "El sesgo algorítmico es uno de los riesgos éticos más serios: algoritmos entrenados con datos históricos sesgados perpetúan y amplían discriminaciones. El caso COMPAS en EE.UU. (predicción de reincidencia criminal) mostró tasas de error dobles para personas afroamericanas comparadas con personas blancas."
+            },
+            {
+              "question": "<p>En el contexto del Big Data, ¿qué es el Machine Learning?</p>",
+              "answers": [
+                "Conjunto de técnicas que permiten a los sistemas aprender patrones automáticamente de grandes volúmenes de datos sin programación explícita de las reglas",
+                "Lenguaje de programación diseñado específicamente para procesar Big Data en el ecosistema Hadoop",
+                "Sistema automatizado de copias de seguridad y recuperación ante desastres para grandes bases de datos distribuidas",
+                "Protocolo de red para la transmisión de conocimiento académico entre universidades e instituciones educativas"
+              ],
+              "correct": 0,
+              "feedback": "El Machine Learning es el núcleo del análisis inteligente de Big Data: permite descubrir patrones, hacer predicciones y tomar decisiones basadas en datos sin programar explícitamente cada regla. El Big Data provee los volúmenes de datos necesarios para entrenar modelos precisos."
+            },
+            {
+              "question": "<p>¿Cómo utiliza Amazon el Big Data en su negocio de comercio electrónico?</p>",
+              "answers": [
+                "Sistema de recomendaciones colaborativas, gestión predictiva de inventario, precios dinámicos y optimización de logística en tiempo real",
+                "Almacenamiento masivo de catálogos de productos en bases de datos relacionales de alta disponibilidad",
+                "Automatización del proceso de empaque físico mediante brazos robóticos controlados por IA simple",
+                "Gestión de devoluciones y quejas de clientes mediante chatbots con respuestas predefinidas básicas"
+              ],
+              "correct": 0,
+              "feedback": "Amazon usa Big Data en múltiples dimensiones: el sistema de recomendaciones genera el 35% de sus ventas, anticipa la demanda con días de anticipación para optimizar inventarios globales, ajusta precios millones de veces al día, y optimiza rutas de entrega con datos en tiempo real."
+            },
+            {
+              "question": "<p>¿Qué es el análisis predictivo (Predictive Analytics) en el contexto del Big Data?</p>",
+              "answers": [
+                "Técnica que usa datos históricos, modelos estadísticos y Machine Learning para anticipar comportamientos o eventos futuros con cierto grado de probabilidad",
+                "Análisis de datos históricos pasados para generar exclusivamente informes descriptivos de lo que ya ocurrió",
+                "Proceso de limpieza y normalización de datos antes de su almacenamiento en el sistema Data Lake o Data Warehouse",
+                "Método de visualización de datos mediante dashboards e informes en tiempo real para la toma de decisiones operativas"
+              ],
+              "correct": 0,
+              "feedback": "El análisis predictivo usa datos históricos y modelos de Machine Learning para anticipar lo que podría ocurrir: predecir abandono de clientes (churn), anticipar fallos de equipos, pronosticar ventas, identificar pacientes en riesgo. Es la base de la analítica avanzada empresarial."
+            },
+            {
+              "question": "<p>¿Cuál es la diferencia principal entre Business Intelligence (BI) tradicional y Big Data Analytics?</p>",
+              "answers": [
+                "BI analiza datos históricos estructurados para informes; Big Data Analytics procesa volúmenes masivos heterogéneos para descubrir patrones y hacer predicciones",
+                "Big Data Analytics es simplemente una versión más moderna y rápida del Business Intelligence tradicional",
+                "BI trabaja con datos no estructurados mientras que Big Data solo puede procesar datos relacionales estructurados",
+                "No hay diferencia significativa: son términos completamente intercambiables en la industria tecnológica actual"
+              ],
+              "correct": 0,
+              "feedback": "BI (Cognos, Power BI, Tableau) analiza datos históricos estructurados y genera informes sobre lo que pasó (descriptivo). Big Data Analytics procesa volúmenes masivos de datos heterogéneos para descubrir patrones ocultos, hacer predicciones (predictivo) y prescribir acciones (prescriptivo)."
+            },
+            {
+              "question": "<p>¿Qué relación existe entre el Internet de las Cosas (IoT) y el Big Data?</p>",
+              "answers": [
+                "Los dispositivos IoT generan enormes volúmenes de datos en tiempo real que requieren infraestructura Big Data para su almacenamiento y procesamiento",
+                "El IoT reemplaza al Big Data en la recopilación y análisis de datos en entornos industriales y de manufactura",
+                "El IoT solo genera datos perfectamente estructurados y fáciles de gestionar con SQL estándar",
+                "IoT y Big Data son tecnologías completamente independientes e incompatibles que no pueden integrarse"
+              ],
+              "correct": 0,
+              "feedback": "El IoT es una de las principales fuentes de Big Data: hay más de 15 mil millones de dispositivos conectados generando datos constantemente (sensores industriales, wearables, vehículos, electrodomésticos). Para 2030 se proyectan más de 29 mil millones de dispositivos IoT."
+            },
+            {
+              "question": "<p>¿Qué es el sesgo algorítmico y por qué representa un problema ético significativo?</p>",
+              "answers": [
+                "Errores sistemáticos en modelos de IA que replican o amplían discriminaciones históricas afectando desproporcionadamente a grupos vulnerables",
+                "La lentitud computacional en algoritmos de machine learning cuando se procesan conjuntos de datos muy grandes",
+                "La incompatibilidad entre diferentes versiones y frameworks de herramientas del ecosistema Big Data",
+                "El exceso de datos irrelevantes que ralentizan el entrenamiento de modelos de machine learning"
+              ],
+              "correct": 0,
+              "feedback": "El sesgo algorítmico ocurre cuando los datos de entrenamiento reflejan desigualdades históricas (discriminación de género, racial, socioeconómica) y el algoritmo las aprende y perpetúa. Afecta decisiones críticas: contratación, crédito, justicia penal, acceso a servicios de salud."
+            },
+            {
+              "question": "<p>¿Qué principio del GDPR establece que los datos solo pueden usarse para el propósito específico declarado al momento de su recopilación?</p>",
+              "answers": [
+                "Limitación de finalidad (Purpose Limitation)",
+                "Derecho al olvido (Right to be Forgotten)",
+                "Portabilidad de datos (Data Portability)",
+                "Minimización de datos (Data Minimisation)"
+              ],
+              "correct": 0,
+              "feedback": "La Limitación de Finalidad es uno de los principios fundamentales del GDPR: los datos recopilados para una finalidad específica (por ejemplo, entrega de un pedido) no pueden reutilizarse para otro propósito diferente (como publicidad dirigida) sin un nuevo consentimiento del titular."
+            },
+            {
+              "question": "<p>¿Qué es la gobernanza de datos (Data Governance) en el contexto organizacional?</p>",
+              "answers": [
+                "Marco de políticas, procesos, roles y responsabilidades para garantizar la calidad, seguridad, privacidad y uso apropiado de los datos corporativos",
+                "Sistema técnico de encriptación y cifrado de datos almacenados en plataformas de nube pública o privada",
+                "Herramienta de software para la gestión automatizada de permisos de acceso a bases de datos",
+                "Protocolo internacional para el intercambio de datos gubernamentales entre países miembros de la ONU"
+              ],
+              "correct": 0,
+              "feedback": "La gobernanza de datos define quién puede acceder a qué datos, cómo deben gestionarse, quién es responsable de su calidad, y cómo se cumplen las regulaciones. Es esencial para organizaciones que manejan Big Data en producción y que deben cumplir con GDPR, Ley 1581, HIPAA u otras normativas."
+            },
+            {
+              "question": "<p>¿Qué ventaja ofrecen las bases de datos NoSQL sobre las relacionales en contextos de Big Data?</p>",
+              "answers": [
+                "Mayor flexibilidad de esquema, escalabilidad horizontal y mejor rendimiento con datos no estructurados a escala masiva",
+                "Mayor capacidad para realizar consultas SQL complejas con múltiples joins sobre tablas relacionadas",
+                "Menor costo total de licenciamiento comparado con bases de datos relacionales de nivel empresarial",
+                "Mayor seguridad intrínseca y cumplimiento automático de normativas GDPR y Ley 1581 de Colombia"
+              ],
+              "correct": 0,
+              "feedback": "NoSQL escala horizontalmente (agrega más nodos) en lugar de verticalmente (hardware más potente), tolera esquemas flexibles (ideal para datos no estructurados), y puede manejar millones de operaciones por segundo. Tipos: documentales (MongoDB), clave-valor (Redis), columnares (Cassandra, HBase), grafos (Neo4j)."
+            },
+            {
+              "question": "<p>¿Cómo contribuye el Cloud Computing al desarrollo y democratización del Big Data?</p>",
+              "answers": [
+                "Provee infraestructura escalable on-demand que elimina la inversión inicial en hardware, permitiendo a empresas de cualquier tamaño procesar petabytes de datos",
+                "El Cloud es solo un método de respaldo (backup) para proteger los sistemas Big Data instalados en servidores locales",
+                "El Cloud Computing reemplaza completamente la necesidad de administradores y arquitectos de sistemas especializados",
+                "El Cloud Computing únicamente beneficia a grandes corporaciones con más de 10,000 empleados y presupuestos multimillonarios"
+              ],
+              "correct": 0,
+              "feedback": "Servicios como AWS EMR, Google BigQuery, Azure HDInsight y Databricks permiten procesar petabytes sin inversión en hardware propio, escalar en minutos, pagar solo por uso y acceder a herramientas enterprise que antes solo estaban al alcance de las empresas más grandes del mundo."
+            },
+            {
+              "question": "<p>¿Qué es el análisis en tiempo real (Real-time Analytics) y en qué casos es imprescindible?</p>",
+              "answers": [
+                "Procesamiento y análisis de datos con latencia mínima (milisegundos a segundos) imprescindible en detección de fraudes, trading y alertas de seguridad",
+                "Análisis de datos históricos de los últimos 30 días para la generación de informes mensuales de gestión",
+                "Proceso de actualización diaria de los dashboards de Business Intelligence para revisión semanal",
+                "Sincronización automática nocturna de bases de datos entre diferentes centros de datos de una empresa"
+              ],
+              "correct": 0,
+              "feedback": "El análisis en tiempo real es imprescindible cuando la latencia del insight importa tanto como el insight mismo: detección de fraude (decisión en <100ms), trading algorítmico (microsegundos), alertas de seguridad industrial, monitoreo de pacientes en UCI, y gestión de tráfico en ciudades inteligentes."
+            },
+            {
+              "question": "<p>¿Cuál es un ejemplo claro de aplicación del Big Data en el sector de la educación?</p>",
+              "answers": [
+                "Análisis del comportamiento de aprendizaje de estudiantes para personalizar rutas educativas y predecir riesgo de abandono académico",
+                "Digitalización masiva de libros de texto físicos a formato PDF para su distribución por plataformas online",
+                "Gestión del sistema de notas y calificaciones en una plataforma LMS estándar con base de datos relacional",
+                "Automatización del proceso de matrícula, pagos de cuotas y generación de certificados académicos"
+              ],
+              "correct": 0,
+              "feedback": "Learning Analytics usa Big Data para analizar patrones de comportamiento estudiantil (tiempo en plataforma, patrones de acceso, resultados en actividades) para identificar estudiantes en riesgo de abandono con semanas de anticipación, personalizar contenidos y optimizar la efectividad pedagógica."
+            },
+            {
+              "question": "<p>¿Qué es un pipeline de datos en el contexto del Big Data?</p>",
+              "answers": [
+                "Secuencia automatizada de procesos para mover, transformar y cargar datos desde las fuentes hasta el sistema de análisis final",
+                "Protocolo de comunicación de red entre los diferentes nodos de un clúster Hadoop distribuido",
+                "Lenguaje de programación visual para diseñar flujos de procesamiento de datos sin escribir código",
+                "Sistema de compresión de datos en tiempo real para reducir el ancho de banda requerido en transmisiones"
+              ],
+              "correct": 0,
+              "feedback": "Un pipeline de datos integra múltiples pasos: ingesta de datos (Kafka, Flume), transformación (Spark, Flink), almacenamiento (HDFS, S3, Delta Lake), y análisis (Hive, Spark SQL, herramientas de BI). Su automatización y orquestación (Apache Airflow) es fundamental en arquitecturas Big Data de producción."
+            },
+            {
+              "question": "<p>¿Cuál es la tendencia más importante en el futuro del Big Data según los analistas de la industria?</p>",
+              "answers": [
+                "Convergencia de Big Data, Inteligencia Artificial y Edge Computing para análisis inteligente distribuido más cercano a la fuente de datos",
+                "Abandono gradual de los sistemas distribuidos para regresar a mainframes de muy alta capacidad centralizada",
+                "Sustitución total de los sistemas Big Data actuales por bases de datos cuánticas en los próximos 5 años",
+                "Centralización de todos los datos mundiales en pocos megacentros de datos controlados por gobiernos nacionales"
+              ],
+              "correct": 0,
+              "feedback": "La convergencia de Big Data + IA + Edge Computing es la tendencia dominante: procesar datos inteligentemente en el borde (dispositivos IoT, fábricas, hospitales) antes de enviarlos a la nube. Esto reduce latencia, ahorra ancho de banda y permite análisis en tiempo real donde la conectividad es limitada."
+            },
+            {
+              "question": "<p>¿Qué es la arquitectura Kappa y cómo se diferencia de la arquitectura Lambda?</p>",
+              "answers": [
+                "Arquitectura Kappa simplifica Lambda eliminando la capa batch: todo se procesa como streaming, usando re-procesamiento cuando se necesita corrección histórica",
+                "Arquitectura Kappa agrega una tercera capa de procesamiento cuántico a la arquitectura Lambda existente",
+                "Kappa y Lambda son exactamente iguales pero con diferente nomenclatura según el proveedor de tecnología",
+                "Kappa es más antigua que Lambda y fue reemplazada por ser más lenta y difícil de mantener"
+              ],
+              "correct": 0,
+              "feedback": "La arquitectura Kappa (propuesta por Jay Kreps de LinkedIn) elimina la complejidad de mantener dos sistemas (batch + streaming) de Lambda. Todo se procesa como stream; cuando hay cambios en la lógica, se re-procesa el histórico como un nuevo stream desde el principio, usando Kafka como log inmutable."
+            },
+            {
+              "question": "<p>¿Qué significa el principio de 'Privacy by Design' en el desarrollo de soluciones Big Data?</p>",
+              "answers": [
+                "Incorporar la protección de privacidad y seguridad de datos desde el diseño inicial del sistema, no como un añadido posterior",
+                "Diseñar interfaces de usuario que muestren visualmente cómo se protegen los datos personales de los usuarios",
+                "Aplicar cifrado visual a los datos mostrados en dashboards para que solo ciertos usuarios puedan verlos",
+                "Crear sistemas de privacidad opcional que los usuarios pueden activar o desactivar según sus preferencias"
+              ],
+              "correct": 0,
+              "feedback": "Privacy by Design (PbD), formalizado en el GDPR, establece que la privacidad debe considerarse desde el inicio del diseño arquitectónico de cualquier sistema de datos: minimización de datos recopilados, anonimización por defecto, control de acceso granular, trazabilidad de uso y auditoría integrada."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Proyecto Integrador y Certificación",
+      "summary": "<p>Sección final del curso donde el estudiante integra todos los conocimientos adquiridos en un proyecto real de propuesta Big Data. Al completar satisfactoriamente el proyecto y el curso, podrá acceder al certificado digital TAU de finalización.</p><p><strong>Semanas:</strong> 15–16 | <strong>Peso evaluativo:</strong> 25%</p>",
+      "activities": [
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Instrucciones del Proyecto Final Integrador",
+          "description": "Guía completa con los requerimientos, estructura esperada, criterios de evaluación y fechas del Proyecto Final del curso.",
+          "content": "<h3>Proyecto Final — Propuesta Big Data para Empresa Real</h3><p>El proyecto final integra todos los conocimientos del curso: fundamentos, tecnologías del ecosistema y consideraciones éticas. Consiste en desarrollar una <strong>propuesta técnica completa</strong> de implementación de una solución Big Data para una empresa colombiana real o ficticia detalladamente descrita.</p><h3>Estructura obligatoria del documento</h3><ol><li><strong>Resumen Ejecutivo</strong> (máximo 300 palabras): problema, solución propuesta y beneficios esperados.</li><li><strong>Descripción del problema y objetivos de negocio:</strong> contexto de la empresa, problema identificado con datos cuantitativos, objetivos SMART de la solución Big Data.</li><li><strong>Arquitectura técnica detallada:</strong> diagrama de arquitectura en capas (ingesta, almacenamiento, procesamiento, análisis, visualización) con justificación de cada decisión.</li><li><strong>Stack tecnológico seleccionado y justificación:</strong> por qué Spark vs MapReduce, por qué Kafka vs Sqoop, qué base de datos NoSQL y por qué, solución cloud o on-premise.</li><li><strong>Plan de implementación en fases:</strong> hitos, tiempos estimados y recursos humanos necesarios.</li><li><strong>Análisis de costos estimados:</strong> infraestructura, licencias (si aplica), personal especializado.</li><li><strong>Consideraciones éticas y de privacidad:</strong> cumplimiento Ley 1581 (Colombia), principios de Privacy by Design, gestión de sesgo algorítmico.</li><li><strong>Métricas de éxito:</strong> cómo se medirá el impacto de la solución (KPIs cuantificables).</li></ol><h3>Especificaciones técnicas del entregable</h3><ul><li><strong>Extensión mínima:</strong> 2500 palabras (sin contar portada, índice ni bibliografía).</li><li><strong>Formato:</strong> PDF con portada institucional, índice, desarrollo y bibliografía en formato APA 7.</li><li><strong>Diagramas:</strong> mínimo 1 diagrama de arquitectura y 1 diagrama de flujo de datos (pueden hacerse en draw.io, Lucidchart o similar).</li><li><strong>Bibliografía:</strong> mínimo 8 fuentes académicas o técnicas confiables citadas en el texto.</li></ul>"
+        },
+        {
+          "type": "page",
+          "category": "tema",
+          "title": "Rúbrica de Evaluación del Proyecto Final",
+          "description": "Criterios detallados de evaluación del Proyecto Final: dimensiones, indicadores de desempeño y puntuación por nivel de logro.",
+          "content": "<h3>Rúbrica de Evaluación — Proyecto Final Big Data</h3><table style='width:100%; border-collapse:collapse; font-size:0.9rem;'><thead><tr style='background:#c62b3a; color:#fff;'><th style='padding:8px; border:1px solid #ddd;'>Criterio</th><th style='padding:8px; border:1px solid #ddd;'>Peso</th><th style='padding:8px; border:1px solid #ddd;'>Excelente (90-100)</th><th style='padding:8px; border:1px solid #ddd;'>Satisfactorio (70-89)</th><th style='padding:8px; border:1px solid #ddd;'>Insuficiente (&lt;70)</th></tr></thead><tbody><tr><td style='padding:8px; border:1px solid #ddd;'><strong>Identificación del problema</strong></td><td style='padding:8px; border:1px solid #ddd;'>15%</td><td style='padding:8px; border:1px solid #ddd;'>Problema real, cuantificado con datos, objetivos SMART claros</td><td style='padding:8px; border:1px solid #ddd;'>Problema identificado pero sin datos de soporte suficientes</td><td style='padding:8px; border:1px solid #ddd;'>Problema vago o genérico sin justificación</td></tr><tr style='background:#f8f8f8;'><td style='padding:8px; border:1px solid #ddd;'><strong>Arquitectura técnica</strong></td><td style='padding:8px; border:1px solid #ddd;'>25%</td><td style='padding:8px; border:1px solid #ddd;'>Arquitectura completa, diagrama profesional, tecnologías justificadas</td><td style='padding:8px; border:1px solid #ddd;'>Arquitectura básica con algunos componentes sin justificar</td><td style='padding:8px; border:1px solid #ddd;'>Sin diagrama o arquitectura incompleta</td></tr><tr><td style='padding:8px; border:1px solid #ddd;'><strong>Stack tecnológico</strong></td><td style='padding:8px; border:1px solid #ddd;'>20%</td><td style='padding:8px; border:1px solid #ddd;'>Tecnologías correctas, justificación técnica sólida y comparación con alternativas</td><td style='padding:8px; border:1px solid #ddd;'>Tecnologías adecuadas con justificación básica</td><td style='padding:8px; border:1px solid #ddd;'>Tecnologías incorrectas o sin justificación</td></tr><tr style='background:#f8f8f8;'><td style='padding:8px; border:1px solid #ddd;'><strong>Ética y privacidad</strong></td><td style='padding:8px; border:1px solid #ddd;'>20%</td><td style='padding:8px; border:1px solid #ddd;'>Análisis profundo, Ley 1581 aplicada, Privacy by Design implementado</td><td style='padding:8px; border:1px solid #ddd;'>Mención de aspectos éticos sin análisis profundo</td><td style='padding:8px; border:1px solid #ddd;'>Sin análisis ético o legal</td></tr><tr><td style='padding:8px; border:1px solid #ddd;'><strong>Calidad académica</strong></td><td style='padding:8px; border:1px solid #ddd;'>20%</td><td style='padding:8px; border:1px solid #ddd;'>Redacción impecable, APA 7, mínimo 8 fuentes confiables</td><td style='padding:8px; border:1px solid #ddd;'>Redacción adecuada con algunas inconsistencias en citación</td><td style='padding:8px; border:1px solid #ddd;'>Redacción deficiente o sin citas académicas</td></tr></tbody></table>"
+        },
+        {
+          "type": "url",
+          "category": "complementario",
+          "title": "Herramienta gratuita para diagramas de arquitectura: draw.io",
+          "description": "Recurso recomendado para crear los diagramas de arquitectura y flujo de datos del Proyecto Final. Completamente gratuito y en línea.",
+          "externalurl": "https://app.diagrams.net/"
+        },
+        {
+          "type": "assign",
+          "category": "actividad",
+          "title": "Proyecto Final: Propuesta Big Data para Empresa Real",
+          "description": "Desarrolle la propuesta técnica completa descrita en las instrucciones. Entregue un único archivo PDF con portada, índice, desarrollo completo (mínimo 2500 palabras), diagramas y bibliografía APA 7. La propuesta debe ser original, individual y no puede ser generada íntegramente por herramientas de IA sin análisis propio. Fecha límite: consultar el calendario académico del curso. Valor: 25% de la nota final."
+        },
+        {
+          "type": "feedback",
+          "category": "evaluacion",
+          "title": "Encuesta de Satisfacción del Curso — Introducción al Big Data",
+          "description": "Ayúdanos a mejorar este curso completando esta encuesta anónima de satisfacción. Tu opinión es fundamental para seguir construyendo la mejor experiencia educativa en TAU Campus Virtual. La encuesta toma menos de 5 minutos."
+        }
+      ]
+    }
+  ]
+}

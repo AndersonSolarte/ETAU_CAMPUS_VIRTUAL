@@ -1,139 +1,213 @@
-import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Building2, CircleUserRound, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Bot,
+  GraduationCap,
+  LayoutDashboard,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
-import { useHealthCheck } from "@/hooks/use-health-check";
-
-const quickLinks = [
-  "Acceso a aulas virtuales",
-  "Servicios institucionales",
-  "Calendario académico",
-  "Mesa de ayuda"
+const stats = [
+  { label: "Estudiantes", value: "4.200+", icon: Users },
+  { label: "Cursos activos", value: "180+", icon: BookOpen },
+  { label: "Docentes", value: "95+", icon: GraduationCap },
 ];
 
+const features = [
+  {
+    icon: LayoutDashboard,
+    title: "Panel institucional",
+    description:
+      "Dashboards por rol con KPIs en tiempo real, gestión de cursos y seguimiento académico.",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+  },
+  {
+    icon: Bot,
+    title: "Generador de cursos con IA",
+    description:
+      "Crea estructuras curriculares completas en segundos usando GPT-4o y plantillas académicas.",
+    color: "text-violet-400",
+    bg: "bg-violet-500/10",
+  },
+  {
+    icon: Zap,
+    title: "Arquitectura enterprise",
+    description:
+      "React + Node.js desacoplados de Moodle. Escalable, actualizable y listo para producción.",
+    color: "text-amber-400",
+    bg: "bg-amber-500/10",
+  },
+];
+
+const fade = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+
 export function HomePage() {
-  const health = useHealthCheck();
-
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#dff4ff,transparent_30%),linear-gradient(135deg,#f7fbff_0%,#eef6f3_45%,#f7efe4_100%)] text-slate-900">
-      <section className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-10 lg:px-10">
-        <header className="flex flex-col gap-4 rounded-[2rem] border border-white/70 bg-white/70 px-5 py-4 shadow-sm backdrop-blur md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-700">
-              TAU Campus Virtual
-            </p>
-            <h1 className="mt-2 text-sm font-medium text-slate-700">
-              Arquitectura enterprise sobre Moodle, React y Node.js
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-600">
-              API {health.status === "ok" ? "operativa" : health.status}
-            </span>
-            <Button asChild variant="dark" size="sm">
-              <a href="http://localhost:8080/login/index.php">Ingresar al LMS</a>
-            </Button>
-          </div>
-        </header>
+    <main className="relative min-h-screen overflow-hidden bg-[#0b1f3a]">
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-50"
+        style={{
+          backgroundImage:
+            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Cdefs%3E%3CradialGradient id=%22rg1%22 cx=%2225%25%22 cy=%2235%25%22 r=%2255%25%22%3E%3Cstop offset=%220%25%22 stop-color=%22%231f4b99%22 stop-opacity=%220.6%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%230b1f3a%22 stop-opacity=%220%22/%3E%3C/radialGradient%3E%3Cpattern id=%22dots%22 x=%220%22 y=%220%22 width=%2240%22 height=%2240%22 patternUnits=%22userSpaceOnUse%22%3E%3Ccircle cx=%2220%22 cy=%2220%22 r=%221.2%22 fill=%22white%22 opacity=%220.07%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%221920%22 height=%221080%22 fill=%22url(%23rg1)%22/%3E%3Crect width=%221920%22 height=%221080%22 fill=%22url(%23dots)%22/%3E%3C/svg%3E')",
+        }}
+      />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#1f4b99] via-[#d9a441] to-[#1f4b99]" />
 
-        <div className="grid flex-1 items-center gap-12 py-16 lg:grid-cols-[1.2fr_0.8fr]">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65 }}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:px-12">
+
+        {/* Navbar */}
+        <motion.nav
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center justify-between"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1f4b99]">
+              <span className="text-base font-black text-white">T</span>
+            </div>
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#d9a441]">TAU</p>
+              <p className="text-[10px] text-white/50 tracking-wider">Campus Virtual</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="http://localhost:8080"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center gap-1.5 rounded-lg border border-white/15 px-3 py-1.5 text-xs font-medium text-white/70 transition hover:border-white/30 hover:text-white sm:flex"
+            >
+              <GraduationCap className="h-3.5 w-3.5" />
+              Moodle LMS
+            </a>
+            <Link
+              to="/login"
+              className="flex items-center gap-2 rounded-xl bg-[#d9a441] px-4 py-2 text-sm font-bold text-[#0b1f3a] transition hover:bg-[#c4912f]"
+            >
+              Iniciar sesión
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </motion.nav>
+
+        {/* Hero */}
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+          className="mt-20 text-center lg:mt-28"
+        >
+          <motion.p
+            variants={fade}
+            className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d9a441]"
           >
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-cyan-700">
-              Plataforma institucional moderna
-            </p>
-            <h2 className="max-w-3xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl">
-              Un campus digital preparado para escalar sin rehacer Moodle.
-            </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              La experiencia pública vive en React, la capa de integración corre
-              en Node.js y Moodle permanece como motor LMS administrable,
-              extensible y listo para futuras actualizaciones.
-            </p>
+            Plataforma LMS Enterprise · CESMAG · Pasto, Colombia
+          </motion.p>
+          <motion.h1
+            variants={fade}
+            className="mx-auto mt-5 max-w-4xl text-5xl font-extrabold leading-tight tracking-tight text-white md:text-6xl lg:text-[4rem]"
+          >
+            Aprende sin
+            <span className="text-[#d9a441]"> límites</span>.<br />
+            Enseña sin fronteras.
+          </motion.h1>
+          <motion.p
+            variants={fade}
+            className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/60"
+          >
+            TAU Campus Virtual integra Moodle 5 con paneles modernos basados en IA,
+            experiencias diferenciadas por rol y arquitectura enterprise lista para escalar.
+          </motion.p>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Button asChild className="shadow-lg shadow-cyan-200">
-                <Link to="/login">
-                  Acceder ahora
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="secondary">
-                <a href="http://localhost:8080">Ver Moodle</a>
-              </Button>
-            </div>
-
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
-              <FeatureCard
-                icon={<Building2 className="h-5 w-5" />}
-                title="Gestión institucional"
-                description="Landing desacoplada para admisiones, comunicación y marca."
-              />
-              <FeatureCard
-                icon={<CircleUserRound className="h-5 w-5" />}
-                title="Experiencia moderna"
-                description="Base lista para login moderno, SSO y dashboard personalizado."
-              />
-              <FeatureCard
-                icon={<ShieldCheck className="h-5 w-5" />}
-                title="Compatibilidad futura"
-                description="Sin tocar core de Moodle y con capas separadas por responsabilidad."
-              />
-            </div>
+          <motion.div variants={fade} className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/40 transition hover:-translate-y-0.5 hover:bg-blue-700"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Ir al panel
+            </Link>
+            <Link
+              to="/login"
+              className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:border-white/35 hover:bg-white/12"
+            >
+              Iniciar sesión
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </motion.div>
 
-          <motion.aside
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.1 }}
-            className="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-2xl shadow-slate-200 backdrop-blur"
+          {/* Stats */}
+          <motion.div
+            variants={fade}
+            className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4"
           >
-            <p className="text-sm font-semibold text-slate-500">Accesos rápidos</p>
-            <h3 className="mt-3 text-2xl font-semibold text-slate-950">
-              Base institucional lista para producción
-            </h3>
-            <p className="mt-4 text-sm leading-7 text-slate-600">
-              El frontend ya conoce la API, el backend publica salud operativa y
-              la plataforma queda preparada para integrar Moodle, analítica y
-              servicios futuros.
-            </p>
-            <div className="mt-8 grid gap-3">
-              {quickLinks.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </motion.aside>
-        </div>
-      </section>
+            {stats.map(({ label, value, icon: Icon }) => (
+              <div
+                key={label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur"
+              >
+                <Icon className="mx-auto mb-2 h-5 w-5 text-[#d9a441]" />
+                <p className="text-2xl font-bold text-white">{value}</p>
+                <p className="mt-0.5 text-xs text-white/50">{label}</p>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Features */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+          className="mt-24 grid gap-5 sm:grid-cols-3"
+        >
+          {features.map(({ icon: Icon, title, description, color, bg }) => (
+            <motion.div
+              key={title}
+              variants={fade}
+              className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/8"
+            >
+              <div className={`mb-4 inline-flex rounded-xl p-3 ${bg}`}>
+                <Icon className={`h-5 w-5 ${color}`} />
+              </div>
+              <h3 className="font-bold text-white">{title}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/55">{description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* CTA band */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-16 mb-10 flex flex-col items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur sm:flex-row"
+        >
+          <div>
+            <p className="font-bold text-white">¿Eres docente o administrador?</p>
+            <p className="mt-1 text-sm text-white/55">Accede al panel para gestionar cursos, estudiantes e IA.</p>
+          </div>
+          <Link
+            to="/dashboard"
+            className="flex shrink-0 items-center gap-2 rounded-xl bg-[#d9a441] px-5 py-2.5 text-sm font-bold text-[#0b1f3a] transition hover:bg-[#c4912f]"
+          >
+            Panel institucional
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </motion.div>
+
+        <footer className="border-t border-white/8 py-6 text-center text-xs text-white/25">
+          TAU Campus Virtual · CESMAG · Pasto, Colombia · {new Date().getFullYear()}
+        </footer>
+      </div>
     </main>
   );
 }
-
-type FeatureCardProps = {
-  icon: ReactNode;
-  title: string;
-  description: string;
-};
-
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
-  return (
-    <article className="rounded-[1.5rem] border border-white/70 bg-white/75 p-5 shadow-sm backdrop-blur">
-      <div className="mb-4 inline-flex rounded-full bg-cyan-50 p-3 text-cyan-700">
-        {icon}
-      </div>
-      <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
-    </article>
-  );
-}
-

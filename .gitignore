@@ -31,6 +31,15 @@ Thumbs.db
 # Docker / runtime
 docker/moodledata/
 tmp/
+.tmp/
+
+# Debug / scratch files
+scratch_*.mjs
+test_*.mjs
+run_demo*.mjs
+tmp_*.html
+*-live.html
+login_page.h
 
 # Moodle
 apps/moodle/html/

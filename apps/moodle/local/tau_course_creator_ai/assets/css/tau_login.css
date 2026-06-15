@@ -1,0 +1,583 @@
+/* TAU Campus Virtual - Login Page Styles */
+body#page-login-index footer,
+body#page-login-index #page-footer,
+body#page-login-index .moove-footer,
+body#page-login-index .tau-login-global-footer,
+body#page-login-index footer.footer-dark,
+body#page-login-index footer.footer-light,
+body#page-login-index #page-footer.footer-dark,
+body#page-login-index #page-footer.footer-light,
+body#page-login-index .usertour,
+body#page-login-index .toolRegionActive,
+body#page-login-index .popover-region,
+body#page-login-index #goto-top-link,
+body#page-login-index .login-languagemenu,
+body#page-login-index .cc-window,
+body#page-login-index .cc-banner,
+body#page-login-index .cookieconsent,
+body#page-login-index #cookie-policy-banner,
+body#page-login-index #moove-footer {
+    display: none !important;
+}
+
+/* Cookie consent modal */
+.tau-modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(10,2,5,0.55) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.tau-modal-backdrop.show {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.tau-cookie-modal-card {
+    background: rgba(255,255,255,0.98) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 24px !important;
+    width: 90% !important;
+    max-width: 520px !important;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.35) !important;
+    transform: scale(0.92) !important;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
+    overflow: hidden !important;
+}
+
+[data-bs-theme="dark"] .tau-cookie-modal-card {
+    background: rgba(30,30,46,0.96) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+.tau-modal-backdrop.show .tau-cookie-modal-card {
+    transform: scale(1) !important;
+}
+
+.tau-cookie-modal-header {
+    background: linear-gradient(135deg, #c62b3a 0%, #e87a84 100%) !important;
+    color: #fff !important;
+    padding: 20px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+[data-bs-theme="dark"] .tau-cookie-modal-header {
+    background: linear-gradient(135deg, #8e1f2d 0%, #d14d5f 100%) !important;
+}
+
+.tau-cookie-modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    letter-spacing: -0.3px !important;
+    color: #fff !important;
+}
+
+.tau-cookie-modal-close {
+    background: none !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 1.4rem !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    opacity: 0.8 !important;
+    transition: opacity 0.2s !important;
+}
+
+.tau-cookie-modal-close:hover {
+    opacity: 1 !important;
+}
+
+.tau-cookie-modal-body {
+    padding: 28px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.65 !important;
+    color: #444 !important;
+    text-align: left !important;
+}
+
+[data-bs-theme="dark"] .tau-cookie-modal-body {
+    color: #ddd !important;
+}
+
+.tau-cookie-modal-body p {
+    margin-bottom: 16px !important;
+}
+
+.tau-cookie-modal-body p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.tau-cookie-modal-footer {
+    padding: 16px 28px !important;
+    border-top: 1px dashed rgba(0,0,0,0.06) !important;
+    background: rgba(0,0,0,0.01) !important;
+    text-align: right !important;
+}
+
+[data-bs-theme="dark"] .tau-cookie-modal-footer {
+    border-top-color: rgba(255,255,255,0.06) !important;
+    background: rgba(255,255,255,0.01) !important;
+}
+
+.tau-cookie-modal-btn {
+    background: #c62b3a !important;
+    border: none !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 8px 24px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-size: 0.85rem !important;
+}
+
+.tau-cookie-modal-btn:hover {
+    background: #a32230 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(198, 43, 58, 0.25) !important;
+}
+
+/* Double Card Structure */
+@keyframes loginCardIn {
+    from { opacity: 0; transform: translateY(28px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body#page-login-index .login-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    gap: 30px !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 40px 20px !important;
+    min-height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body#page-login-index .login-container {
+    width: 390px !important;
+    max-width: 94vw !important;
+    margin: 0 !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    padding: 24px 30px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,.22), 0 2px 10px rgba(0,0,0,.1) !important;
+    background: rgba(255,255,255,0.96) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    animation: loginCardIn .45s cubic-bezier(.34,1.56,.64,1) both !important;
+}
+
+body#page-login-index .tau-login-btnwrap {
+    margin-top: 20px !important;
+    width: 100% !important;
+    padding-top: 16px !important;
+}
+
+body#page-login-index .tau-login-btnbox {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 15px 0 !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .login-container {
+    background: rgba(30,30,46,0.95) !important;
+    border-color: rgba(255,255,255,0.05) !important;
+}
+
+@media (max-width: 991px) {
+    body#page-login-index .login-wrapper {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 24px !important;
+    }
+}
+
+body#page-login-index .loginform {
+    display: block !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+body#page-login-index .loginform > .col {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    padding: 0 !important;
+}
+
+body#page-login-index .login-identityprovider-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}
+
+body#page-login-index #loginlogo,
+body#page-login-index #tau-presencial-loginlogo {
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: .75rem !important;
+}
+
+body#page-login-index #loginlogo img,
+body#page-login-index #tau-presencial-loginlogo img {
+    max-width: 260px !important;
+    height: auto !important;
+}
+
+body#page-login-index .login-identityproviders h2 {
+    display: none !important;
+}
+
+body#page-login-index .tau-login-global-footer {
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+body#page-login-index .tau-login-global-footer .d-flex {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+    padding: 8px 0 4px !important;
+    width: 100% !important;
+}
+
+body#page-login-index .divider.border-start {
+    display: none !important;
+}
+
+body#page-login-index .login-languagemenu a,
+body#page-login-index .login-languagemenu .dropdown-toggle {
+    color: #888 !important;
+    text-decoration: none !important;
+    font-size: .82rem !important;
+}
+
+body#page-login-index .login-languagemenu a:hover {
+    color: #c62b3a !important;
+}
+
+body#page-login-index .btn-secondary {
+    font-size: .78rem !important;
+    padding: 2px 12px !important;
+    background: transparent !important;
+    border: 1px solid #ddd !important;
+    color: #888 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+}
+
+body#page-login-index .btn-secondary:hover {
+    border-color: #c62b3a !important;
+    color: #c62b3a !important;
+}
+
+body#page-login-index .loginerrors,
+body#page-login-index .col > .alert {
+    display: none !important;
+}
+
+body#page-login-index .tau-login-card-warnings {
+    margin: 12px 0 0 !important;
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    background: rgba(198,43,58,0.03) !important;
+    border: 1px solid rgba(198,43,58,0.08) !important;
+    font-size: 0.73rem !important;
+    color: #555 !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+}
+
+body#page-login-index .tau-login-card-warnings a {
+    color: #c62b3a !important;
+    font-weight: 600 !important;
+    text-decoration: underline !important;
+}
+
+body#page-login-index .tau-login-card-links {
+    margin-top: 15px !important;
+    padding-top: 12px !important;
+    border-top: 1px dashed rgba(0,0,0,0.07) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    font-size: 0.72rem !important;
+    width: 100% !important;
+}
+
+body#page-login-index .tau-login-card-links a {
+    color: #777 !important;
+    text-decoration: none !important;
+    transition: color 0.18s ease !important;
+}
+
+body#page-login-index .tau-login-card-links a:hover {
+    color: #c62b3a !important;
+}
+
+body#page-login-index .tau-login-card-links .tau-sep {
+    color: #ccc !important;
+    font-size: 0.65rem !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-card-warnings {
+    background: rgba(232,113,124,0.04) !important;
+    border-color: rgba(232,113,124,0.12) !important;
+    color: #bbb !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-card-links {
+    border-top-color: rgba(255,255,255,0.05) !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-card-links a {
+    color: #aaa !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-card-links a:hover {
+    color: #e8717c !important;
+}
+
+/* Footer controls on cards */
+body#page-login-index .tau-login-card-foot-controls {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
+    padding-top: 16px !important;
+    border-top: 1px dashed rgba(0,0,0,0.08) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-card-foot-controls {
+    border-top-color: rgba(255,255,255,0.08) !important;
+}
+
+body#page-login-index .tau-lang-selector-custom {
+    position: relative !important;
+}
+
+body#page-login-index .tau-lang-btn,
+body#page-login-index .tau-cookie-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    background: rgba(0,0,0,0.03) !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    color: #555 !important;
+    font-size: 0.76rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    line-height: 1.2 !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-lang-btn,
+[data-bs-theme="dark"] body#page-login-index .tau-cookie-btn {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    color: #ccc !important;
+}
+
+body#page-login-index .tau-lang-btn:hover,
+body#page-login-index .tau-cookie-btn:hover {
+    background: rgba(198,43,58,0.08) !important;
+    border-color: rgba(198,43,58,0.2) !important;
+    color: #c62b3a !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-lang-btn:hover,
+[data-bs-theme="dark"] body#page-login-index .tau-cookie-btn:hover {
+    background: rgba(232,113,124,0.12) !important;
+    border-color: rgba(232,113,124,0.25) !important;
+    color: #e8717c !important;
+}
+
+body#page-login-index .tau-lang-dropdown-menu {
+    position: absolute !important;
+    bottom: calc(100% + 8px) !important;
+    left: 0 !important;
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    min-width: 180px !important;
+    padding: 6px !important;
+    display: none !important;
+    z-index: 1000 !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-lang-dropdown-menu {
+    background: #242436 !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
+}
+
+body#page-login-index .tau-lang-selector-custom.show .tau-lang-dropdown-menu {
+    display: block !important;
+}
+
+body#page-login-index .tau-lang-dropdown-menu a {
+    display: block !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    color: #444 !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    text-align: left !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-lang-dropdown-menu a {
+    color: #ddd !important;
+}
+
+body#page-login-index .tau-lang-dropdown-menu a:hover {
+    background: rgba(198,43,58,0.08) !important;
+    color: #c62b3a !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-lang-dropdown-menu a:hover {
+    background: rgba(232,113,124,0.12) !important;
+    color: #e8717c !important;
+}
+
+/* Warnings and error Toasts */
+.tau-toast {
+    position: fixed !important;
+    bottom: 25px !important;
+    left: 25px !important;
+    z-index: 100000 !important;
+    background: #fff !important;
+    border-left: 5px solid #c62b3a !important;
+    box-shadow: 0 10px 30px rgba(198, 43, 58, 0.15) !important;
+    border-radius: 16px !important;
+    padding: 20px 24px !important;
+    max-width: 380px !important;
+    width: calc(100vw - 50px) !important;
+    box-sizing: border-box !important;
+    animation: tauToastIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+.tau-toast-title {
+    font-weight: 800;
+    font-size: 0.92rem;
+    color: #c62b3a;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.tau-toast-body {
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.tau-toast-contact {
+    font-size: 0.72rem;
+    color: #888;
+    border-top: 1px dashed rgba(0,0,0,0.07);
+    padding-top: 8px;
+}
+
+.tau-toast-contact a {
+    color: #c62b3a;
+    text-decoration: none;
+}
+
+.tau-toast-contact a:hover {
+    text-decoration: underline;
+}
+
+.tau-toast-close {
+    position: absolute !important;
+    top: 12px !important;
+    right: 14px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    color: #bbb !important;
+}
+
+.tau-toast-close:hover {
+    color: #666;
+}
+
+[data-bs-theme="dark"] .tau-toast {
+    background: #1a1a24 !important;
+    border-left-color: #e8717c !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+    border-color: rgba(255,255,255,0.05) !important;
+}
+
+[data-bs-theme="dark"] .tau-toast-title { color: #e8717c; }
+[data-bs-theme="dark"] .tau-toast-body { color: #ccc; }
+[data-bs-theme="dark"] .tau-toast-contact { color: #999; }
+[data-bs-theme="dark"] .tau-toast-contact a { color: #e8717c; }
+
+@keyframes tauToastIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Manual login overrides to show hidden Moodle local fields */
+body.tau-manual-login#page-login-index form#login,
+body.tau-manual-login#page-login-index .login-form,
+body.tau-manual-login#page-login-index .loginform,
+body.tau-manual-login#page-login-index .login-form-username,
+body.tau-manual-login#page-login-index .login-form-password,
+body.tau-manual-login#page-login-index .login-form-submit,
+body.tau-manual-login#page-login-index .login-form-forgotpassword,
+body.tau-manual-login#page-login-index .login-divider,
+body.tau-manual-login#page-login-index #username,
+body.tau-manual-login#page-login-index #password,
+body.tau-manual-login#page-login-index label[for="username"],
+body.tau-manual-login#page-login-index label[for="password"],
+body.tau-manual-login#page-login-index input[name="username"],
+body.tau-manual-login#page-login-index input[name="password"] {
+    display: block !important;
+}
+

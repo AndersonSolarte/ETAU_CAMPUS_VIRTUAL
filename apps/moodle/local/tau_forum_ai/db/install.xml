@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/tau_forum_ai/db" VERSION="20260524" COMMENT="TAU Forum AI log table">
+  <TABLES>
+    <TABLE NAME="local_tau_forum_ai_log" COMMENT="Forum AI moderation log">
+      <FIELDS>
+        <FIELD NAME="id"          TYPE="int"  LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="postid"      TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid"    TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="verdict"     TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="approved"/>
+        <FIELD NAME="ai_reply"    TYPE="text"             NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="postid"   UNIQUE="false" FIELDS="postid"/>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
