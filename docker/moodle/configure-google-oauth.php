@@ -9,6 +9,9 @@ require_once($CFG->libdir . '/filelib.php');
 $clientid = trim((string)getenv('GOOGLE_OAUTH_CLIENT_ID'));
 $clientsecret = trim((string)getenv('GOOGLE_OAUTH_CLIENT_SECRET'));
 $alloweddomain = trim((string)getenv('GOOGLE_OAUTH_ALLOWED_DOMAIN'));
+if ($alloweddomain === '') {
+    $alloweddomain = 'unicesmag.edu.co';
+}
 
 if ($clientid === '') {
     fwrite(STDOUT, "Google OAuth skipped: GOOGLE_OAUTH_CLIENT_ID is empty.\n");
@@ -58,6 +61,7 @@ foreach (['manual', 'email', 'oauth2'] as $plugin) {
     }
 }
 set_config('auth', implode(',', $authplugins));
+set_config('authpreventaccountcreation', 1);
 
 fwrite(STDOUT, "Google OAuth configured for domain {$alloweddomain}.\n");
 fwrite(STDOUT, "Authorized redirect URI: {$CFG->wwwroot}/admin/oauth2callback.php\n");

@@ -17,6 +17,9 @@ $completed_courses    = 0;
 $total_activities     = 0;
 $completed_activities = 0;
 $course_teachers      = [];
+$course_categories    = [];
+$course_names         = [];
+$all_categories       = $DB->get_records('course_categories', [], '', 'id, name, parent');
 
 foreach ($courses as $course) {
     // Completion stats
@@ -39,6 +42,11 @@ foreach ($courses as $course) {
     }
 
     // Teachers for this course (editingteacher + teacher roles)
+    $course_names[$course->id] = [
+        'fullname' => format_string($course->fullname, true, ['context' => context_course::instance($course->id)]),
+        'shortname' => format_string($course->shortname, true, ['context' => context_course::instance($course->id)]),
+    ];
+
     $context = context_course::instance($course->id);
     $found   = [];
     foreach (['editingteacher', 'teacher'] as $shortname) {
@@ -48,15 +56,53 @@ foreach ($courses as $course) {
         }
         $role_users = get_role_users(
             $role->id, $context, false,
-            'u.id, u.firstname, u.lastname',
+            'u.id, u.firstname, u.lastname, u.picture, u.imagealt, u.email, u.idnumber',
             'u.lastname ASC', false, '', 0, 3
         );
         foreach ($role_users as $u) {
-            $found[$u->id] = trim($u->firstname . ' ' . $u->lastname);
+            $userpicture = new user_picture($u);
+            $userpicture->size = 100;
+            $avatarurl = $userpicture->get_url($PAGE)->out(false);
+            $found[$u->id] = [
+                'name' => trim($u->firstname . ' ' . $u->lastname),
+                'avatar' => $avatarurl
+            ];
         }
     }
     if ($found) {
         $course_teachers[$course->id] = array_values($found);
+    }
+
+    // Category hierarchy resolution
+    $course_db = $DB->get_record('course', ['id' => $course->id], 'id, category');
+    $catid = $course_db ? $course_db->category : 0;
+    $path = [];
+    while ($catid && isset($all_categories[$catid])) {
+        $c = $all_categories[$catid];
+        array_unshift($path, [
+            'id' => $c->id,
+            'name' => $c->name,
+            'parent' => $c->parent
+        ]);
+        $catid = $c->parent;
+    }
+    if ($path) {
+        $leaf = end($path);
+        $course_categories[$course->id] = [
+            'path' => array_map(static function(array $node): string {
+                return (string)$node['name'];
+            }, $path),
+            'faculty' => isset($path[0]) ? $path[0]['name'] : '',
+            'program' => isset($path[1]) ? $path[1]['name'] : '',
+            'semester' => isset($path[2]) ? $path[2]['name'] : ($leaf ? $leaf['name'] : '')
+        ];
+    } else {
+        $course_categories[$course->id] = [
+            'path' => [],
+            'faculty' => '',
+            'program' => '',
+            'semester' => ''
+        ];
     }
 }
 
@@ -65,13 +111,25 @@ $is_admin   = is_siteadmin();
 $is_teacher = false;
 
 if (!$is_admin && !empty($courses)) {
-    // Check if they have edit permissions in any course (teacher behavior)
+    // Check if they have edit or grading permissions in any course (teacher behavior)
     foreach ($courses as $c) {
         $context = context_course::instance($c->id);
-        if (has_capability('moodle/course:update', $context, $userid)) {
+        if (has_capability('moodle/course:update', $context, $userid) || 
+            has_capability('moodle/grade:edit', $context, $userid) || 
+            has_capability('mod/assign:grade', $context, $userid)) {
             $is_teacher = true;
             break;
         }
+    }
+}
+
+// Fallback: check if the user is explicitly assigned a teacher role anywhere in the system
+if (!$is_admin && !$is_teacher) {
+    $sql = "SELECT 1 FROM {role_assignments} ra 
+            JOIN {role} r ON ra.roleid = r.id 
+            WHERE ra.userid = :userid AND r.shortname IN ('editingteacher', 'teacher', 'creator', 'coursecreator')";
+    if ($DB->record_exists_sql($sql, ['userid' => $userid])) {
+        $is_teacher = true;
     }
 }
 
@@ -85,7 +143,10 @@ if ($is_admin) {
 $result = [
     'role'                 => $role,
     'firstname'            => $USER->firstname,
+    'fullname'             => fullname($USER),
     'course_teachers'      => $course_teachers,
+    'course_categories'    => $course_categories,
+    'course_names'         => $course_names,
     'total_activities'     => $total_activities,
     'completed_activities' => $completed_activities,
 ];

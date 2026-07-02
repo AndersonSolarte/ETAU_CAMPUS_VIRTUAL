@@ -161,63 +161,85 @@ function tau_decode_action_config(?stdClass $provider): array {
 try {
     global $CFG, $DB;
 
-    $enabled = tau_env_bool('OLLAMA_ENABLE', true);
-    if (!$enabled) {
-        fwrite(STDOUT, "Native Ollama configuration skipped: OLLAMA_ENABLE is false.\n");
-        exit(0);
-    }
-
-    $endpoint = trim((string)(getenv('OLLAMA_ENDPOINT') ?: 'http://host.docker.internal:11434'));
-    $model = trim((string)(getenv('OLLAMA_MODEL') ?: 'llama3.2:3b'));
-    $providername = trim((string)(getenv('OLLAMA_PROVIDER_NAME') ?: 'Ollama Local'));
-    $preferollama = tau_env_bool('OLLAMA_PREFER', true);
-    $disableopenai = tau_env_bool('OLLAMA_DISABLE_OPENAI', true);
-    $usebasicauth = tau_env_bool('OLLAMA_ENABLE_BASIC_AUTH', false);
-    $username = trim((string)(getenv('OLLAMA_USERNAME') ?: ''));
-    $password = trim((string)(getenv('OLLAMA_PASSWORD') ?: ''));
-
-    tau_patch_ollama_processor('/var/www/html/ai/provider/ollama/classes/abstract_processor.php');
-    tau_allow_ollama_port($endpoint);
-
+    // Fetch provider records first
     $ollamaprovider = $DB->get_record('ai_providers', ['provider' => 'aiprovider_ollama\\provider']) ?: null;
     $openaiprovider = $DB->get_record('ai_providers', ['provider' => 'aiprovider_openai\\provider']) ?: null;
 
-    $actionseed = tau_decode_action_config($ollamaprovider);
-    if ($actionseed === []) {
-        $actionseed = tau_decode_action_config($openaiprovider);
+    // Sync OpenAI API key from environment to native provider config if present
+    $openaikey = trim((string)(getenv('OPENAI_API_KEY') ?: ''));
+    if ($openaiprovider && !empty($openaikey)) {
+        $openaiconfig = json_decode($openaiprovider->config, true) ?: [];
+        if (($openaiconfig['apikey'] ?? '') !== $openaikey) {
+            $openaiconfig['apikey'] = $openaikey;
+            $openaiprovider->config = json_encode($openaiconfig, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $DB->update_record('ai_providers', $openaiprovider);
+            fwrite(STDOUT, "Synchronised OpenAI API key from environment to native provider config.\n");
+        }
     }
-    $actionconfig = tau_build_action_config($actionseed, $model);
 
-    $config = [
-        'name' => $providername,
-        'endpoint' => $endpoint,
-        'password' => $password,
-        'username' => $username,
-        'returnurl' => $CFG->wwwroot . '/admin/settings.php?section=aiprovider',
-        'aiprovider' => 'aiprovider_ollama',
-        'enablebasicauth' => $usebasicauth ? 1 : 0,
-        'updateandreturn' => 'Actualizar instancia',
-    ];
+    $ollama_enabled = tau_env_bool('OLLAMA_ENABLE', true);
+    $ollamaid = null;
 
-    $record = (object)[
-        'name' => $providername,
-        'provider' => 'aiprovider_ollama\\provider',
-        'enabled' => 1,
-        'config' => json_encode($config, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-        'actionconfig' => json_encode($actionconfig, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-    ];
+    if ($ollama_enabled) {
+        $endpoint = trim((string)(getenv('OLLAMA_ENDPOINT') ?: 'http://host.docker.internal:11434'));
+        $model = trim((string)(getenv('OLLAMA_MODEL') ?: 'llama3.2:3b'));
+        $providername = trim((string)(getenv('OLLAMA_PROVIDER_NAME') ?: 'Ollama Local'));
+        $usebasicauth = tau_env_bool('OLLAMA_ENABLE_BASIC_AUTH', false);
+        $username = trim((string)(getenv('OLLAMA_USERNAME') ?: ''));
+        $password = trim((string)(getenv('OLLAMA_PASSWORD') ?: ''));
 
-    if ($ollamaprovider) {
-        $record->id = $ollamaprovider->id;
-        $DB->update_record('ai_providers', $record);
-        $ollamaid = (int)$ollamaprovider->id;
-        fwrite(STDOUT, "Updated native Ollama provider #{$ollamaid}.\n");
+        tau_patch_ollama_processor('/var/www/html/ai/provider/ollama/classes/abstract_processor.php');
+        tau_allow_ollama_port($endpoint);
+
+        $actionseed = tau_decode_action_config($ollamaprovider);
+        if ($actionseed === []) {
+            $actionseed = tau_decode_action_config($openaiprovider);
+        }
+        $actionconfig = tau_build_action_config($actionseed, $model);
+
+        $config = [
+            'name' => $providername,
+            'endpoint' => $endpoint,
+            'password' => $password,
+            'username' => $username,
+            'returnurl' => $CFG->wwwroot . '/admin/settings.php?section=aiprovider',
+            'aiprovider' => 'aiprovider_ollama',
+            'enablebasicauth' => $usebasicauth ? 1 : 0,
+            'updateandreturn' => 'Actualizar instancia',
+        ];
+
+        $record = (object)[
+            'name' => $providername,
+            'provider' => 'aiprovider_ollama\\provider',
+            'enabled' => 1,
+            'config' => json_encode($config, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            'actionconfig' => json_encode($actionconfig, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        ];
+
+        if ($ollamaprovider) {
+            $record->id = $ollamaprovider->id;
+            $DB->update_record('ai_providers', $record);
+            $ollamaid = (int)$ollamaprovider->id;
+            fwrite(STDOUT, "Updated native Ollama provider #{$ollamaid}.\n");
+        } else {
+            $ollamaid = (int)$DB->insert_record('ai_providers', $record);
+            fwrite(STDOUT, "Created native Ollama provider #{$ollamaid}.\n");
+        }
     } else {
-        $ollamaid = (int)$DB->insert_record('ai_providers', $record);
-        fwrite(STDOUT, "Created native Ollama provider #{$ollamaid}.\n");
+        // Disable Ollama provider if it exists
+        if ($ollamaprovider) {
+            if ((int)$ollamaprovider->enabled !== 0) {
+                $ollamaprovider->enabled = 0;
+                $DB->update_record('ai_providers', $ollamaprovider);
+                fwrite(STDOUT, "Disabled native Ollama provider #{$ollamaprovider->id}.\n");
+            }
+        }
     }
 
-    if ($preferollama) {
+    $preferollama = tau_env_bool('OLLAMA_PREFER', true);
+    $disableopenai = tau_env_bool('OLLAMA_DISABLE_OPENAI', true);
+
+    if ($ollama_enabled && $preferollama) {
         $currentorder = (string)get_config('core_ai', 'provider_order');
         $ids = array_values(array_filter(array_map('intval', explode(',', $currentorder))));
         $ids = array_values(array_filter($ids, static fn(int $id): bool => $id !== $ollamaid));
@@ -227,6 +249,31 @@ try {
         array_unshift($ids, $ollamaid);
         set_config('provider_order', ',' . implode(',', $ids), 'core_ai');
         fwrite(STDOUT, "Set Ollama provider as first AI provider.\n");
+    } else {
+        // OpenAI preferred or Ollama disabled
+        if ($openaiprovider && !$disableopenai) {
+            // Enable OpenAI provider
+            if ((int)$openaiprovider->enabled !== 1) {
+                $openaiprovider->enabled = 1;
+                $DB->update_record('ai_providers', $openaiprovider);
+                fwrite(STDOUT, "Enabled native OpenAI provider #{$openaiprovider->id}.\n");
+            }
+            // Put OpenAI first, then Ollama (if enabled)
+            $order = [(int)$openaiprovider->id];
+            if ($ollama_enabled && $ollamaid !== null) {
+                $order[] = $ollamaid;
+            }
+            set_config('provider_order', ',' . implode(',', $order), 'core_ai');
+            fwrite(STDOUT, "Set OpenAI provider as first AI provider.\n");
+        } else if ($ollama_enabled && $ollamaid !== null) {
+            // Only Ollama is available
+            set_config('provider_order', ',' . $ollamaid, 'core_ai');
+            fwrite(STDOUT, "OpenAI disabled. Set Ollama as first AI provider.\n");
+        } else {
+            // Neither is active or only others
+            set_config('provider_order', '', 'core_ai');
+            fwrite(STDOUT, "No AI providers active.\n");
+        }
     }
 
     if ($disableopenai && $openaiprovider) {
@@ -238,7 +285,7 @@ try {
     }
 
     purge_caches();
-    fwrite(STDOUT, "Native Ollama configuration completed using model {$model} at {$endpoint}.\n");
+    fwrite(STDOUT, "Native AI configuration completed.\n");
 } catch (Throwable $e) {
     fwrite(STDERR, $e::class . ': ' . $e->getMessage() . PHP_EOL);
     fwrite(STDERR, $e->getTraceAsString() . PHP_EOL);

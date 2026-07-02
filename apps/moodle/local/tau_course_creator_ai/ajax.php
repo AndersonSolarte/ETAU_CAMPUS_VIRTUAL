@@ -4,9 +4,10 @@ require_once(__DIR__ . '/../../config.php');
 
 require_login();
 
-if (!is_siteadmin()) {
+$context = context_system::instance();
+if (!is_siteadmin() && !has_capability('local/tau_course_creator_ai:use', $context)) {
     http_response_code(403);
-    echo json_encode(['error' => 'Acceso denegado. Solo administradores.']);
+    echo json_encode(['error' => 'Acceso denegado.']);
     exit;
 }
 
@@ -24,7 +25,186 @@ if (!confirm_sesskey($params['sesskey'] ?? '')) {
     exit;
 }
 
-$context = context_system::instance();
+function tau_ccai_text_key(string $value): string {
+    $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+    if ($ascii === false) {
+        $ascii = $value;
+    }
+    $ascii = strtolower(trim($ascii));
+    return preg_replace('/\s+/', ' ', $ascii);
+}
+
+function tau_ccai_activity_key(array $activity): string {
+    $title = tau_ccai_text_key((string)($activity['title'] ?? ''));
+    if (strpos($title, 'bienvenida') !== false) return 'welcome';
+    if (strpos($title, 'estamos contigo') !== false) return 'support';
+    if (strpos($title, 'noticias') !== false || strpos($title, 'comunicados') !== false) return 'news';
+    if (strpos($title, 'herramientas de inteligencia artificial') !== false || strpos($title, 'biblioteca de herramientas') !== false) return 'ai-library';
+    if (strpos($title, 'biblioteca digital') !== false) return 'digital-library';
+    if (strpos($title, 'presentacion del docente') !== false || strpos($title, 'presentacion profesor') !== false) return 'teacher-intro';
+    if (strpos($title, 'reglamento estudiantil') !== false) return 'reglamento';
+    if (strpos($title, 'microcurriculo') !== false) return 'microcurriculo';
+    if (strpos($title, 'ficha de desarrollo') !== false) return 'ficha-desarrollo';
+    if (strpos($title, 'horario') !== false) return 'horarios';
+    if (strpos($title, 'canales de comunicacion') !== false || strpos($title, 'acompanamiento') !== false) return 'communication';
+    return '';
+}
+
+function tau_ccai_front_bucket(array $section): string {
+    $title = tau_ccai_text_key((string)($section['title'] ?? ''));
+    if ($title === 'general') {
+        return 'general';
+    }
+    if (strpos($title, 'informacion general') !== false) {
+        return 'information';
+    }
+    $hasgeneral = false;
+    $hasinformation = false;
+    foreach (($section['activities'] ?? []) as $activity) {
+        $key = tau_ccai_activity_key(is_array($activity) ? $activity : []);
+        if (in_array($key, ['welcome', 'support', 'news', 'ai-library', 'digital-library'], true)) {
+            $hasgeneral = true;
+        }
+        if (in_array($key, ['teacher-intro', 'reglamento', 'microcurriculo', 'ficha-desarrollo', 'horarios', 'communication'], true)) {
+            $hasinformation = true;
+        }
+    }
+    if ($hasgeneral && !$hasinformation) return 'general';
+    if ($hasinformation) return 'information';
+    return '';
+}
+
+function tau_ccai_cleanup_front_activities(array $activities): array {
+    $seen = [];
+    $clean = [];
+    foreach ($activities as $activity) {
+        if (!is_array($activity)) {
+            continue;
+        }
+        $title = tau_ccai_text_key((string)($activity['title'] ?? ''));
+        if (strpos($title, 'foro de inquietudes') !== false || strpos($title, 'foro de dudas') !== false || strpos($title, 'tips de plataforma') !== false || $title === 'general' || $title === 'informacion general') {
+            continue;
+        }
+        $key = tau_ccai_activity_key($activity);
+        if ($key !== '') {
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+        }
+        $clean[] = $activity;
+    }
+    return array_values($clean);
+}
+
+function tau_ccai_normalize_blueprint(array $blueprint): array {
+    $teacher = trim((string)($blueprint['teacherName'] ?? ''));
+    if ($teacher === '') {
+        $teacher = 'Docente de la Institucion';
+    }
+    $defaults = [
+        'general' => [
+            'title' => 'General',
+            'summary' => 'Espacio inicial de acogida, orientación, noticias y recursos institucionales del curso.',
+            'activities' => [
+                ['type' => 'page', 'title' => 'Bienvenida', 'description' => 'Mensaje de acogida institucional para el estudiante.'],
+                ['type' => 'page', 'title' => 'Estamos Contigo', 'description' => 'Acompañamiento y orientación permanente para el estudiante.'],
+                ['type' => 'forum', 'title' => 'Noticias y Comunicados', 'description' => 'Foro para la publicación de avisos, novedades, fechas importantes y comunicados del curso.', 'forumtype' => 'news'],
+                ['type' => 'page', 'title' => 'Biblioteca de Herramientas de Inteligencia Artificial', 'description' => 'Accesos directos a herramientas de IA de apoyo al aprendizaje.'],
+                ['type' => 'url', 'title' => 'Biblioteca Digital', 'description' => 'Consulta académica, bases de datos, libros digitales y recursos institucionales.', 'externalurl' => 'https://www.unicesmag.edu.co/biblioteca/'],
+            ],
+        ],
+        'information' => [
+            'title' => 'Información General',
+            'summary' => 'Documentos, lineamientos y orientaciones clave para comprender el desarrollo del curso.',
+            'activities' => [
+                ['type' => 'page', 'title' => 'Presentación del Docente ' . $teacher, 'description' => 'Bienvenida profesional y perfil del docente.'],
+                ['type' => 'url', 'title' => 'Reglamento Estudiantil', 'description' => 'Consulta las normas y lineamientos institucionales del curso.'],
+                ['type' => 'resource', 'title' => 'Microcurrículo', 'description' => 'Adjunta el microcurrículo oficial en formato PDF.', 'uploadedfile' => null],
+                ['type' => 'resource', 'title' => 'Ficha de desarrollo temático', 'description' => 'Adjunta la ficha de desarrollo temático en formato PDF.', 'uploadedfile' => null],
+                ['type' => 'resource', 'title' => 'Horarios', 'description' => 'Adjunta el horario en PDF o cambia este recurso a URL si corresponde.', 'uploadedfile' => null],
+                ['type' => 'page', 'title' => 'Canales de comunicación o acompañamiento', 'description' => 'Publica aquí los medios, horarios y orientaciones de contacto para el estudiante.'],
+            ],
+        ],
+    ];
+    $sections = is_array($blueprint['sections'] ?? null) ? $blueprint['sections'] : [];
+    $collected = ['general' => [], 'information' => []];
+    $summaries = ['general' => '', 'information' => ''];
+    $others = [];
+
+    foreach ($sections as $section) {
+        if (!is_array($section)) {
+            continue;
+        }
+        $bucket = tau_ccai_front_bucket($section);
+        if ($bucket === '') {
+            $others[] = $section;
+            continue;
+        }
+        if (!empty($section['summary']) && $summaries[$bucket] === '') {
+            $summaries[$bucket] = (string)$section['summary'];
+        }
+        foreach (($section['activities'] ?? []) as $activity) {
+            if (!is_array($activity)) {
+                continue;
+            }
+            $key = tau_ccai_activity_key($activity);
+            if (in_array($key, ['welcome', 'support', 'news', 'ai-library', 'digital-library'], true)) {
+                $collected['general'][] = $activity;
+            } else if (in_array($key, ['teacher-intro', 'reglamento', 'microcurriculo', 'ficha-desarrollo', 'horarios', 'communication'], true)) {
+                $collected['information'][] = $activity;
+            } else {
+                $collected[$bucket][] = $activity;
+            }
+        }
+    }
+
+    foreach (['general', 'information'] as $bucket) {
+        $used = [];
+        $merged = [];
+        foreach ($defaults[$bucket]['activities'] as $definition) {
+            $wantedkey = tau_ccai_activity_key($definition);
+            $match = null;
+            foreach ($collected[$bucket] as $idx => $activity) {
+                if (isset($used[$idx])) {
+                    continue;
+                }
+                if (tau_ccai_activity_key($activity) === $wantedkey) {
+                    $match = $activity;
+                    $used[$idx] = true;
+                    break;
+                }
+            }
+            if ($match) {
+                $merged[] = array_merge($definition, $match, [
+                    'type' => in_array($wantedkey, ['microcurriculo', 'ficha-desarrollo', 'horarios'], true) ? 'resource' : ($match['type'] ?? $definition['type']),
+                    'title' => $match['title'] ?? $definition['title'],
+                    'description' => $match['description'] ?? $definition['description'],
+                ]);
+            } else {
+                $merged[] = $definition;
+            }
+        }
+        foreach ($collected[$bucket] as $idx => $activity) {
+            if (!isset($used[$idx])) {
+                $merged[] = $activity;
+            }
+        }
+        $blueprint['sections_' . $bucket] = [
+            'title' => $defaults[$bucket]['title'],
+            'summary' => $summaries[$bucket] !== '' ? $summaries[$bucket] : $defaults[$bucket]['summary'],
+            'activities' => tau_ccai_cleanup_front_activities($merged),
+        ];
+    }
+
+    $blueprint['sections'] = array_merge(
+        [$blueprint['sections_general'], $blueprint['sections_information']],
+        $others
+    );
+    unset($blueprint['sections_general'], $blueprint['sections_information']);
+    return $blueprint;
+}
+
 $action = clean_param($params['action'] ?? '', PARAM_ALPHA);
 
 try {
@@ -47,7 +227,7 @@ try {
             }
 
             $ai        = new \local_tau_course_creator_ai\ai_service();
-            $blueprint = $ai->plan($prompt, $language, $sys_instr, $options);
+            $blueprint = tau_ccai_normalize_blueprint($ai->plan($prompt, $language, $sys_instr, $options));
 
             // Store blueprint in session for build step
             $SESSION->tau_course_blueprint = $blueprint;
@@ -89,7 +269,7 @@ try {
             }
 
             $ai        = new \local_tau_course_creator_ai\ai_service();
-            $blueprint = $ai->refine($blueprint, $instruction, $language);
+            $blueprint = tau_ccai_normalize_blueprint($ai->refine($blueprint, $instruction, $language));
 
             $SESSION->tau_course_blueprint = $blueprint;
 
@@ -107,6 +287,7 @@ try {
             if (!$blueprint || empty($blueprint['sections'])) {
                 throw new \Exception('Blueprint is required. Generate a plan first.');
             }
+            $blueprint = tau_ccai_normalize_blueprint($blueprint);
 
             $log      = [];
             $builder  = new \local_tau_course_creator_ai\course_builder(function (string $msg) use (&$log) {
@@ -172,6 +353,41 @@ try {
                     }
                 } catch (\Exception $e) {
                     $errors[] = "Curso {$id}: " . $e->getMessage();
+                }
+            }
+
+            echo json_encode([
+                'ok' => true,
+                'deleted' => $deleted,
+                'errors' => $errors
+            ]);
+            break;
+
+        case 'bulkdeletecategories':
+            $categoryids = $params['categoryids'] ?? [];
+            if (!is_array($categoryids)) {
+                throw new \Exception('Categorías no válidas.');
+            }
+
+            $deleted = [];
+            $errors = [];
+
+            foreach ($categoryids as $id) {
+                $id = (int)$id;
+                if ($id <= 0) {
+                    continue;
+                }
+
+                try {
+                    $category = core_course_category::get($id, IGNORE_MISSING);
+                    if ($category && $category->can_delete_full()) {
+                        $category->delete_full(false);
+                        $deleted[] = $id;
+                    } else if ($category) {
+                        $errors[] = "Categoría {$id}: No tiene permisos para borrarla.";
+                    }
+                } catch (\Exception $e) {
+                    $errors[] = "Categoría {$id}: " . $e->getMessage();
                 }
             }
 

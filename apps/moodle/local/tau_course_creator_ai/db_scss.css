@@ -249,12 +249,36 @@
 .navbar .dropdown-menu,
 .action-menu .dropdown-menu {
     background-color: #fff !important;
+    background-image: none !important;
+    background-clip: padding-box !important;
     border: 1px solid rgba(0,0,0,.08) !important;
     box-shadow: 0 16px 40px rgba(0,0,0,.16), 0 4px 12px rgba(0,0,0,.08) !important;
     border-radius: 14px !important;
     padding: 7px !important;
     min-width: 210px !important;
+    opacity: 1 !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
     animation: fadeSlideDown .18s cubic-bezier(.34,1.56,.64,1) both;
+}
+.dropdown-menu::before,
+.usermenu .dropdown-menu::before,
+.navbar .dropdown-menu::before,
+.action-menu .dropdown-menu::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+.dropdown-menu > * {
+    position: relative !important;
+    z-index: 1 !important;
 }
 .dropdown-menu .dropdown-item,
 .dropdown-menu a,
@@ -572,7 +596,12 @@ body { font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sa
 [data-bs-theme="dark"] .dropdown-menu,
 [data-bs-theme="dark"] .action-menu .dropdown-menu {
     background-color: #1e1e2e !important;
+    background-image: none !important;
     border-color: rgba(255,255,255,.1) !important;
+}
+[data-bs-theme="dark"] .dropdown-menu::before,
+[data-bs-theme="dark"] .action-menu .dropdown-menu::before {
+    background: #1e1e2e !important;
 }
 [data-bs-theme="dark"] .dropdown-menu .dropdown-item,
 [data-bs-theme="dark"] .dropdown-menu a { color: #e0e0e0 !important; }
@@ -1854,3 +1883,136 @@ body#page-login-index .login-identityprovider-btn:hover { border-color: #0d4f8b 
 @media(max-width:900px){ #mooveslideshow::after{width:clamp(160px,22vw,210px);right:2%;} }
 @media(max-width:768px){ #mooveslideshow::after{display:none !important;} }
 /* TAU-ESCUDO-HERO-FIN ═══════════════════════════════════════ */
+
+/* ── TAU CARD MODEL REDESIGN (Logo Header + Overlapping Avatar) ── */
+
+.tau-gradient-header {
+    height: 115px !important;
+    background: #083259 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    overflow: visible !important; /* Allow avatar to overflow */
+    padding: 10px 20px !important;
+    transition: background-color 0.25s ease !important;
+}
+
+.tau-gradient-header::after {
+    display: none !important; /* Hide black shadow overlay */
+}
+
+/* Institutional Logo in Header */
+.tau-card-logo {
+    max-height: 46px !important;
+    max-width: 85% !important;
+    object-fit: contain !important;
+    z-index: 1 !important;
+}
+
+/* Overlapping Avatar on boundary */
+.tau-card-avatar {
+    position: absolute !important;
+    right: 18px !important;
+    bottom: -16px !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.14) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #adb5bd !important;
+    z-index: 5 !important;
+}
+.tau-card-avatar svg {
+    width: 16px !important;
+    height: 16px !important;
+    fill: currentColor !important;
+}
+
+/* Category Badge update - light cyan/blue banner style from mockup */
+.tau-cat-badge {
+    font-size: .72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: .3px !important;
+    text-transform: capitalize !important;
+    color: #0369a1 !important; /* Dark sky blue */
+    background: #e0f2fe !important; /* Light sky blue background */
+    border: none !important;
+    border-radius: 4px !important; /* Rounded corners banner */
+    padding: 3px 10px !important;
+    display: inline-block !important;
+    margin-bottom: 10px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    align-self: flex-start !important;
+}
+
+/* Title modification to match mockup font and uppercase */
+.card.dashboard-card .card-title a,
+.card.dashboard-card .card-title a.aalink,
+.card.dashboard-card h3.card-title a {
+    font-size: .95rem !important;
+    font-weight: 700 !important;
+    color: #083259 !important; /* Corporate dark blue */
+    text-transform: uppercase !important; /* Uppercase like mockup */
+}
+.card.dashboard-card:hover .card-title a {
+    color: #c62b3a !important; /* Red hover color */
+}
+
+/* ── SEMESTER TABS STYLING (Professional Interface) ── */
+#tau-semester-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0 25px 0;
+    padding: 0;
+    width: 100%;
+}
+
+.tau-tab-btn {
+    background: #ffffff;
+    color: #495057;
+    font-size: 0.86rem;
+    font-weight: 600;
+    border: 1px solid #dee2e6;
+    border-radius: 20px; /* Pill shapes */
+    padding: 7px 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.tau-tab-btn:hover {
+    background: rgba(198,43,58,0.04);
+    border-color: rgba(198,43,58,0.25);
+    color: #c62b3a;
+}
+
+.tau-tab-btn.active {
+    background: #c62b3a !important;
+    color: #ffffff !important;
+    border-color: #c62b3a !important;
+    box-shadow: 0 4px 10px rgba(198,43,58,0.25) !important;
+}
+
+[data-bs-theme="dark"] #tau-semester-tabs .tau-tab-btn {
+    background: #1e1e2e;
+    color: #c8d6e5;
+    border-color: #3f3f5a;
+}
+[data-bs-theme="dark"] #tau-semester-tabs .tau-tab-btn:hover {
+    background: rgba(198,43,58,0.08);
+    color: #e87a84;
+}
+[data-bs-theme="dark"] #tau-semester-tabs .tau-tab-btn.active {
+    background: #c62b3a !important;
+    color: #ffffff !important;
+    border-color: #c62b3a !important;
+}

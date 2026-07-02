@@ -4,13 +4,10 @@ require_once($CFG->libdir . '/adminlib.php');
 
 require_login();
 
-// Strictly restrict to site administrators only
-if (!is_siteadmin()) {
+$context = context_system::instance();
+if (!is_siteadmin() && !has_capability('local/tau_course_creator_ai:use', $context)) {
     throw new moodle_exception('nopermissiontoimportact', 'error');
 }
-
-$context = context_system::instance();
-require_capability('local/tau_course_creator_ai:use', $context);
 
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/tau_course_creator_ai/index.php'));
@@ -423,6 +420,21 @@ echo $OUTPUT->header();
 @media(max-width:680px){ .tau-activity-row { grid-template-columns: 1fr; } }
 [data-bs-theme="dark"] .tau-activity-row { background: #25253a; border-color: #3a3343; }
 .tau-activity-main { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.tau-resource-upload {
+    grid-column: 1 / -1;
+}
+.tau-resource-uploadbox {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 10px 12px; border: 1.4px dashed #d9c7cb; border-radius: 12px; background: #fff;
+}
+.tau-resource-uploadbox input[type="file"] {
+    border: 0 !important; padding: 0 !important; background: transparent !important;
+}
+.tau-resource-uploadmeta {
+    display: block; margin-top: 6px; font-size: .74rem; color: #7b6c72;
+}
+[data-bs-theme="dark"] .tau-resource-uploadbox { background: #232338; border-color: #4a3f4c; }
+[data-bs-theme="dark"] .tau-resource-uploadmeta { color: #b7b1ba; }
 .tau-add-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 @media(max-width:680px){ .tau-add-grid { grid-template-columns: 1fr 1fr; } }
 .tau-add-card {
@@ -1366,10 +1378,350 @@ document.getElementById('f-material-file').addEventListener('change', function (
         return JSON.parse(JSON.stringify(data));
     }
 
-    function normalizeBlueprint(bp) {
-        var source = bp || {};
+    function normalizeTextKey(value) {
+        return String(value || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim();
+    }
+
+    function buildPdfActivity(title, description) {
+        return {
+            type: 'resource',
+            title: title,
+            description: description,
+            uploadedfile: null
+        };
+    }
+
+    function ensureGeneralSectionDocuments(source) {
+        if (!source || !Array.isArray(source.sections) || !source.sections.length) {
+            return source;
+        }
+
+        var section = source.sections[0];
+        if (!section) {
+            return source;
+        }
+        if (!Array.isArray(section.activities)) {
+            section.activities = [];
+        }
+
+        var definitions = [
+            buildPdfActivity('Microcurrículo', 'Adjunta el microcurrículo oficial en formato PDF.'),
+            buildPdfActivity('Ficha de desarrollo temático', 'Adjunta la ficha de desarrollo temático en formato PDF.')
+        ];
+
+        function matchesTitle(activity, expected) {
+            return normalizeTextKey(activity && activity.title).indexOf(normalizeTextKey(expected)) !== -1;
+        }
+
+        var selected = definitions.map(function(definition) {
+            return section.activities.find(function(activity) {
+                return matchesTitle(activity, definition.title);
+            }) || definition;
+        });
+
+        var remaining = section.activities.filter(function(activity) {
+            return !definitions.some(function(definition) {
+                return matchesTitle(activity, definition.title);
+            });
+        });
+
+        var insertAt = remaining.findIndex(function(activity) {
+            return normalizeTextKey(activity && activity.title).indexOf('reglamento estudiantil') !== -1;
+        });
+        if (insertAt === -1) {
+            insertAt = remaining.findIndex(function(activity) {
+                return normalizeTextKey(activity && activity.title).indexOf('foro de inquietudes') !== -1;
+            });
+        }
+        if (insertAt === -1) {
+            insertAt = remaining.length;
+        }
+
+        remaining.splice(insertAt, 0, selected[0], selected[1]);
+        section.activities = remaining;
+        return source;
+    }
+
+    function buildInstitutionalFrontActivity(config) {
+        return {
+            key: config.key,
+            type: config.type || 'page',
+            title: config.title || 'Nuevo recurso',
+            description: config.description || '',
+            content: config.content || '',
+            externalurl: config.externalurl || '',
+            forumtype: config.forumtype || '',
+            uploadedfile: null
+        };
+    }
+
+    function buildInstitutionalWelcomeHtml() {
+        return [
+            '<div style="font-family:Manrope,Inter,sans-serif;max-width:900px;margin:0 auto;padding:18px 8px;">',
+            '<div style="border-radius:24px;overflow:hidden;background:linear-gradient(135deg,#6e1224 0%,#9d1f33 52%,#d43b4d 100%);box-shadow:0 18px 44px rgba(118,15,34,.18);">',
+            '<div style="padding:34px 34px 28px;color:#fff;">',
+            '<div style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.12);font-size:.76rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;">General</div>',
+            '<h2 style="margin:18px 0 12px;font-size:2rem;line-height:1.15;font-weight:900;">Paz y Bien, apreciado estudiante. Bienvenido(a) al curso.</h2>',
+            '<p style="margin:0;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.9);max-width:720px;">Este espacio ha sido organizado para acompaÃ±arte con claridad, cercanÃ­a y sentido institucional durante todo tu proceso de aprendizaje.</p>',
+            '</div></div></div>'
+        ].join('');
+    }
+
+    function buildInstitutionalSupportHtml() {
+        return [
+            '<div style="font-family:Manrope,Inter,sans-serif;max-width:900px;margin:0 auto;padding:12px 8px;">',
+            '<div style="border:1px solid rgba(198,43,58,.14);border-radius:22px;background:linear-gradient(180deg,#fff 0%,#fff8f9 100%);padding:24px 26px;box-shadow:0 12px 30px rgba(88,16,28,.06);">',
+            '<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">',
+            '<div style="width:56px;height:56px;border-radius:18px;background:#fff0f2;color:#b02230;font-size:1.45rem;display:flex;align-items:center;justify-content:center;">&#129309;</div>',
+            '<div style="flex:1;min-width:240px;">',
+            '<h3 style="margin:0 0 8px;font-size:1.2rem;font-weight:800;color:#172033;">Estamos Contigo</h3>',
+            '<p style="margin:0;color:#5b6472;font-size:.95rem;line-height:1.7;">En este curso encontrarÃ¡s acompaÃ±amiento y orientaciÃ³n permanente. Usa este espacio para recordar que cuentas con apoyo docente, canales institucionales y recursos para avanzar con confianza.</p>',
+            '</div></div></div></div>'
+        ].join('');
+    }
+
+    function buildInstitutionalAiLibraryHtml() {
+        var tools = [
+            ['Productividad', 'ChatGPT', 'https://chatgpt.com'],
+            ['InvestigaciÃ³n', 'Perplexity', 'https://www.perplexity.ai'],
+            ['RedacciÃ³n', 'Claude', 'https://claude.ai'],
+            ['DiseÃ±o', 'Canva Magic Studio', 'https://www.canva.com'],
+            ['Presentaciones', 'Gamma', 'https://gamma.app'],
+            ['BÃºsqueda acadÃ©mica', 'Consensus', 'https://consensus.app']
+        ];
+        var cards = tools.map(function(tool) {
+            return '<a href="' + tool[2] + '" target="_blank" rel="noopener" style="text-decoration:none;border:1px solid rgba(15,23,42,.08);border-radius:18px;padding:16px 18px;background:#fff;color:#172033;display:block;box-shadow:0 10px 22px rgba(15,23,42,.04);">' +
+                '<div style="font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#b02230;margin-bottom:8px;">' + tool[0] + '</div>' +
+                '<div style="font-size:1rem;font-weight:800;margin-bottom:6px;">' + tool[1] + '</div>' +
+                '<div style="font-size:.84rem;color:#667085;">Acceso directo a la herramienta</div>' +
+            '</a>';
+        }).join('');
+        return [
+            '<div style="font-family:Manrope,Inter,sans-serif;max-width:960px;margin:0 auto;padding:12px 8px;">',
+            '<div style="margin-bottom:14px;">',
+            '<h3 style="margin:0 0 8px;font-size:1.2rem;font-weight:800;color:#172033;">Biblioteca de Herramientas de Inteligencia Artificial</h3>',
+            '<p style="margin:0;color:#5b6472;font-size:.95rem;line-height:1.7;">Explora herramientas organizadas por categorÃ­as para investigar, redactar, diseÃ±ar y fortalecer tu aprendizaje con apoyo de IA.</p>',
+            '</div>',
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">' + cards + '</div>',
+            '</div>'
+        ].join('');
+    }
+
+    function buildInstitutionalCommunicationHtml() {
+        return [
+            '<div style="font-family:Manrope,Inter,sans-serif;max-width:920px;margin:0 auto;padding:12px 8px;">',
+            '<div style="border-radius:22px;background:linear-gradient(180deg,#ffffff 0%,#fff8fa 100%);border:1px solid rgba(198,43,58,.12);box-shadow:0 16px 36px rgba(88,16,28,.06);overflow:hidden;">',
+            '<div style="padding:22px 26px;border-bottom:1px solid rgba(198,43,58,.08);">',
+            '<div style="font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#b02230;margin-bottom:8px;">AcompaÃ±amiento</div>',
+            '<h3 style="margin:0;font-size:1.18rem;font-weight:800;color:#172033;">Canales de comunicaciÃ³n o acompaÃ±amiento</h3>',
+            '</div>',
+            '<div style="padding:24px 26px;">',
+            '<p style="margin:0 0 14px;color:#5b6472;font-size:.95rem;line-height:1.75;">Registra aquÃ­ los horarios de atenciÃ³n, medios de contacto, correos institucionales, enlaces a videollamadas o recomendaciones de acompaÃ±amiento para que el estudiante los encuentre en un formato claro y profesional.</p>',
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;">',
+            '<div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(15,23,42,.08);"><strong style="display:block;color:#172033;margin-bottom:6px;">Canal principal</strong><span style="color:#667085;font-size:.88rem;">Escribe aquÃ­ el medio principal de contacto.</span></div>',
+            '<div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(15,23,42,.08);"><strong style="display:block;color:#172033;margin-bottom:6px;">Horario de acompaÃ±amiento</strong><span style="color:#667085;font-size:.88rem;">Indica disponibilidad, franjas y tiempos de respuesta.</span></div>',
+            '<div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(15,23,42,.08);"><strong style="display:block;color:#172033;margin-bottom:6px;">Orientaciones</strong><span style="color:#667085;font-size:.88rem;">Comparte recomendaciones de uso y convivencia.</span></div>',
+            '</div></div></div></div>'
+        ].join('');
+    }
+
+    function identifyInstitutionalFrontKey(activity) {
+        var titleKey = normalizeTextKey(activity && activity.title);
+        if (titleKey.indexOf('bienvenida') !== -1) return 'welcome';
+        if (titleKey.indexOf('estamos contigo') !== -1) return 'support';
+        if (titleKey.indexOf('noticias') !== -1 || titleKey.indexOf('comunicados') !== -1) return 'news';
+        if (titleKey.indexOf('herramientas de inteligencia artificial') !== -1 || titleKey.indexOf('biblioteca de herramientas') !== -1) return 'ai-library';
+        if (titleKey.indexOf('biblioteca digital') !== -1) return 'digital-library';
+        if (titleKey.indexOf('presentacion del docente') !== -1 || titleKey.indexOf('presentacion profesor') !== -1) return 'teacher-intro';
+        if (titleKey.indexOf('reglamento estudiantil') !== -1) return 'reglamento';
+        if (titleKey.indexOf('microcurriculo') !== -1) return 'microcurriculo';
+        if (titleKey.indexOf('ficha de desarrollo') !== -1) return 'ficha-desarrollo';
+        if (titleKey.indexOf('horario') !== -1) return 'horarios';
+        if (titleKey.indexOf('canales de comunicacion') !== -1 || titleKey.indexOf('acompanamiento') !== -1) return 'communication';
+        return '';
+    }
+
+    function isInstitutionalPdfKey(key) {
+        return ['microcurriculo', 'ficha-desarrollo', 'horarios'].indexOf(key) !== -1;
+    }
+
+    function detectInstitutionalFrontBucket(section) {
+        var titleKey = normalizeTextKey(section && section.title);
+        if (titleKey === 'general') {
+            return 'general';
+        }
+        if (titleKey.indexOf('informacion general') !== -1) {
+            return 'information';
+        }
+
+        var hasGeneralMatch = false;
+        var hasInformationMatch = false;
+        (Array.isArray(section && section.activities) ? section.activities : []).forEach(function(activity) {
+            var key = identifyInstitutionalFrontKey(activity);
+            if (['welcome', 'support', 'news', 'ai-library', 'digital-library'].indexOf(key) !== -1) {
+                hasGeneralMatch = true;
+            }
+            if (['teacher-intro', 'reglamento', 'microcurriculo', 'ficha-desarrollo', 'horarios', 'communication'].indexOf(key) !== -1) {
+                hasInformationMatch = true;
+            }
+        });
+
+        if (hasGeneralMatch && !hasInformationMatch) {
+            return 'general';
+        }
+        if (hasInformationMatch && !hasGeneralMatch) {
+            return 'information';
+        }
+        if (hasGeneralMatch && hasInformationMatch) {
+            return 'information';
+        }
+        return '';
+    }
+
+    function isLegacyInstitutionalActivity(activity) {
+        var titleKey = normalizeTextKey(activity && activity.title);
+        return titleKey.indexOf('foro de inquietudes') !== -1 ||
+            titleKey.indexOf('foro de dudas') !== -1 ||
+            titleKey.indexOf('tips de plataforma') !== -1 ||
+            titleKey === 'general' ||
+            titleKey === 'informacion general';
+    }
+
+    function cleanupInstitutionalActivities(activities) {
+        var seenKeys = new Set();
+        return (Array.isArray(activities) ? activities : []).filter(function(activity) {
+            if (!activity || isLegacyInstitutionalActivity(activity)) {
+                return false;
+            }
+
+            var key = identifyInstitutionalFrontKey(activity);
+            if (!key) {
+                return true;
+            }
+
+            if (seenKeys.has(key)) {
+                return false;
+            }
+            seenKeys.add(key);
+            return true;
+        });
+    }
+
+    function ensureInstitutionalFrontSections(source, teacherName) {
+        if (!source) {
+            return source;
+        }
+        var defaults = [
+            {
+                title: 'General',
+                summary: 'Espacio inicial de acogida, orientaciÃ³n, noticias y recursos institucionales del curso.',
+                activities: [
+                    buildInstitutionalFrontActivity({ key: 'welcome', type: 'page', title: 'Bienvenida', description: 'Mensaje de acogida institucional para el estudiante.', content: buildInstitutionalWelcomeHtml() }),
+                    buildInstitutionalFrontActivity({ key: 'support', type: 'page', title: 'Estamos Contigo', description: 'AcompaÃ±amiento y orientaciÃ³n permanente para el estudiante.', content: buildInstitutionalSupportHtml() }),
+                    buildInstitutionalFrontActivity({ key: 'news', type: 'forum', title: 'Noticias y Comunicados', description: 'Foro para la publicaciÃ³n de avisos, novedades, fechas importantes y comunicados del curso.', forumtype: 'news' }),
+                    buildInstitutionalFrontActivity({ key: 'ai-library', type: 'page', title: 'Biblioteca de Herramientas de Inteligencia Artificial', description: 'Accesos directos a herramientas de IA de apoyo al aprendizaje.', content: buildInstitutionalAiLibraryHtml() }),
+                    buildInstitutionalFrontActivity({ key: 'digital-library', type: 'url', title: 'Biblioteca Digital', description: 'Consulta acadÃ©mica, bases de datos, libros digitales y recursos institucionales.', externalurl: 'https://www.unicesmag.edu.co/biblioteca/' })
+                ]
+            },
+            {
+                title: 'InformaciÃ³n General',
+                summary: 'Documentos, lineamientos y orientaciones clave para comprender el desarrollo del curso.',
+                activities: [
+                    buildInstitutionalFrontActivity({ key: 'teacher-intro', type: 'page', title: 'PresentaciÃ³n del Docente ' + (teacherName || 'Docente de la InstituciÃ³n'), description: 'Bienvenida profesional y perfil del docente.' }),
+                    buildInstitutionalFrontActivity({ key: 'reglamento', type: 'url', title: 'Reglamento Estudiantil', description: 'Consulta las normas y lineamientos institucionales del curso.' }),
+                    buildInstitutionalFrontActivity({ key: 'microcurriculo', type: 'resource', title: 'MicrocurrÃ­culo', description: 'Adjunta el microcurrÃ­culo oficial en formato PDF.' }),
+                    buildInstitutionalFrontActivity({ key: 'ficha-desarrollo', type: 'resource', title: 'Ficha de desarrollo temÃ¡tico', description: 'Adjunta la ficha de desarrollo temÃ¡tico en formato PDF.' }),
+                    buildInstitutionalFrontActivity({ key: 'horarios', type: 'resource', title: 'Horarios', description: 'Adjunta el horario en PDF o cambia este recurso a URL si corresponde.' }),
+                    buildInstitutionalFrontActivity({ key: 'communication', type: 'page', title: 'Canales de comunicaciÃ³n o acompaÃ±amiento', description: 'Publica aquÃ­ los medios, horarios y orientaciones de contacto para el estudiante.', content: buildInstitutionalCommunicationHtml() })
+                ]
+            }
+        ];
+
         var sections = Array.isArray(source.sections) ? source.sections : [];
+        var collected = { general: [], information: [] };
+        var summaries = { general: '', information: '' };
+        var others = [];
+
+        sections.forEach(function(section, index) {
+            var bucket = detectInstitutionalFrontBucket(section);
+            if (!bucket) {
+                others.push(section);
+                return;
+            }
+            if (section && section.summary && !summaries[bucket]) {
+                summaries[bucket] = section.summary;
+            }
+            (Array.isArray(section.activities) ? section.activities : []).forEach(function(activity) {
+                var key = identifyInstitutionalFrontKey(activity);
+                if (['welcome', 'support', 'news', 'ai-library', 'digital-library'].indexOf(key) !== -1) {
+                    collected.general.push(activity);
+                } else if (['teacher-intro', 'reglamento', 'microcurriculo', 'ficha-desarrollo', 'horarios', 'communication'].indexOf(key) !== -1) {
+                    collected.information.push(activity);
+                } else if (bucket === 'general') {
+                    collected.general.push(activity);
+                } else {
+                    collected.information.push(activity);
+                }
+            });
+        });
+
+        function mergeActivities(defaultItems, existingItems) {
+            var used = new Set();
+            var merged = defaultItems.map(function(definition) {
+                var matchIndex = existingItems.findIndex(function(activity, idx) {
+                    return !used.has(idx) && identifyInstitutionalFrontKey(activity) === definition.key;
+                });
+                if (matchIndex === -1) {
+                    return definition;
+                }
+                used.add(matchIndex);
+                var existing = existingItems[matchIndex] || {};
+                var resolvedType = isInstitutionalPdfKey(definition.key)
+                    ? 'resource'
+                    : (existing.type || definition.type);
+                return Object.assign({}, definition, existing, {
+                    type: resolvedType,
+                    title: existing.title || definition.title,
+                    description: existing.description || definition.description,
+                    content: existing.content || definition.content || '',
+                    externalurl: existing.externalurl || definition.externalurl || '',
+                    forumtype: existing.forumtype || definition.forumtype || '',
+                    uploadedfile: existing.uploadedfile || null
+                });
+            });
+            existingItems.forEach(function(activity, idx) {
+                if (!used.has(idx)) {
+                    merged.push(activity);
+                }
+            });
+            return cleanupInstitutionalActivities(merged);
+        }
+
+        source.sections = [
+            {
+                title: defaults[0].title,
+                summary: summaries.general || defaults[0].summary,
+                activities: mergeActivities(defaults[0].activities, collected.general)
+            },
+            {
+                title: defaults[1].title,
+                summary: summaries.information || defaults[1].summary,
+                activities: mergeActivities(defaults[1].activities, collected.information)
+            }
+        ].concat(others);
+        return source;
+    }
+
+    function normalizeBlueprint(bp) {
+        var source = cloneData(bp || {});
         var teacherEl = document.getElementById('f-teacher-name');
+        var teacherName = source.teacherName || (teacherEl ? teacherEl.value.trim() : 'Docente de la InstituciÃ³n');
+        ensureInstitutionalFrontSections(source, teacherName);
+        var sections = Array.isArray(source.sections) ? source.sections : [];
         var publishCheckbox = document.getElementById('f-publish-apoyo');
         
         var publishApoyo = 1;
@@ -1384,11 +1736,12 @@ document.getElementById('f-material-file').addEventListener('change', function (
         
         var normalizedSections = sections.map(function (section, index) {
             var title = section.title || '';
-            var isGeneral = title.toLowerCase().includes('información general') || index === 0;
+            var titleKey = normalizeTextKey(title);
+            var isGeneral = titleKey === 'general' || titleKey.indexOf('informacion general') !== -1;
             
             var newTitle = title;
             if (isGeneral) {
-                newTitle = 'Información General';
+                newTitle = titleKey === 'general' ? 'General' : 'Información General';
             } else if (title.includes(' — Semana ') || title.includes(' - Semana ') || title.includes(' — Sección ') || title.includes(' - Sección ')) {
                 weekCount++;
                 // Extract original subtheme after the colon or dash
@@ -1425,6 +1778,8 @@ document.getElementById('f-material-file').addEventListener('change', function (
                         description: activity.description || '',
                         content: activity.content || '',
                         externalurl: activity.externalurl || '',
+                        forumtype: activity.forumtype || '',
+                        uploadedfile: activity.uploadedfile || null,
                         questions: Array.isArray(activity.questions) ? activity.questions : undefined,
                         terms: Array.isArray(activity.terms) ? activity.terms : undefined
                     };
@@ -1464,8 +1819,29 @@ document.getElementById('f-material-file').addEventListener('change', function (
         return {
             type: type,
             title: title,
-            description: fallback[1]
+            description: fallback[1],
+            uploadedfile: null
         };
+    }
+
+    function renderActivityAttachmentField(activity, sectionIndex, activityIndex) {
+        var key = identifyInstitutionalFrontKey(activity);
+        var shouldRenderUpload = (activity.type || 'page') === 'resource' || isInstitutionalPdfKey(key);
+        if (!shouldRenderUpload) {
+            return '';
+        }
+        var uploaded = activity.uploadedfile || null;
+        var fileName = uploaded && uploaded.name ? uploaded.name : '';
+        var helper = fileName
+            ? 'PDF cargado: ' + escHtml(fileName)
+            : 'Adjunta aquí el PDF institucional correspondiente.';
+        return '<div class="tau-inline-field tau-resource-upload">' +
+            '<label>Adjuntar PDF</label>' +
+            '<div class="tau-resource-uploadbox">' +
+                '<input type="file" accept="application/pdf,.pdf" data-resource-upload="1" data-section-index="' + sectionIndex + '" data-activity-index="' + activityIndex + '">' +
+            '</div>' +
+            '<small class="tau-resource-uploadmeta">' + helper + '</small>' +
+        '</div>';
     }
 
     function createStarterBlueprint() {
@@ -1563,20 +1939,75 @@ document.getElementById('f-material-file').addEventListener('change', function (
             // Generate clean skeleton
             var sections = [];
             
-            // 1. Información General (with a standard welcome page and a forum)
+            // 1. General e Información General
             sections.push({
-                title: 'Información General',
-                summary: welcomeText || 'Bienvenido al curso. En esta sección inicial encontrarás las novedades generales, el foro de consultas y la guía docente.',
+                title: 'General',
+                summary: 'Espacio inicial de acogida, noticias, recursos institucionales y acompañamiento.',
                 activities: [
                     {
                         type: 'page',
-                        title: 'Guía de inicio y Syllabus',
-                        description: 'Lee detalladamente los objetivos del curso, la metodología de evaluación y el cronograma.'
+                        title: 'Bienvenida',
+                        description: 'Mensaje de acogida institucional para el estudiante.'
+                    },
+                    {
+                        type: 'page',
+                        title: 'Estamos Contigo',
+                        description: 'Acompañamiento y orientación permanente para el estudiante.'
                     },
                     {
                         type: 'forum',
-                        title: 'Foro de consultas generales',
-                        description: 'Espacio permanente para plantear dudas sobre los contenidos y actividades del curso.'
+                        title: 'Noticias y Comunicados',
+                        description: 'Foro para la publicación de avisos, novedades, fechas importantes y comunicados del curso.'
+                    },
+                    {
+                        type: 'page',
+                        title: 'Biblioteca de Herramientas de Inteligencia Artificial',
+                        description: 'Accesos directos a herramientas de IA de apoyo al aprendizaje.'
+                    },
+                    {
+                        type: 'url',
+                        title: 'Biblioteca Digital',
+                        description: 'Consulta académica, bases de datos, libros digitales y recursos institucionales.'
+                    }
+                ]
+            });
+
+            sections.push({
+                title: 'Información General',
+                summary: welcomeText || 'Documentos, lineamientos y orientaciones clave para comprender el desarrollo del curso.',
+                activities: [
+                    {
+                        type: 'page',
+                        title: 'Presentación del Docente ' + teacherName,
+                        description: 'Bienvenida profesional y perfil del docente.'
+                    },
+                    {
+                        type: 'url',
+                        title: 'Reglamento Estudiantil',
+                        description: 'Consulta las normas y lineamientos institucionales del curso.'
+                    },
+                    {
+                        type: 'resource',
+                        title: 'Microcurrículo',
+                        description: 'Adjunta el microcurrículo oficial en formato PDF.',
+                        uploadedfile: null
+                    },
+                    {
+                        type: 'resource',
+                        title: 'Ficha de desarrollo temático',
+                        description: 'Adjunta la ficha de desarrollo temático en formato PDF.',
+                        uploadedfile: null
+                    },
+                    {
+                        type: 'resource',
+                        title: 'Horarios',
+                        description: 'Adjunta el horario en PDF o cambia este recurso a URL si corresponde.',
+                        uploadedfile: null
+                    },
+                    {
+                        type: 'page',
+                        title: 'Canales de comunicación o acompañamiento',
+                        description: 'Publica aquí los medios, horarios y orientaciones de contacto para el estudiante.'
                     }
                 ]
             });
@@ -1649,14 +2080,21 @@ document.getElementById('f-material-file').addEventListener('change', function (
         var finalPrompt = "Genera la estructura de un curso formal para Moodle bajo el nombre: '" + rawPrompt + "', dictado por el docente '" + teacherName + "'.\n\n";
         
         // 1. General Information Section
-        finalPrompt += "ESTRUCTURA DE SECCIÓN INICIAL:\n";
-        finalPrompt += "- La primera sección se llamará obligatoriamente 'Información General'. Debe incluir:\n";
-        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Presentación del Docente " + teacherName + "', que contenga una bienvenida profesional y el perfil del docente.\n";
-        if (welcomeText) {
-            finalPrompt += "  - Una actividad de tipo 'page' titulada 'Introducción al curso', basada en: " + welcomeText + ".\n";
-        }
-        finalPrompt += "  - Una actividad de tipo 'url' titulada 'Reglamento Estudiantil y Tips de Plataforma'.\n";
-        finalPrompt += "  - Una actividad de tipo 'forum' ('Foro de discusión de la sección') titulada 'Foro de Inquietudes y Dudas'.\n\n";
+        finalPrompt += "ESTRUCTURA DE SECCIONES INICIALES:\n";
+        finalPrompt += "- Debes crear obligatoriamente dos secciones iniciales antes de los módulos: 'General' e 'Información General'.\n";
+        finalPrompt += "- La sección 'General' debe incluir:\n";
+        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Bienvenida' con enfoque institucional y mensaje de acogida al estudiante.\n";
+        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Estamos Contigo' para acompañamiento y orientación permanente.\n";
+        finalPrompt += "  - Una actividad de tipo 'forum' titulada 'Noticias y Comunicados' para avisos y novedades del curso.\n";
+        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Biblioteca de Herramientas de Inteligencia Artificial'.\n";
+        finalPrompt += "  - Una actividad de tipo 'url' titulada 'Biblioteca Digital' con acceso a recursos institucionales.\n";
+        finalPrompt += "- La sección 'Información General' debe incluir:\n";
+        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Presentación del Docente " + teacherName + "'.\n";
+        finalPrompt += "  - Una actividad de tipo 'url' titulada 'Reglamento Estudiantil'.\n";
+        finalPrompt += "  - Una actividad de tipo 'resource' titulada 'Microcurrículo', preparada para adjuntar PDF.\n";
+        finalPrompt += "  - Una actividad de tipo 'resource' titulada 'Ficha de desarrollo temático', preparada para adjuntar PDF.\n";
+        finalPrompt += "  - Una actividad de tipo 'resource' titulada 'Horarios', preparada para adjuntar PDF o reemplazarse por URL.\n";
+        finalPrompt += "  - Una actividad de tipo 'page' titulada 'Canales de comunicación o acompañamiento'.\n\n";
 
         // 2. Modules and Sections
         finalPrompt += "ESTRUCTURA DE MÓDULOS Y SECCIONES:\n";
@@ -1828,7 +2266,8 @@ document.getElementById('f-material-file').addEventListener('change', function (
         var currentModuleGroup = null;
         sections.forEach(function (sec, idx) {
             var title = sec.title || '';
-            var isGeneral = title.toLowerCase().includes('información general') || idx === 0;
+            var titleKey = normalizeTextKey(title);
+            var isGeneral = titleKey === 'general' || titleKey.indexOf('informacion general') !== -1;
             
             if (isGeneral) {
                 groups.push({
@@ -1981,7 +2420,8 @@ document.getElementById('f-material-file').addEventListener('change', function (
         var currentModuleGroup = null;
         sections.forEach(function (sec, idx) {
             var title = sec.title || '';
-            var isGeneral = title.toLowerCase().includes('información general') || idx === 0;
+            var titleKey = normalizeTextKey(title);
+            var isGeneral = titleKey === 'general' || titleKey.indexOf('informacion general') !== -1;
             
             if (isGeneral) {
                 groups.push({
@@ -2038,6 +2478,7 @@ document.getElementById('f-material-file').addEventListener('change', function (
                     html += '<div class="tau-activity-main">';
                     html += '<div class="tau-inline-field"><label>Título</label><input type="text" data-section-index="' + group.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="title" value="' + escHtml(activity.title || '') + '"></div>';
                     html += '<div class="tau-inline-field"><label>Descripción</label><textarea data-section-index="' + group.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="description">' + escHtml(activity.description || '') + '</textarea></div>';
+                    html += renderActivityAttachmentField(activity, group.originalIndex, activityIndex);
                     html += '</div>';
                     html += '<button type="button" class="tau-icon-btn" data-editor-action="remove-activity" data-section-index="' + group.originalIndex + '" data-activity-index="' + activityIndex + '" title="Eliminar elemento" style="color: #dc3545; border-color: #ead6d8;"><i class="fa fa-times"></i></button>';
                     html += '</div>';
@@ -2111,6 +2552,7 @@ document.getElementById('f-material-file').addEventListener('change', function (
                                 html += '<div class="tau-activity-main">';
                                 html += '<div class="tau-inline-field"><label>Título</label><input type="text" data-section-index="' + wk.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="title" value="' + escHtml(activity.title || '') + '"></div>';
                                 html += '<div class="tau-inline-field"><label>Descripción</label><textarea data-section-index="' + wk.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="description">' + escHtml(activity.description || '') + '</textarea></div>';
+                                html += renderActivityAttachmentField(activity, wk.originalIndex, activityIndex);
                                 html += '</div>';
                                 
                                 html += '<div style="display:flex; flex-direction:column; gap:4px; margin-left: 8px;">';
@@ -2171,6 +2613,7 @@ document.getElementById('f-material-file').addEventListener('change', function (
                     html += '<div class="tau-activity-main">';
                     html += '<div class="tau-inline-field"><label>Título</label><input type="text" data-section-index="' + group.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="title" value="' + escHtml(activity.title || '') + '"></div>';
                     html += '<div class="tau-inline-field"><label>Descripción</label><textarea data-section-index="' + group.originalIndex + '" data-activity-index="' + activityIndex + '" data-activity-field="description">' + escHtml(activity.description || '') + '</textarea></div>';
+                    html += renderActivityAttachmentField(activity, group.originalIndex, activityIndex);
                     html += '</div>';
                     
                     html += '<div style="display:flex; flex-direction:column; gap:4px; margin-left: 8px;">';
@@ -2207,22 +2650,67 @@ document.getElementById('f-material-file').addEventListener('change', function (
         el.innerHTML = html;
     }
 
-    document.getElementById('blueprint-editor').addEventListener('input', function (e) {
-        if (!currentBlueprint) return;
-        var target = e.target;
+    function syncBlueprintField(target) {
+        if (!currentBlueprint || !target) return false;
         if (target.dataset.courseField) {
             currentBlueprint[target.dataset.courseField] = target.value;
             renderPlan(currentBlueprint);
-            return;
+            return true;
         }
         if (target.dataset.sectionField) {
             currentBlueprint.sections[Number(target.dataset.sectionIndex)][target.dataset.sectionField] = target.value;
             renderPlan(currentBlueprint);
-            return;
+            return true;
         }
         if (target.dataset.activityField) {
             currentBlueprint.sections[Number(target.dataset.sectionIndex)].activities[Number(target.dataset.activityIndex)][target.dataset.activityField] = target.value;
             renderPlan(currentBlueprint);
+            return true;
+        }
+        return false;
+    }
+
+    document.getElementById('blueprint-editor').addEventListener('input', function (e) {
+        syncBlueprintField(e.target);
+    });
+
+    document.getElementById('blueprint-editor').addEventListener('change', function (e) {
+        var target = e.target;
+        if (target.dataset && target.dataset.resourceUpload) {
+            if (!currentBlueprint) return;
+            var sectionIndex = Number(target.dataset.sectionIndex);
+            var activityIndex = Number(target.dataset.activityIndex);
+            var file = target.files && target.files[0] ? target.files[0] : null;
+            if (!file) {
+                return;
+            }
+            if (!/\.pdf$/i.test(file.name) && file.type !== 'application/pdf') {
+                alert('Solo se permiten archivos PDF para este recurso.');
+                target.value = '';
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(evt) {
+                var result = String(evt.target.result || '');
+                var base64 = result.indexOf('base64,') !== -1 ? result.split('base64,')[1] : '';
+                currentBlueprint.sections[sectionIndex].activities[activityIndex].uploadedfile = {
+                    name: file.name,
+                    type: file.type || 'application/pdf',
+                    size: file.size || 0,
+                    content: base64
+                };
+                renderPlan(currentBlueprint);
+                renderBlueprintEditor(currentBlueprint);
+            };
+            reader.readAsDataURL(file);
+            return;
+        }
+
+        if (syncBlueprintField(target)) {
+            currentBlueprint = normalizeBlueprint(currentBlueprint);
+            renderPlan(currentBlueprint);
+            renderBlueprintEditor(currentBlueprint);
         }
     });
 

@@ -4,7 +4,7 @@
 
     function initLogin() {
         if (document.body.id !== "page-login-index") return;
-        
+
         // Manual login backdoor for admin / automated testing
         if (window.location.search.indexOf("manual=1") !== -1) {
             document.body.classList.add("tau-manual-login");
@@ -21,14 +21,17 @@
         // Hide original container instead of replacing its innerHTML
         container.style.setProperty("display", "none", "important");
 
-        var originalLogo = container.querySelector("#loginlogo");
-        var logoHtml = originalLogo ? originalLogo.outerHTML : "";
+        var officialLogoHtml = "" +
+            "<div id='loginlogo' class='login-logo tau-login-official-logo'>" +
+                "<img id='logoimage' src='/theme/tau_branding/assets/official/tau-official-icon.png' class='img-fluid' alt='TAU Campus Virtual'>" +
+                "<h1 class='login-heading visually-hidden'>Entrar a TAU Campus Virtual</h1>" +
+            "</div>";
 
         var googleBtn = container.querySelector(".login-identityprovider-btn");
 
         var languages = [];
-        var nativeLangMenu = container.querySelector(".login-languagemenu") || 
-                             document.querySelector(".login-languagemenu") || 
+        var nativeLangMenu = container.querySelector(".login-languagemenu") ||
+                             document.querySelector(".login-languagemenu") ||
                              document.querySelector(".langmenu");
 
         if (nativeLangMenu) {
@@ -42,14 +45,14 @@
         }
 
         if (languages.length === 0) {
-            languages.push("<a href='" + window.location.pathname + "?lang=es_co'>Español (Internacional)</a>");
+            languages.push("<a href='" + window.location.pathname + "?lang=es_co'>Espanol (Internacional)</a>");
             languages.push("<a href='" + window.location.pathname + "?lang=en'>English</a>");
         }
 
         var cookieUrl = "";
         var cookieText = "Aviso de Cookies";
-        var nativeCookieLink = document.querySelector("a[href*='cookie']") || 
-                               document.querySelector("a[href*='dataprivacy']") || 
+        var nativeCookieLink = document.querySelector("a[href*='cookie']") ||
+                               document.querySelector("a[href*='dataprivacy']") ||
                                document.querySelector("footer a[href*='summary']");
 
         if (nativeCookieLink) {
@@ -75,27 +78,24 @@
             "</a>" +
         "</div>";
 
+        function buildWelcomeBlock(brandlabel, description) {
+            return "<div class='tau-login-welcome'>" +
+                "<div class='tau-campus-brand'>" + brandlabel + "</div>" +
+                "<div class='tau-campus-inst'>UNICESMAG</div>" +
+                "<p>" + description + "</p>" +
+                "<div class='tau-campus-meta'>Vigilada Mineducacion</div>" +
+            "</div>";
+        }
+
         // Create Presencial Campus Card Setup
         var presencialCard = document.createElement("div");
         presencialCard.id = "tau-presencial-card";
         presencialCard.className = "login-container tau-login-card-presencial";
-        
-        var logoCloneHtml = "";
-        if (originalLogo) {
-            var lc = originalLogo.cloneNode(true);
-            lc.id = "tau-presencial-loginlogo";
-            logoCloneHtml = lc.outerHTML;
-        }
 
-        presencialCard.innerHTML = logoCloneHtml +
-            "<div class='tau-login-welcome'>" +
-                "<div class='tau-campus-inst'>Universidad CESMAG</div>" +
-                "<div class='tau-campus-title'>Campus Presencial</div>" +
-                "<div class='tau-campus-divider'></div>" +
-                "<p>Accede a la plataforma académica presencial</p>" +
-            "</div>" +
+        presencialCard.innerHTML = officialLogoHtml.replace("id='loginlogo'", "id='tau-presencial-loginlogo'") +
+            buildWelcomeBlock("TAU Campus Presencial", "Accede a la plataforma academica presencial") +
             "<div class='tau-login-btnwrap'><div class='tau-login-btnbox'>" +
-                "<a href='https://uv4.unicesmag.edu.co/login/index.php' class='login-identityprovider-btn btn'>" +
+                "<a href='https://www.unicesmag.edu.co/tau/' class='login-identityprovider-btn btn'>" +
                     "<svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='#c62b3a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" +
                         "<path d='M22 10v6M2 10l10-5 10 5-10 5z'></path>" +
                         "<path d='M6 12v5c3 3 9 3 12 0v-5'></path>" +
@@ -109,13 +109,8 @@
         var virtualCard = document.createElement("div");
         virtualCard.id = "tau-virtual-card";
         virtualCard.className = "login-container tau-login-card-virtual";
-        virtualCard.innerHTML = logoHtml +
-            "<div class='tau-login-welcome'>" +
-                "<div class='tau-campus-inst'>Universidad CESMAG</div>" +
-                "<div class='tau-campus-title'>Campus Virtual</div>" +
-                "<div class='tau-campus-divider'></div>" +
-                "<p>Inicia sesión con tu cuenta Google institucional</p>" +
-            "</div>" +
+        virtualCard.innerHTML = officialLogoHtml +
+            buildWelcomeBlock("TAU Campus Virtual", "Inicia sesion con tu cuenta Google institucional") +
             "<div class='tau-login-btnwrap'><div class='tau-login-btnbox'>" +
             "</div></div>" +
             cardFooterHtml;
@@ -153,23 +148,27 @@
         var TAU_ERR = {
             "no-account": {
                 t: "Cuenta no encontrada",
-                m: "No encontramos ninguna cuenta TAU con este correo. Usa tu correo <b>@unicesmag.edu.co</b>."
+                m: "Este correo no esta registrado en TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."
             },
             "wrong-pass": {
                 t: "Credenciales incorrectas",
-                m: "Verifica que uses tu <b>cuenta Google institucional @unicesmag.edu.co</b>, no una personal."
+                m: "El acceso solo esta permitido con tu cuenta Google institucional <b>@unicesmag.edu.co</b>. No uses cuentas personales como Gmail."
             },
             "blocked": {
                 t: "Cuenta bloqueada",
-                m: "Tu cuenta está bloqueada temporalmente. Espera unos minutos o contacta soporte."
+                m: "Tu cuenta existe, pero esta suspendida para ingreso. Si necesitas acceso como docente o estudiante, solicita la habilitacion al administrador."
             },
             "no-auth": {
-                t: "Método no permitido",
-                m: "Solo se permite inicio de sesión con <b>Google institucional</b>. El acceso directo está deshabilitado."
+                t: "Metodo no permitido",
+                m: "Solo se permite el ingreso con <b>Google institucional</b> y con usuarios autorizados dentro de la plataforma."
+            },
+            "unauthorized-email": {
+                t: "Correo no autorizado",
+                m: "Este correo no tiene autorizacion de ingreso en TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."
             },
             "generic": {
                 t: "Error de acceso",
-                m: "No fue posible iniciar sesión. Contacta a soporte si el problema persiste."
+                m: "No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en TAU Campus Virtual e intenta nuevamente."
             }
         };
 
@@ -200,10 +199,12 @@
             var k = "generic";
             if (m.includes("no se pudo encontrar") || m.includes("correo electr")) {
                 k = "no-account";
-            } else if (m.includes("contrase") || m.includes("incorrecta") || m.includes("incorrectos")) {
+            } else if (m.includes("contras") || m.includes("incorrecta") || m.includes("incorrectos")) {
                 k = "wrong-pass";
             } else if (m.includes("bloqueado") || m.includes("bloqueada") || m.includes("suspendid")) {
                 k = "blocked";
+            } else if (m.includes("autorizad") || m.includes("permitid") || m.includes("dominio") || m.includes("institucional")) {
+                k = "unauthorized-email";
             } else if (m.includes("plugin") || m.includes("no est")) {
                 k = "no-auth";
             }

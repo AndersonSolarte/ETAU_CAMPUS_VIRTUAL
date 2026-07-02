@@ -146,7 +146,7 @@
                         '<div class="tau-programs-hero">' +
                             '<div class="tau-programs-hero__content">' +
                                 '<div class="tau-programs-hero__main">' +
-                                    '<span class="tau-programs-kicker">Socios Academicos Activos</span>' +
+                                    '<span class="tau-programs-kicker">Programas Academicos Activos</span>' +
                                     '<h2 class="tau-programs-title">Cursos del Campus Virtual</h2>' +
                                 '</div>' +
                             '</div>' +
@@ -155,7 +155,7 @@
                             '<div class="tau-programs-searchhead">' +
                                 '<div>' +
                                     '<label class="tau-programs-searchlabel" for="tauProgramsSearch">Filtro inteligente</label>' +
-                                    '<p class="tau-programs-searchhint">Busca por socio academico, semestre o curso.</p>' +
+                                    '<p class="tau-programs-searchhint">Busca por programa academico, semestre o curso.</p>' +
                                 '</div>' +
                             '</div>' +
                             '<div class="tau-programs-searchbox">' +
@@ -166,13 +166,13 @@
                             '</div>' +
                         '</div>' +
                         '<div class="tau-programs-toolbar">' +
-                            '<div class="tau-programs-toolbar__title">Socios academicos</div>' +
+                            '<div class="tau-programs-toolbar__title">Programas academicos</div>' +
                             '<div class="tau-programs-toolbar__meta" id="tauProgramsToolbarMeta"></div>' +
                         '</div>' +
                         '<div class="tau-programs-tabs" id="tauProgramsRoot"></div>' +
                         '<div class="tau-programs-stage" id="tauProgramsPanel">' +
                             '<div class="tau-programs-emptyhero" id="tauProgramsEmpty">' +
-                                '<strong>Selecciona un socio academico</strong>' +
+                                '<strong>Selecciona un programa academico</strong>' +
                                 '<span>O usa el filtro inteligente.</span>' +
                             '</div>' +
                             '<div class="tau-programs-searchresults" id="tauProgramsSearchResults" hidden></div>' +
@@ -273,7 +273,7 @@
                 }
 
                 function updateToolbarMeta(text) {
-                    toolbarMeta.textContent = text || (programs.length + " socios academicos activos");
+                    toolbarMeta.textContent = text || (programs.length + " programas academicos activos");
                 }
 
                 function renderRootCards() {
@@ -372,7 +372,7 @@
                     if (!matches.length) {
                         searchResults.innerHTML =
                             '<div class="tau-program-empty">' +
-                                'No encontramos coincidencias. Prueba con otro socio academico, semestre o palabra clave.' +
+                                'No encontramos coincidencias. Prueba con otro programa academico, semestre o palabra clave.' +
                             '</div>';
                         return;
                     }
@@ -386,7 +386,7 @@
                     matches.forEach(function(entry) {
                         html +=
                             '<button type="button" class="tau-program-result" data-kind="' + escapeHtml(entry.type) + '" data-label="' + escapeHtml(entry.label) + '">' +
-                                '<span class="tau-program-result__type">' + escapeHtml(entry.type === "course" ? "Curso" : entry.type === "route" ? "Ruta final" : entry.type === "subcategory" ? "Subnivel" : "Socio academico") + '</span>' +
+                                '<span class="tau-program-result__type">' + escapeHtml(entry.type === "course" ? "Curso" : entry.type === "route" ? "Ruta final" : entry.type === "subcategory" ? "Subnivel" : "Programa academico") + '</span>' +
                                 '<strong>' + escapeHtml(entry.label) + '</strong>' +
                                 '<small>' + escapeHtml(entry.meta || "") + '</small>' +
                             '</button>';

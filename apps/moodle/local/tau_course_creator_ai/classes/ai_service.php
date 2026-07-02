@@ -88,11 +88,14 @@ class ai_service {
     // ── Claude (Anthropic) ────────────────────────────────────────────────────
 
     private function chat_openai_compat(array $messages, bool $stream = false): string {
+        if (empty($this->api_key)) {
+            throw new \Exception("OpenAI API Key is not configured.");
+        }
         $payload = [
             'model'       => $this->model,
             'messages'    => $messages,
             'temperature' => 0.3,
-            'max_tokens'  => 8000,
+            'max_tokens'  => 16384,
             'stream'      => $stream,
             'response_format' => ['type' => 'json_object'],
         ];
@@ -125,11 +128,14 @@ class ai_service {
     }
 
     private function stream_openai_compat(array $messages, ?callable $on_token): string {
+        if (empty($this->api_key)) {
+            throw new \Exception("OpenAI API Key is not configured.");
+        }
         $payload = [
             'model'       => $this->model,
             'messages'    => $messages,
             'temperature' => 0.3,
-            'max_tokens'  => 4096,
+            'max_tokens'  => 16384,
             'stream'      => true,
             'response_format' => ['type' => 'json_object'],
         ];

@@ -207,7 +207,7 @@ $builder = new \local_tau_course_creator_ai\course_builder(function(string $mess
 });
 
 try {
-    $courseid = $builder->build($blueprint, 1);
+    $courseid = $builder->build($blueprint, 8);
     fwrite(STDOUT, PHP_EOL . "✅ SUCCESS! Course created successfully." . PHP_EOL);
     fwrite(STDOUT, "Course ID: " . $courseid . PHP_EOL);
     

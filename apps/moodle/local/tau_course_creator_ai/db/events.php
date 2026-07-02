@@ -8,4 +8,10 @@ $observers = [
         'priority' => 9999,
         'internal' => false,
     ],
+    [
+        'eventname' => '\core\event\course_created',
+        'callback' => '\local_tau_course_creator_ai\recordings_observer::handle_course_created',
+        'priority' => 9000,
+        'internal' => false,
+    ],
 ];

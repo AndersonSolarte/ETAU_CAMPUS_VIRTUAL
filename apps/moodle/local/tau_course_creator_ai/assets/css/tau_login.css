@@ -1,4 +1,40 @@
 /* TAU Campus Virtual - Login Page Styles */
+body#page-login-index,
+body#page-login-index #page {
+    background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,.32) 0%, rgba(255,255,255,0) 20%),
+        radial-gradient(circle at 86% 78%, rgba(255,214,220,.22) 0%, rgba(255,214,220,0) 22%),
+        linear-gradient(135deg, #731523 0%, #9e1d2f 34%, #c62b3a 64%, #de5a68 100%) !important;
+    background-color: #9e1d2f !important;
+    min-height: 100vh !important;
+}
+
+body#page-login-index::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.12) 0, rgba(255,255,255,0) 18%),
+        radial-gradient(circle at 100% 100%, rgba(255,255,255,.08) 0, rgba(255,255,255,0) 16%),
+        linear-gradient(115deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 40%),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.04) 0,
+            rgba(255,255,255,.04) 10px,
+            transparent 10px,
+            transparent 90px
+        ) !important;
+    opacity: .9 !important;
+    z-index: 0 !important;
+}
+
+body#page-login-index #page,
+body#page-login-index .login-wrapper {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
 body#page-login-index footer,
 body#page-login-index #page-footer,
 body#page-login-index .moove-footer,
@@ -241,13 +277,79 @@ body#page-login-index #loginlogo,
 body#page-login-index #tau-presencial-loginlogo {
     display: block !important;
     text-align: center !important;
-    margin-bottom: .75rem !important;
+    margin: 0 auto .95rem !important;
 }
 
 body#page-login-index #loginlogo img,
 body#page-login-index #tau-presencial-loginlogo img {
-    max-width: 260px !important;
+    max-width: 156px !important;
     height: auto !important;
+}
+
+body#page-login-index .tau-login-welcome {
+    text-align: center !important;
+    max-width: 290px !important;
+    margin: 8px auto 18px !important;
+}
+
+body#page-login-index .tau-campus-brand {
+    font-size: .96rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.11em !important;
+    line-height: 1.35 !important;
+    text-transform: uppercase !important;
+    color: #7b1225 !important;
+    margin-bottom: 0.45rem !important;
+}
+
+body#page-login-index .tau-campus-inst {
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: #c62b3a !important;
+    margin-bottom: 0.55rem !important;
+}
+
+body#page-login-index .tau-campus-meta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 1rem auto 0 !important;
+    padding: 0.3rem 0.78rem !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #d9dde3 0%, #c2c8d1 100%) !important;
+    color: #434b56 !important;
+    font-size: 0.62rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.75), 0 5px 14px rgba(31,35,40,.10) !important;
+}
+
+body#page-login-index .tau-login-welcome p {
+    font-size: .84rem !important;
+    line-height: 1.6 !important;
+    color: #707782 !important;
+    margin: 0 !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-campus-brand {
+    color: #f1939f !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-campus-inst {
+    color: #ff7b8b !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-campus-meta {
+    background: linear-gradient(180deg, #717885 0%, #535b68 100%) !important;
+    color: #f5f7fa !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 4px 12px rgba(0,0,0,.24) !important;
+}
+
+[data-bs-theme="dark"] body#page-login-index .tau-login-welcome p {
+    color: #a1a7b3 !important;
 }
 
 body#page-login-index .login-identityproviders h2 {
@@ -375,7 +477,7 @@ body#page-login-index .tau-login-card-links .tau-sep {
 /* Footer controls on cards */
 body#page-login-index .tau-login-card-foot-controls {
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
     align-items: center !important;
     gap: 12px !important;
     margin-top: 12px !important;
@@ -391,6 +493,8 @@ body#page-login-index .tau-login-card-foot-controls {
 
 body#page-login-index .tau-lang-selector-custom {
     position: relative !important;
+    display: flex !important;
+    justify-content: center !important;
 }
 
 body#page-login-index .tau-lang-btn,
@@ -409,6 +513,8 @@ body#page-login-index .tau-cookie-btn {
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     line-height: 1.2 !important;
+    min-width: 150px !important;
+    justify-content: center !important;
 }
 
 [data-bs-theme="dark"] body#page-login-index .tau-lang-btn,
@@ -485,40 +591,42 @@ body#page-login-index .tau-lang-dropdown-menu a:hover {
 /* Warnings and error Toasts */
 .tau-toast {
     position: fixed !important;
-    bottom: 25px !important;
-    left: 25px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     z-index: 100000 !important;
     background: #fff !important;
-    border-left: 5px solid #c62b3a !important;
-    box-shadow: 0 10px 30px rgba(198, 43, 58, 0.15) !important;
-    border-radius: 16px !important;
-    padding: 20px 24px !important;
-    max-width: 380px !important;
-    width: calc(100vw - 50px) !important;
+    border-top: 5px solid #c62b3a !important;
+    box-shadow: 0 24px 70px rgba(75, 15, 24, 0.22) !important;
+    border-radius: 20px !important;
+    padding: 24px 28px 18px !important;
+    max-width: 440px !important;
+    width: min(440px, calc(100vw - 32px)) !important;
     box-sizing: border-box !important;
     animation: tauToastIn .3s cubic-bezier(.34,1.56,.64,1) both;
+    text-align: center !important;
 }
 
 .tau-toast-title {
     font-weight: 800;
-    font-size: 0.92rem;
+    font-size: 1rem;
     color: #c62b3a;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     letter-spacing: -0.3px;
 }
 
 .tau-toast-body {
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     color: #555;
-    line-height: 1.5;
-    margin-bottom: 10px;
+    line-height: 1.6;
+    margin-bottom: 12px;
 }
 
 .tau-toast-contact {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     color: #888;
     border-top: 1px dashed rgba(0,0,0,0.07);
-    padding-top: 8px;
+    padding-top: 10px;
 }
 
 .tau-toast-contact a {
@@ -532,11 +640,11 @@ body#page-login-index .tau-lang-dropdown-menu a:hover {
 
 .tau-toast-close {
     position: absolute !important;
-    top: 12px !important;
-    right: 14px !important;
+    top: 10px !important;
+    right: 12px !important;
     background: none !important;
     border: none !important;
-    font-size: 1.2rem !important;
+    font-size: 1.35rem !important;
     cursor: pointer !important;
     line-height: 1 !important;
     color: #bbb !important;
@@ -548,8 +656,8 @@ body#page-login-index .tau-lang-dropdown-menu a:hover {
 
 [data-bs-theme="dark"] .tau-toast {
     background: #1a1a24 !important;
-    border-left-color: #e8717c !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+    border-top-color: #e8717c !important;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48) !important;
     border-color: rgba(255,255,255,0.05) !important;
 }
 
@@ -559,8 +667,8 @@ body#page-login-index .tau-lang-dropdown-menu a:hover {
 [data-bs-theme="dark"] .tau-toast-contact a { color: #e8717c; }
 
 @keyframes tauToastIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 24px)) scale(.96); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Manual login overrides to show hidden Moodle local fields */
@@ -580,4 +688,3 @@ body.tau-manual-login#page-login-index input[name="username"],
 body.tau-manual-login#page-login-index input[name="password"] {
     display: block !important;
 }
-

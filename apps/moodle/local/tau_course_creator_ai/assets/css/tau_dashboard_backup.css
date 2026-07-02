@@ -1,0 +1,1529 @@
+/* TAU Campus Virtual - Dashboard Styles */
+@keyframes tauDashIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#tau-personal-dashboard {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(88,16,28,.08);
+    margin-bottom: 2rem;
+    background: #fff;
+    border: 1px solid rgba(198,43,58,.08);
+    animation: tauDashIn .5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.tau-pd-header {
+    background: linear-gradient(135deg, #8d182a 0%, #c62b3a 100%);
+    padding: 1.2rem 1.8rem 1.2rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.tau-pd-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 90% 10%, rgba(255,255,255,.12) 0%, transparent 40%), linear-gradient(90deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+}
+
+.tau-pd-greeting {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: .35rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tau-pd-subtitle {
+    font-size: .95rem;
+    opacity: .9;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+    max-width: 600px;
+}
+
+.tau-pd-prog-wrap {
+    margin-top: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tau-pd-prog-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    opacity: .9;
+    font-weight: 700;
+    margin-bottom: .55rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.tau-pd-prog-bar {
+    height: 10px;
+    background: rgba(255,255,255,.2);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+
+.tau-pd-prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fff 0%, #fff 100%);
+    border-radius: 999px;
+    transition: width 1.2s cubic-bezier(.34,1.56,.64,1);
+    width: 0;
+}
+
+.tau-pd-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 16px;
+    background: #fdfdfd;
+}
+
+@media(max-width: 992px) {
+    .tau-pd-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 576px) {
+    .tau-pd-stats { grid-template-columns: 1fr; }
+}
+
+.card.dashboard-card,
+.card.course-card {
+    height: 100% !important;
+    display: flex;
+    flex-direction: column !important;
+    border-radius: 18px;
+    border: 1px solid rgba(198,43,58,.08);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s;
+    background: #fff;
+    overflow: hidden;
+}
+
+.tau-card-hidden {
+    display: none !important;
+}
+
+.tau-pd-stat {
+    background: #fff;
+    border: 1px solid rgba(198,43,58,.08);
+    border-radius: 16px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tau-pd-stat:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(198,43,58,.12);
+    border-color: rgba(198,43,58,.25);
+}
+
+.tau-pd-stat::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: transparent;
+    transition: background .3s;
+}
+
+.tau-stat-card-1::after { background: linear-gradient(90deg, #8d182a, #c62b3a); }
+.tau-stat-card-2::after { background: linear-gradient(90deg, #1e3a8a, #3b82f6); }
+.tau-stat-card-3::after { background: linear-gradient(90deg, #0f766e, #14b8a6); }
+.tau-stat-card-4::after { background: linear-gradient(90deg, #b02230, #e84393); }
+
+.tau-pd-stat-badge {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 8px 20px rgba(0,0,0,.04);
+}
+
+.tau-pd-stat:hover .tau-pd-stat-badge {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tau-stat-card-1 .tau-pd-stat-badge { color: #c62b3a; background: rgba(198,43,58,.08); }
+.tau-stat-card-2 .tau-pd-stat-badge { color: #1e3a8a; background: rgba(30,58,138,.08); }
+.tau-stat-card-3 .tau-pd-stat-badge { color: #0f766e; background: rgba(15,118,110,.08); }
+.tau-stat-card-4 .tau-pd-stat-badge { color: #d63031; background: rgba(214,48,49,.08); }
+
+.tau-pd-stat-badge svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.tau-pd-stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: .5rem;
+    letter-spacing: -.05em;
+    font-variant-numeric: tabular-nums;
+    transition: color .3s;
+}
+
+.tau-stat-card-1 .tau-pd-stat-number { color: #8d182a; }
+.tau-stat-card-2 .tau-pd-stat-number { color: #1e3a8a; }
+.tau-stat-card-3 .tau-pd-stat-number { color: #0f766e; }
+.tau-stat-card-4 .tau-pd-stat-number { color: #b02230; }
+
+.tau-pd-stat-label {
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #555;
+    margin: 0;
+}
+
+/* Dark mode overrides for dashboard */
+[data-bs-theme="dark"] #tau-personal-dashboard {
+    background: #1e1e2e;
+    border-color: rgba(232,113,124,.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+[data-bs-theme="dark"] .tau-pd-stats {
+    background: #151522;
+}
+
+[data-bs-theme="dark"] .tau-pd-stat {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,.06);
+}
+
+[data-bs-theme="dark"] .tau-pd-stat:hover {
+    border-color: rgba(232,113,124,.3);
+    box-shadow: 0 12px 28px rgba(232,113,124,.15);
+}
+
+[data-bs-theme="dark"] .tau-stat-card-1 .tau-pd-stat-badge { color: #ff6b81; background: rgba(232,113,124,.15); }
+[data-bs-theme="dark"] .tau-stat-card-2 .tau-pd-stat-badge { color: #70a1ff; background: rgba(112,161,255,.15); }
+[data-bs-theme="dark"] .tau-stat-card-3 .tau-pd-stat-badge { color: #2ed573; background: rgba(46,213,115,.15); }
+[data-bs-theme="dark"] .tau-stat-card-4 .tau-pd-stat-badge { color: #ffa502; background: rgba(255,165,2,.15); }
+
+[data-bs-theme="dark"] .tau-stat-card-1 .tau-pd-stat-number { color: #ff6b81; }
+[data-bs-theme="dark"] .tau-stat-card-2 .tau-pd-stat-number { color: #70a1ff; }
+[data-bs-theme="dark"] .tau-stat-card-3 .tau-pd-stat-number { color: #2ed573; }
+[data-bs-theme="dark"] .tau-stat-card-4 .tau-pd-stat-number { color: #ffa502; }
+
+[data-bs-theme="dark"] .tau-pd-stat-label {
+    color: #aaa;
+}
+
+body.tau-student-courses-minimal #tau-smart-filters,
+body.tau-student-courses-minimal #tau-semester-tabs,
+body.tau-student-courses-minimal .tau-native-toolbar,
+body.tau-student-courses-minimal .tau-student-hidden-control,
+body.tau-role-student .primary-navigation .nav-link[title="Página Principal"],
+body.tau-role-student .primary-navigation .nav-link[title="Pagina Principal"] {
+    display: none !important;
+}
+
+.tau-navbar-name-visible .usermenu .dropdown-toggle,
+.tau-navbar-name-visible .usermenu [data-bs-toggle="dropdown"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    max-width: min(24vw, 320px) !important;
+    overflow: hidden !important;
+}
+
+.tau-navbar-username {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    max-width: min(19vw, 240px) !important;
+    min-width: 0 !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.08) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+    overflow: hidden !important;
+    color: #fff !important;
+    font-size: .88rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .02em !important;
+    line-height: 1 !important;
+    order: 1 !important;
+}
+
+.tau-navbar-hand {
+    display: none !important;
+}
+
+.tau-navbar-hand {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+    transform-origin: 75% 75% !important;
+    animation: tauNavbarWave 1.8s ease-in-out infinite !important;
+}
+
+.tau-navbar-name-visible .tau-navbar-hand {
+    display: none !important;
+}
+
+.tau-navbar-username-text {
+    display: inline-block !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+}
+
+@media (max-width: 1500px) {
+    .tau-navbar-name-visible .usermenu .dropdown-toggle,
+    .tau-navbar-name-visible .usermenu [data-bs-toggle="dropdown"] {
+        max-width: 260px !important;
+    }
+
+    .tau-navbar-username {
+        max-width: 190px !important;
+    }
+}
+
+@media (max-width: 1320px) {
+    .tau-navbar-name-visible .usermenu .dropdown-toggle,
+    .tau-navbar-name-visible .usermenu [data-bs-toggle="dropdown"] {
+        max-width: 220px !important;
+    }
+
+    .tau-navbar-username {
+        max-width: 150px !important;
+        padding: 7px 10px !important;
+        font-size: .82rem !important;
+    }
+}
+
+@media (max-width: 1180px) {
+    .tau-navbar-username {
+        display: none !important;
+    }
+}
+
+.tau-pd-greeting .wave {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 10px !important;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 0 !important;
+    color: transparent !important;
+    line-height: 1 !important;
+    transform-origin: 75% 75% !important;
+    animation: tauGreetingWave 1.8s ease-in-out infinite !important;
+    filter: drop-shadow(0 0 8px rgba(255, 214, 170, .18)) !important;
+    position: relative !important;
+}
+
+.tau-pd-greeting .wave::before {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23f4c7a1' d='M23 30V11c0-3 2-5 5-5s5 2 5 5v15h2V8c0-3 2-5 5-5s5 2 5 5v18h2V12c0-3 2-5 5-5s5 2 5 5v24c0 12-9 21-21 21h-6c-6 0-11-2-15-6L7 39c-2-2-2-5 0-7s5-2 7 0l9 9v-11z'/%3E%3Cpath fill='%23e5b38d' d='M23 26h26v7H23z'/%3E%3Cpath fill='none' stroke='%23c98f6d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M23 30V11c0-3 2-5 5-5s5 2 5 5v15m2 0V8c0-3 2-5 5-5s5 2 5 5v18m2 0V12c0-3 2-5 5-5s5 2 5 5v24c0 12-9 21-21 21h-6c-6 0-11-2-15-6L7 39c-2-2-2-5 0-7s5-2 7 0l9 9V26'/%3E%3C/svg%3E") !important;
+}
+
+@keyframes tauNavbarWave {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(16deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(16deg); }
+    40% { transform: rotate(-6deg); }
+    50% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes tauGreetingWave {
+    0% { transform: rotate(0deg) scale(1); }
+    10% { transform: rotate(18deg) scale(1.02); }
+    20% { transform: rotate(-12deg) scale(1.04); }
+    30% { transform: rotate(18deg) scale(1.04); }
+    40% { transform: rotate(-8deg) scale(1.03); }
+    50% { transform: rotate(12deg) scale(1.02); }
+    60% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+.tau-teacher-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+    padding-top: .55rem;
+    border-top: 1px solid rgba(0,0,0,.055);
+    font-size: .74rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tau-tr-icon {
+    flex-shrink: 0;
+    font-size: .85rem;
+    line-height: 1;
+}
+
+.tau-tr-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    font-weight: 600;
+    color: #666;
+}
+
+[data-bs-theme="dark"] .tau-teacher-row { border-top-color: rgba(255,255,255,.06); }
+[data-bs-theme="dark"] .tau-tr-name { color: #777; }
+
+/* Course Header Actions Buttons */
+.tau-header-buttons-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 12px !important;
+    flex-wrap: nowrap !important;
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: 1140px !important;
+    margin-left: auto !important;
+}
+
+.tau-header-buttons-container > a,
+.tau-header-buttons-container > form,
+.tau-header-buttons-container > button {
+    flex: 1 1 0% !important;
+    max-width: 380px !important;
+    width: 100% !important;
+    height: 42px !important;
+    border-radius: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center !important;
+}
+
+.tau-header-buttons-container > form {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.tau-header-buttons-container > form > div {
+    width: 100% !important;
+    height: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.tau-header-buttons-container > form button,
+.tau-header-buttons-container > form input[type="submit"] {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.tau-btn-manage {
+    background: #ffffff !important;
+    color: #c62b3a !important;
+    border: 2px solid #c62b3a !important;
+    box-shadow: 0 2px 6px rgba(198,43,58,0.08) !important;
+}
+
+.tau-btn-manage:hover {
+    background: #fff2f3 !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 14px rgba(198, 43, 58, 0.16) !important;
+}
+
+.tau-btn-create,
+.tau-header-buttons-container > form button,
+.tau-header-buttons-container > form input[type="submit"] {
+    background: #c62b3a !important;
+    color: #ffffff !important;
+    border: 2px solid #c62b3a !important;
+    box-shadow: 0 4px 10px rgba(198, 43, 58, 0.18) !important;
+}
+
+.tau-btn-create:hover,
+.tau-header-buttons-container > form button:hover,
+.tau-header-buttons-container > form input[type="submit"]:hover {
+    background: #b02230 !important;
+    border-color: #b02230 !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 8px 18px rgba(198, 43, 58, 0.28) !important;
+}
+
+.tau-btn-ai {
+    background: linear-gradient(135deg, #c62b3a 0%, #8d182a 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(198, 43, 58, 0.25) !important;
+}
+
+.tau-btn-ai:hover {
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 8px 20px rgba(198, 43, 58, 0.4) !important;
+}
+
+#tau-semester-tabs {
+    display: none !important;
+}
+
+.card.dashboard-card,
+.card.course-card {
+    position: relative;
+}
+
+.card.dashboard-card.tau-card-ready,
+.card.course-card.tau-card-ready {
+    display: block !important;
+    min-height: 360px !important;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 1 !important;
+    border-radius: 20px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid rgba(127, 22, 36, 0.12) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fffafb 100%) !important;
+    box-shadow: 0 16px 34px rgba(88,16,28,.09) !important;
+    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, opacity .22s ease;
+}
+
+.card.dashboard-card.tau-card-ready:hover,
+.card.course-card.tau-card-ready:hover {
+    transform: translateY(-5px);
+    border-color: rgba(127, 22, 36, 0.22) !important;
+    box-shadow: 0 22px 46px rgba(88,16,28,.14) !important;
+}
+
+.card.dashboard-card.tau-card-ready.tau-menu-open,
+.card.course-card.tau-card-ready.tau-menu-open {
+    z-index: 5000 !important;
+}
+
+.tau-gradient-header {
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    box-sizing: border-box !important;
+    min-height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .9rem .9rem .75rem;
+    border-radius: 18px 18px 0 0;
+    background: linear-gradient(135deg, #661320 0%, #7d1828 55%, #8f1c2d 100%) !important;
+    overflow: hidden !important;
+}
+
+.tau-gradient-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 22%, rgba(255,255,255,.14) 0%, transparent 24%),
+        linear-gradient(110deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,0) 42%);
+    pointer-events: none;
+}
+
+.tau-card-logo-shell {
+    position: relative;
+    z-index: 1;
+    width: min(188px, 68%);
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.tau-card-logo {
+    width: min(156px, 100%);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.card.dashboard-card.tau-card-ready .card-body,
+.card.course-card.tau-card-ready .card-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .52rem;
+    padding: .82rem .9rem .88rem !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fffdfd 100%);
+}
+
+.card.dashboard-card.tau-card-ready .card-body::before,
+.card.course-card.tau-card-ready .card-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.35rem;
+    right: 1.35rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(127,22,36,.16) 0%, rgba(127,22,36,.04) 100%);
+}
+
+.card.dashboard-card.tau-card-ready .multiline,
+.card.dashboard-card.tau-card-ready .coursename,
+.card.dashboard-card.tau-card-ready .card-title,
+.card.dashboard-card.tau-card-ready h3,
+.card.dashboard-card.tau-card-ready h4,
+.card.course-card.tau-card-ready .multiline,
+.card.course-card.tau-card-ready .coursename,
+.card.course-card.tau-card-ready .card-title,
+.card.course-card.tau-card-ready h3,
+.card.course-card.tau-card-ready h4 {
+    display: block;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-weight: 700 !important;
+    line-height: 1.32 !important;
+}
+
+.tau-card-meta-strip {
+    display: flex;
+    flex-direction: column;
+    gap: .12rem;
+    margin: 0;
+    order: 1 !important;
+}
+
+.tau-card-meta-block {
+    display: block;
+    max-width: 100%;
+    padding: 0;
+}
+
+.tau-card-meta-value {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    line-height: 1.3;
+}
+
+.tau-card-meta-block--program {
+    min-height: calc(1.25 * .96rem * 2); /* 2 lines of text */
+}
+
+.tau-card-meta-value--program {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    font-size: .96rem;
+    font-weight: 800;
+    letter-spacing: -.015em;
+    line-height: 1.25;
+    color: #223045;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tau-card-meta-value--semester {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    color: #7f1624;
+}
+
+.card.dashboard-card.tau-card-ready .tau-cat-badge,
+.card.course-card.tau-card-ready .tau-cat-badge {
+    display: none !important;
+}
+
+.card.dashboard-card.tau-card-ready .multiline,
+.card.dashboard-card.tau-card-ready .coursename,
+.card.dashboard-card.tau-card-ready .card-title,
+.card.dashboard-card.tau-card-ready h3,
+.card.dashboard-card.tau-card-ready h4,
+.card.course-card.tau-card-ready .multiline,
+.card.course-card.tau-card-ready .coursename,
+.card.course-card.tau-card-ready .card-title,
+.card.course-card.tau-card-ready h3,
+.card.course-card.tau-card-ready h4 {
+    order: 3 !important;
+    color: #d63548 !important;
+    font-size: .92rem !important;
+    line-height: 1.22 !important;
+    letter-spacing: -.01em !important;
+    font-weight: 700 !important;
+}
+
+.card.dashboard-card.tau-card-ready .coursecat,
+.card.dashboard-card.tau-card-ready .course-category,
+.card.dashboard-card.tau-card-ready [data-region='coursecategory'],
+.card.dashboard-card.tau-card-ready .categoryname,
+.card.course-card.tau-card-ready .coursecat,
+.card.course-card.tau-card-ready .course-category,
+.card.course-card.tau-card-ready [data-region='coursecategory'],
+.card.course-card.tau-card-ready .categoryname,
+.tau-native-category-hidden {
+    display: none !important;
+}
+
+.tau-native-course-title {
+    display: none !important;
+}
+
+.tau-card-course-title {
+    order: 3 !important;
+    margin: 0 !important;
+    color: #d63548 !important;
+    font-size: .92rem !important;
+    line-height: 1.22 !important;
+    letter-spacing: -.01em !important;
+    font-weight: 700 !important;
+    text-wrap: balance;
+    min-height: calc(1.22 * .92rem * 2) !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.card.dashboard-card.tau-card-ready .card-text,
+.card.dashboard-card.tau-card-ready .text-muted,
+.card.dashboard-card.tau-card-ready .small,
+.card.dashboard-card.tau-card-ready .course-summary,
+.card.dashboard-card.tau-card-ready .summary,
+.card.dashboard-card.tau-card-ready .contentafterlink,
+.card.course-card.tau-card-ready .card-text,
+.card.course-card.tau-card-ready .text-muted,
+.card.course-card.tau-card-ready .small,
+.card.course-card.tau-card-ready .course-summary,
+.card.course-card.tau-card-ready .summary,
+.card.course-card.tau-card-ready .contentafterlink {
+    display: none !important;
+}
+
+.card.dashboard-card.tau-card-ready .tau-card-teacher-section,
+.card.course-card.tau-card-ready .tau-card-teacher-section,
+.card.dashboard-card.tau-card-ready .tau-teacher-row,
+.card.course-card.tau-card-ready .tau-teacher-row {
+    order: 5;
+    margin-top: .15rem;
+}
+
+.tau-card-teacher-section {
+    display: flex;
+    align-items: center;
+    gap: .68rem;
+    min-height: 60px;
+    padding: .62rem .05rem 0;
+    border-top: 1px solid rgba(127,22,36,.10);
+}
+
+.tau-teacher-avatar-wrapper {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    flex-shrink: 0 !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 50% !important;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff2f4 0%, #ffe7eb 100%);
+    border: 2px solid rgba(198,43,58,.12);
+    box-shadow: 0 8px 18px rgba(88,16,28,.10);
+}
+
+.tau-teacher-avatar-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+.tau-teacher-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a52334;
+}
+
+.tau-teacher-avatar-placeholder svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.tau-teacher-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .18rem;
+    flex: 1;
+}
+
+.tau-teacher-label {
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #a9afba;
+}
+
+.tau-teacher-name {
+    font-size: .89rem;
+    line-height: 1.24;
+    font-weight: 700;
+    color: #243041;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-wrap: balance;
+}
+
+
+
+.card.dashboard-card > .dropdown .btn,
+.card.dashboard-card > .action-menu .btn,
+.card.course-card > .dropdown .btn,
+.card.course-card > .action-menu .btn {
+    border-radius: 12px !important;
+    background: rgba(255,255,255,.14) !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(0,0,0,.14) !important;
+}
+
+.card.dashboard-card > .dropdown .btn:hover,
+.card.dashboard-card > .action-menu .btn:hover,
+.card.course-card > .dropdown .btn:hover,
+.card.course-card > .action-menu .btn:hover {
+    background: rgba(255,255,255,.22) !important;
+}
+
+[data-bs-theme="dark"] .card.dashboard-card.tau-card-ready:hover,
+[data-bs-theme="dark"] .card.course-card.tau-card-ready:hover {
+    box-shadow: 0 24px 54px rgba(0,0,0,.42) !important;
+}
+
+.tau-smart-filters {
+    position: relative;
+    margin: .85rem 0 1.1rem;
+    padding: 1.1rem 1.1rem 1.15rem;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at top right, rgba(198,43,58,.07) 0%, transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #fff9fa 100%);
+    border: 1px solid rgba(198,43,58,.09);
+    box-shadow: 0 18px 38px rgba(88,16,28,.06);
+}
+
+.tau-native-search-hidden {
+    display: none !important;
+}
+
+.tau-native-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: .85rem !important;
+    margin: 1rem 0 1.15rem !important;
+    padding: .9rem 1rem !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(127,22,36,.10) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fff9fa 100%) !important;
+    box-shadow: 0 12px 28px rgba(88,16,28,.06) !important;
+}
+
+.tau-native-toolbar::before {
+    content: "Organizar vista";
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 .85rem;
+    border-radius: 999px;
+    background: rgba(127,22,36,.06);
+    color: #7f1624;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.tau-native-toolbar__item {
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+.tau-native-toolbar .dropdown,
+.tau-native-toolbar .btn-group,
+.tau-native-toolbar select,
+.tau-native-toolbar .custom-select,
+.tau-native-toolbar .form-select,
+.tau-native-toolbar button,
+.tau-native-toolbar .btn {
+    border-radius: 14px !important;
+}
+
+.tau-course-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    grid-auto-flow: row dense !important;
+    gap: 1.15rem !important;
+    align-items: start !important;
+}
+
+.tau-course-grid > .card.dashboard-card,
+.tau-course-grid > .card.course-card,
+.tau-course-grid .card.dashboard-card.tau-card-ready,
+.tau-course-grid .card.course-card.tau-card-ready {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.tau-card-hidden {
+    pointer-events: none !important;
+}
+
+.tau-grid-item-hidden {
+    display: none !important;
+}
+
+.tau-smart-filters__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 1rem;
+    padding-bottom: .85rem;
+    border-bottom: 1px solid rgba(15,23,42,.07);
+}
+
+.tau-smart-filters__eyebrow {
+    display: inline-block;
+    margin-bottom: .22rem;
+    font-size: .67rem;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #b02230;
+}
+
+.tau-smart-filters__heading h3 {
+    margin: 0;
+    font-size: 1.04rem;
+    font-weight: 800;
+    color: #172033;
+    letter-spacing: -.02em;
+}
+
+.tau-smart-filters__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.tau-smart-filters__meta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 .9rem;
+    border-radius: 999px;
+    background: rgba(123,18,37,.06);
+    font-size: .78rem;
+    font-weight: 800;
+    color: #7b1225;
+}
+
+.tau-smart-filters__clear {
+    border: 1px solid rgba(198,43,58,.16);
+    background: linear-gradient(180deg, #fff 0%, #fff7f8 100%);
+    color: #b02230;
+    border-radius: 999px;
+    padding: .62rem 1rem;
+    font-size: .78rem;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(198,43,58,.06);
+    transition: all .2s ease;
+}
+
+.tau-smart-filters__clear:hover {
+    background: #fff3f5;
+    border-color: rgba(198,43,58,.28);
+}
+
+.tau-smart-filters__search {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.tau-smart-filters__search input {
+    width: 100%;
+    height: 52px;
+    padding: 0 1rem 0 3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(15,23,42,.09);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+    color: #172033;
+    font-size: .92rem;
+    box-shadow: inset 0 1px 1px rgba(15,23,42,.03), 0 8px 20px rgba(15,23,42,.03);
+}
+
+.tau-smart-filters__search input:focus {
+    outline: none;
+    border-color: rgba(198,43,58,.28);
+    box-shadow: 0 0 0 4px rgba(198,43,58,.08);
+}
+
+.tau-smart-filters__searchicon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    width: 18px;
+    height: 18px;
+    color: #9ca3af;
+    transform: translateY(-50%);
+}
+
+.tau-smart-filters__searchicon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.tau-smart-filters__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.tau-filter-dropdown {
+    position: relative;
+}
+
+.tau-filter-trigger {
+    width: 100%;
+    min-height: 74px;
+    padding: .9rem 1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(15,23,42,.08);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: .28rem .85rem;
+    text-align: left;
+    box-shadow: 0 10px 26px rgba(15,23,42,.04);
+    transition: all .2s ease;
+}
+
+.tau-filter-dropdown.is-open .tau-filter-trigger,
+.tau-filter-trigger:hover {
+    transform: translateY(-1px);
+    border-color: rgba(198,43,58,.22);
+    box-shadow: 0 16px 32px rgba(198,43,58,.10);
+}
+
+.tau-filter-trigger__label {
+    font-size: .63rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.tau-filter-trigger__value {
+    font-size: .98rem;
+    font-weight: 800;
+    color: #172033;
+}
+
+.tau-filter-trigger__chevron {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: end;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #fff4f6 0%, #ffecee 100%);
+    color: #b02230;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+.tau-filter-trigger__chevron svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    transition: transform .2s ease;
+}
+
+.tau-filter-dropdown.is-open .tau-filter-trigger__chevron {
+    background: linear-gradient(180deg, #ffeef1 0%, #ffdfe4 100%);
+}
+
+.tau-filter-dropdown.is-open .tau-filter-trigger__chevron svg {
+    transform: rotate(180deg);
+}
+
+.tau-filter-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 40;
+    display: none;
+    max-height: 280px;
+    overflow: auto;
+    padding: .6rem;
+    border-radius: 20px;
+    border: 1px solid rgba(15,23,42,.08);
+    background: rgba(255,255,255,.98);
+    box-shadow: 0 20px 45px rgba(15,23,42,.14);
+    backdrop-filter: blur(10px);
+}
+
+.tau-filter-dropdown.is-open .tau-filter-menu {
+    display: block;
+}
+
+.tau-filter-option {
+    display: grid;
+    grid-template-columns: 18px 1fr auto;
+    align-items: center;
+    gap: .7rem;
+    padding: .82rem .76rem;
+    border-radius: 14px;
+    cursor: pointer;
+    color: #172033;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.tau-filter-option:hover {
+    background: #fff4f6;
+    transform: translateX(2px);
+}
+
+.tau-filter-option input {
+    width: 16px;
+    height: 16px;
+    accent-color: #c62b3a;
+}
+
+.tau-filter-option__text {
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.tau-filter-option__count {
+    min-width: 28px;
+    padding: .2rem .4rem;
+    border-radius: 999px;
+    background: rgba(15,23,42,.05);
+    text-align: center;
+    font-size: .74rem;
+    font-weight: 800;
+    color: #9ca3af;
+}
+
+.tau-filter-empty {
+    padding: .9rem .8rem;
+    color: #9ca3af;
+    font-size: .84rem;
+    font-weight: 700;
+}
+
+.tau-smart-filters-empty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    margin: 1rem 0 0;
+    padding: 1.35rem;
+    border: 1px dashed rgba(198,43,58,.22);
+    border-radius: 18px;
+    background: #fffafb;
+    color: #6b7280;
+    text-align: center;
+}
+
+.tau-smart-filters-empty strong {
+    color: #b02230;
+    font-size: .98rem;
+}
+
+[data-bs-theme="dark"] .tau-smart-filters {
+    background:
+        radial-gradient(circle at top right, rgba(232,113,124,.12) 0%, transparent 24%),
+        linear-gradient(180deg, #1f1822 0%, #17111b 100%);
+    border-color: rgba(255,255,255,.06);
+    box-shadow: 0 14px 30px rgba(0,0,0,.24);
+}
+
+[data-bs-theme="dark"] .tau-smart-filters__heading h3,
+[data-bs-theme="dark"] .tau-filter-trigger__value,
+[data-bs-theme="dark"] .tau-filter-option__text {
+    color: #f8fafc;
+}
+
+[data-bs-theme="dark"] .tau-smart-filters__meta,
+[data-bs-theme="dark"] .tau-filter-trigger__label,
+[data-bs-theme="dark"] .tau-filter-option__count,
+[data-bs-theme="dark"] .tau-filter-empty {
+    color: #a8b0bf;
+}
+
+[data-bs-theme="dark"] .tau-smart-filters__top {
+    border-bottom-color: rgba(255,255,255,.08);
+}
+
+[data-bs-theme="dark"] .tau-smart-filters__meta {
+    background: rgba(232,113,124,.10);
+    color: #ffc0c9;
+}
+
+[data-bs-theme="dark"] .tau-smart-filters__clear,
+[data-bs-theme="dark"] .tau-filter-trigger,
+[data-bs-theme="dark"] .tau-filter-menu,
+[data-bs-theme="dark"] .tau-smart-filters__search input {
+    background: #211926;
+    border-color: rgba(255,255,255,.08);
+    color: #f8fafc;
+}
+
+[data-bs-theme="dark"] .tau-filter-option:hover {
+    background: rgba(255,255,255,.04);
+}
+
+[data-bs-theme="dark"] .tau-filter-trigger__chevron {
+    background: rgba(232,113,124,.14);
+    color: #ff97a2;
+}
+
+[data-bs-theme="dark"] .tau-smart-filters-empty {
+    background: rgba(255,255,255,.02);
+    border-color: rgba(232,113,124,.16);
+    color: #cbd5e1;
+}
+
+[data-bs-theme="dark"] .card.dashboard-card.tau-card-ready,
+[data-bs-theme="dark"] .card.course-card.tau-card-ready {
+    border-color: rgba(255,255,255,.07) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.22) !important;
+}
+
+[data-bs-theme="dark"] .card.dashboard-card.tau-card-ready .card-body,
+[data-bs-theme="dark"] .card.course-card.tau-card-ready .card-body {
+    background: linear-gradient(180deg, #17111b 0%, #1d1520 100%);
+}
+
+[data-bs-theme="dark"] .card.dashboard-card.tau-card-ready .card-body::before,
+[data-bs-theme="dark"] .card.course-card.tau-card-ready .card-body::before {
+    background: linear-gradient(90deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.03) 100%);
+}
+
+[data-bs-theme="dark"] .tau-card-meta-label,
+[data-bs-theme="dark"] .tau-card-academic-label {
+    color: #ffc4cc;
+}
+
+[data-bs-theme="dark"] .tau-card-meta-value {
+    color: inherit;
+}
+
+[data-bs-theme="dark"] .tau-card-meta-value--program {
+    color: #f8fbff;
+}
+
+[data-bs-theme="dark"] .tau-card-meta-value--semester {
+    color: #ffc4cc;
+}
+
+[data-bs-theme="dark"] .tau-card-course-title {
+    color: #ff8695 !important;
+}
+
+[data-bs-theme="dark"] .tau-card-teacher-section {
+    border-top-color: rgba(255,255,255,.08);
+}
+
+[data-bs-theme="dark"] .tau-teacher-avatar-wrapper {
+    background: linear-gradient(135deg, rgba(232,113,124,.14) 0%, rgba(232,113,124,.09) 100%);
+    border-color: rgba(232,113,124,.18);
+}
+
+[data-bs-theme="dark"] .tau-teacher-avatar-placeholder {
+    color: #ffb1bc;
+}
+
+[data-bs-theme="dark"] .tau-teacher-label {
+    color: #9ea8b9;
+}
+
+[data-bs-theme="dark"] .tau-teacher-name {
+    color: #f8fbff;
+}
+
+[data-bs-theme="dark"] .tau-native-toolbar {
+    border-color: rgba(255,255,255,.07) !important;
+    background: linear-gradient(180deg, #1f1822 0%, #17111b 100%) !important;
+    box-shadow: 0 14px 30px rgba(0,0,0,.24) !important;
+}
+
+[data-bs-theme="dark"] .tau-native-toolbar::before {
+    background: rgba(232,113,124,.12);
+    color: #ffd4da;
+}
+
+@media (max-width: 900px) {
+    .tau-course-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .tau-smart-filters__top {
+        flex-direction: column;
+    }
+
+    .tau-smart-filters__actions {
+        justify-content: flex-start;
+    }
+
+    .tau-smart-filters__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tau-native-toolbar {
+        align-items: stretch !important;
+    }
+
+    .tau-native-toolbar::before {
+        width: fit-content;
+    }
+}
+
+/* Hide Moodle's native welcome greeting on the dashboard to prevent redundancy */
+#page-my-index .mb-2 span.h2,
+#page-my-index #page-header .mb-2,
+#page-my-index .welcome-message {
+    display: none !important;
+}
+
+/* Student View: Hidden Modules "Próximamente" state */
+body.tau-role-student .section.ishidden {
+    opacity: 1 !important;
+}
+
+body.tau-role-student .section.ishidden .content {
+    background: #fdfdfd;
+    border: 1px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+body.tau-role-student .section.ishidden .sectionname {
+    margin-bottom: 0 !important;
+}
+
+body.tau-role-student .section.ishidden .badge {
+    display: none !important;
+}
+
+body.tau-role-student .section.ishidden .sectionname::after {
+    content: "Próximamente";
+    display: inline-block;
+    margin-left: 12px;
+    padding: 4px 10px;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+}
+
+body.tau-role-student .section.ishidden .section_availability,
+body.tau-role-student .section.ishidden .summary,
+body.role-student .section.ishidden ul.section {
+    display: none !important;
+}
+
+/* Custom 3D Progress Bar Enhancement */
+.tau-3d-progress-wrapper {
+    order: 6;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+    width: 100%;
+}
+
+.tau-3d-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tau-3d-progress-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tau-3d-progress-value {
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.tau-prog-empty-text { color: #9ca3af; }
+.tau-prog-info-text { color: #d63548; }
+.tau-prog-success-text { color: #10b981; }
+
+.tau-3d-progress-track {
+    background: #e5e7eb;
+    border-radius: 12px;
+    height: 12px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tau-3d-progress-fill {
+    height: 100%;
+    border-radius: 12px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 -3px 4px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.4);
+}
+
+.tau-3d-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 1rem 1rem;
+    animation: tau-prog-stripes 2s linear infinite;
+    z-index: 1;
+}
+
+.tau-prog-empty { background: #9ca3af; }
+.tau-prog-info { background: linear-gradient(90deg, #d63548, #ff4d64); }
+.tau-prog-success { background: linear-gradient(90deg, #10b981, #34d399); }
+
+@keyframes tau-prog-stripes {
+    from { background-position: 1rem 0; }
+    to { background-position: 0 0; }
+}

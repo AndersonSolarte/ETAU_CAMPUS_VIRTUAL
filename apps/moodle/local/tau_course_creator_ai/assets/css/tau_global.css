@@ -1,14 +1,326 @@
 /* TAU Campus Virtual - Master Stylesheet */
 
 /* Import all modular component stylesheets */
-@import url('tau_preloader.css?v=20260615f');
-@import url('tau_darkmode.css?v=20260615');
-@import url('tau_login.css?v=20260615');
-@import url('tau_dashboard.css?v=20260615');
-@import url('tau_frontpage.css?v=20260615i');
+@import url('tau_preloader.css?v=20260629e');
+@import url('tau_darkmode.css?v=20260629e');
+@import url('tau_login.css?v=20260629e');
+@import url('tau_dashboard.css?v=20260630i');
+@import url('tau_recordings.css?v=20260629e');
+@import url('tau_frontpage.css?v=20260629e');
+
+/* Global TAU navbar fallback so the visual stays consistent even before Moove recompiles */
+.navbar,
+.navbar.fixed-top,
+.pagelayout-standard .navbar,
+.pagelayout-mydashboard .navbar,
+.pagelayout-course .navbar {
+    background:
+        radial-gradient(circle at 12% 24%, rgba(255,255,255,.12) 0%, transparent 16%),
+        linear-gradient(90deg, #c62b3a 0%, #c62b3a 34%, #b42838 52%, #8e1e2c 74%, #6c1521 100%) !important;
+    box-shadow: 0 10px 28px rgba(87,16,28,.20) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+}
+
+.navbar .nav-link,
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-link.active,
+.navbar .navbar-brand,
+.navbar .icon,
+.navbar .fa,
+.navbar button,
+.navbar .usermenu .dropdown-toggle,
+.primary-navigation .nav-link,
+.primary-navigation .nav-link:hover,
+.primary-navigation .nav-link:focus,
+.primary-navigation .nav-link.active,
+.primary-navigation .nav-link.show,
+.moremenu.navigation .nav-link,
+.moremenu.navigation .nav-link:hover,
+.moremenu.navigation .nav-link:focus,
+.moremenu.navigation .nav-link.active,
+.moremenu.navigation .nav-link.show {
+    color: #ffffff !important;
+}
+
+.navbar .nav-link,
+.primary-navigation .nav-link,
+.moremenu.navigation .nav-link {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.navbar .editmode-switch-form label,
+.navbar .custom-switch label,
+.navbar .custom-control-label,
+.navbar [data-region="editmode"] label {
+    color: #ffffff !important;
+}
+
+.navbar .dropdown-toggle::after {
+    border-top-color: rgba(255,255,255,.82) !important;
+}
+
+/* Secondary navigation: keep active tabs readable on white sub-bars */
+.secondary-navigation .nav-tabs .nav-link.active,
+.secondary-navigation .nav-tabs .nav-item.show .nav-link,
+.secondary-navigation .navigation .nav-link.active,
+.secondary-navigation .navigation .nav-item.show .nav-link,
+.secondary-navigation .moremenu .nav-link.active,
+.secondary-navigation .moremenu .nav-item.show .nav-link,
+.tertiary-navigation .nav-link.active,
+.tertiary-navigation .nav-item.show .nav-link {
+    color: #c62b3a !important;
+    background: rgba(198,43,58,.08) !important;
+    border-color: transparent !important;
+    border-bottom: 3px solid #c62b3a !important;
+    font-weight: 800 !important;
+}
+
+.secondary-navigation .nav-tabs .nav-link:not(.active),
+.secondary-navigation .navigation .nav-link:not(.active),
+.secondary-navigation .moremenu .nav-link:not(.active),
+.tertiary-navigation .nav-link:not(.active) {
+    color: #5b6068 !important;
+}
 
 /* Global Moodle footer cleanup rules */
 footer .copyright, 
 footer .madeby {
     display: none !important;
+}
+
+/* ── Estilos Premium para Alertas y Mensajes (Global) ── */
+.alert {
+    border: 1px solid transparent !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    margin-bottom: 20px !important;
+    position: relative !important;
+}
+
+/* Alerta de Advertencia (Warning) */
+.alert-warning {
+    background-color: #fff9db !important;
+    border-color: #ffe066 !important;
+    color: #856404 !important;
+    border-left: 4px solid #f59f00 !important;
+}
+[data-bs-theme="dark"] .alert-warning {
+    background-color: rgba(245, 159, 0, 0.08) !important;
+    border-color: rgba(245, 159, 0, 0.2) !important;
+    color: #ffd43b !important;
+}
+
+/* Alerta de Peligro / Error (Danger) */
+.alert-danger {
+    background-color: #fff5f5 !important;
+    border-color: #ffc9c9 !important;
+    color: #c92a2a !important;
+    border-left: 4px solid #e03131 !important;
+}
+[data-bs-theme="dark"] .alert-danger {
+    background-color: rgba(224, 49, 49, 0.08) !important;
+    border-color: rgba(224, 49, 49, 0.2) !important;
+    color: #ff8787 !important;
+}
+
+/* Alerta de Éxito (Success) */
+.alert-success {
+    background-color: #ebfbee !important;
+    border-color: #b2f2bb !important;
+    color: #2b8a3e !important;
+    border-left: 4px solid #2f9e44 !important;
+}
+[data-bs-theme="dark"] .alert-success {
+    background-color: rgba(47, 158, 68, 0.08) !important;
+    border-color: rgba(47, 158, 68, 0.2) !important;
+    color: #69db7c !important;
+}
+
+/* Alerta de Información (Info) */
+.alert-info {
+    background-color: #e7f5ff !important;
+    border-color: #a5d8ff !important;
+    color: #0c85d0 !important;
+    border-left: 4px solid #1c7ed6 !important;
+}
+[data-bs-theme="dark"] .alert-info {
+    background-color: rgba(28, 126, 214, 0.08) !important;
+    border-color: rgba(28, 126, 214, 0.2) !important;
+    color: #74c0fc !important;
+}
+
+/* Course index: improve contrast on hover/active items inside course drawers */
+#courseindex .courseindex-item:hover,
+#courseindex .courseindex-item:focus-within,
+#courseindex .courseindex-item.pageitem:hover,
+#courseindex .courseindex-item.pageitem:focus-within,
+.courseindex .courseindex-item:hover,
+.courseindex .courseindex-item:focus-within,
+.courseindex .courseindex-item.pageitem:hover,
+.courseindex .courseindex-item.pageitem:focus-within {
+    background: #c62b3a !important;
+    border-radius: 10px !important;
+}
+
+#courseindex .courseindex-item:hover *,
+#courseindex .courseindex-item:focus-within *,
+#courseindex .courseindex-item.pageitem:hover *,
+#courseindex .courseindex-item.pageitem:focus-within *,
+.courseindex .courseindex-item:hover *,
+.courseindex .courseindex-item:focus-within *,
+.courseindex .courseindex-item.pageitem:hover *,
+.courseindex .courseindex-item.pageitem:focus-within * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+#courseindex .courseindex-item.active,
+#courseindex .courseindex-item[aria-current="true"],
+#courseindex .courseindex-item.pageitem.active,
+.courseindex .courseindex-item.active,
+.courseindex .courseindex-item[aria-current="true"],
+.courseindex .courseindex-item.pageitem.active {
+    background: #8d182a !important;
+    border-radius: 10px !important;
+}
+
+#courseindex .courseindex-item.active *,
+#courseindex .courseindex-item[aria-current="true"] *,
+#courseindex .courseindex-item.pageitem.active *,
+.courseindex .courseindex-item.active *,
+.courseindex .courseindex-item[aria-current="true"] *,
+.courseindex .courseindex-item.pageitem.active * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* TAU banners: richer professional layered design */
+.tau-banner-modulo {
+    position: relative !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,.14) 0, rgba(255,255,255,0) 30%),
+        linear-gradient(135deg, #4b0f18 0%, #7b1627 46%, #c62b3a 100%) !important;
+    border: 1px solid rgba(198, 43, 58, 0.18) !important;
+    border-radius: 24px !important;
+    padding: 24px 28px 22px 30px !important;
+    margin: 32px 0 22px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 108px !important;
+    box-shadow: 0 18px 42px rgba(75, 15, 24, 0.18) !important;
+}
+
+.tau-banner-modulo::before {
+    content: 'TAU CAMPUS VIRTUAL' !important;
+    position: absolute !important;
+    top: 18px !important;
+    left: 30px !important;
+    padding: 7px 14px !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.12) !important;
+    color: rgba(255,255,255,.94) !important;
+    font-size: 0.70rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.tau-banner-modulo::after {
+    content: '' !important;
+    position: absolute !important;
+    right: -34px !important;
+    top: -28px !important;
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(255,255,255,.18) 0%, rgba(255,255,255,.03) 42%, rgba(255,255,255,0) 72%) !important;
+    pointer-events: none !important;
+}
+
+.tau-banner-modulo span {
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    max-width: 88% !important;
+    margin-top: 22px !important;
+    font-size: clamp(1.3rem, 2vw, 1.72rem) !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.03em !important;
+    text-wrap: balance !important;
+}
+
+.tau-banner-separador {
+    position: relative !important;
+    overflow: hidden !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fff7f8 100%) !important;
+    border: 1px solid rgba(198, 43, 58, 0.12) !important;
+    border-radius: 18px !important;
+    padding: 12px 18px 12px 20px !important;
+    margin: 22px 0 14px 0 !important;
+    box-shadow: 0 10px 24px rgba(75, 15, 24, 0.08) !important;
+}
+
+.tau-banner-separador::before {
+    content: '' !important;
+    width: 10px !important;
+    height: 10px !important;
+    min-width: 10px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #c62b3a 0%, #8d182a 100%) !important;
+    box-shadow: 0 0 0 5px rgba(198, 43, 58, 0.10) !important;
+    position: static !important;
+}
+
+.tau-banner-separador::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: auto 18px 0 18px !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, rgba(198,43,58,.24) 0%, rgba(198,43,58,.05) 100%) !important;
+}
+
+.tau-banner-separador span {
+    position: relative !important;
+    z-index: 1 !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em !important;
+    color: #4b0f18 !important;
+}
+
+[data-bs-theme="dark"] .tau-banner-modulo {
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,.12) 0, rgba(255,255,255,0) 28%),
+        linear-gradient(135deg, #20060c 0%, #4a0e17 46%, #8d182a 100%) !important;
+    border-color: rgba(255,255,255,.08) !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34) !important;
+}
+
+[data-bs-theme="dark"] .tau-banner-separador {
+    background: linear-gradient(135deg, #1f1820 0%, #2a2029 100%) !important;
+    border-color: rgba(255,255,255,.08) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+[data-bs-theme="dark"] .tau-banner-separador span {
+    color: #fff5f6 !important;
+}
+
+/* Make the user text non-bold as requested */
+.usermenu .usertext {
+    font-weight: normal !important;
+    text-transform: capitalize;
 }

@@ -93,7 +93,7 @@ $assets = [
         'itemid' => 0,
     ],
     [
-        'source' => $brandingroot . '/assets/official/tau-official-icon.png',
+        'source' => $brandingroot . '/assets/official/cesmag-tau-wordmark.png',
         'filearea' => 'logocompact',
         'itemid' => 0,
     ],

@@ -395,19 +395,21 @@ $extrascss = <<<'NEWSCSS'
 }
 /* Welcome section — typographic identity block, not a button */
 .tau-login-welcome { text-align: center; margin: 10px 0 18px; }
-.tau-campus-inst {
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 3px;
-}
-.tau-campus-title {
-    font-size: 1.1rem;
+.tau-campus-brand {
+    font-size: 1.02rem;
     font-weight: 800;
-    color: #1a1a2e;
-    letter-spacing: -0.2px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #7b1225;
+    margin-bottom: .5rem;
+}
+.tau-campus-inst {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #b02230;
+    margin-bottom: .35rem;
 }
 .tau-campus-divider {
     width: 36px;
@@ -416,10 +418,26 @@ $extrascss = <<<'NEWSCSS'
     border-radius: 2px;
     margin: 8px auto 10px;
 }
+.tau-campus-meta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: .8rem auto 0;
+    padding: .28rem .72rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #d6d9de 0%, #b8bec7 100%);
+    color: #3d4550;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 4px 10px rgba(31,35,40,.08);
+}
 .tau-login-welcome p { font-size: .82rem; color: #777; margin: 0; }
-[data-bs-theme="dark"] .tau-campus-title { color: #f0f0f0; }
-[data-bs-theme="dark"] .tau-campus-inst { color: #666; }
-[data-bs-theme="dark"] .tau-login-welcome p { color: #888; }
+[data-bs-theme="dark"] .tau-campus-brand { color: #f1939f; }
+[data-bs-theme="dark"] .tau-campus-inst { color: #ff7b8b; }
+[data-bs-theme="dark"] .tau-campus-meta { background: linear-gradient(180deg, #717885 0%, #535b68 100%); color: #f5f7fa; box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 4px 12px rgba(0,0,0,.24); }
+[data-bs-theme="dark"] .tau-login-welcome p { color: #a1a7b3; }
 
 /* ── 6. NAV DRAWER ── */
 #nav-drawer { background-color: #fff !important; }
@@ -2099,7 +2117,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
   'sessionStorage.removeItem("tau-google-auth");' .
   'var _plT=Date.now();' .
   'var _pl=document.createElement("div");_pl.id="tau-preloader";' .
-  '_pl.innerHTML=\'<div class="tau-pl-inner"><div class="tau-pl-ring-wrap"><svg class="tau-pl-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.12)" stroke-width="2"/><circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="#c62b3a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="188 88"/></svg><img class="tau-pl-icon" src="/pluginfile.php/1/theme_moove/favicon/0/tau-official-icon.png" alt="TAU"></div><div class="tau-pl-label">TAU CAMPUS VIRTUAL</div></div>\';' .
+  '_pl.innerHTML=\'<div class="tau-pl-inner"><div class="tau-pl-ring-wrap"><svg class="tau-pl-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.12)" stroke-width="2"/><circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="#c62b3a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="188 88"/></svg><img class="tau-pl-icon" src="/theme/tau_branding/assets/official/tau-official-icon.png" alt="" onload="this.style.opacity=1" style="opacity:0; transition:opacity 0.15s ease;"></div><div class="tau-pl-label">TAU CAMPUS VIRTUAL</div></div>\';' .
   'document.documentElement.appendChild(_pl);' .
   'var hideLoader=function(){var el=document.getElementById("tau-preloader");if(!el)return;el.classList.add("tau-pl-out");setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},320);};' .
   'window.addEventListener("load",function(){var e=Date.now()-_plT;setTimeout(hideLoader,Math.max(0,1650-e));});' .
@@ -2322,9 +2340,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
     'var container=document.querySelector("body#page-login-index .login-container");' .
     'var wrapper=document.querySelector("body#page-login-index .login-wrapper");' .
     'if(container&&wrapper){' .
-      'var originalLogo=container.querySelector("#loginlogo");' .
-      'var logoHtml="";' .
-      'if(originalLogo){logoHtml=originalLogo.outerHTML;}' .
+      'var officialLogoHtml="<div id=\'loginlogo\' class=\'login-logo tau-login-official-logo\'><img id=\'logoimage\' src=\'/theme/tau_branding/assets/official/tau-official-icon.png\' class=\'img-fluid\' alt=\'TAU Campus Virtual\'><h1 class=\'login-heading visually-hidden\'>Entrar a TAU Campus Virtual</h1></div>";' .
       'var googleBtn=container.querySelector(".login-identityprovider-btn");' .
       'var googleBtnHtml="";' .
       'if(googleBtn){googleBtnHtml=googleBtn.outerHTML;}' .
@@ -2369,32 +2385,29 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
         '"</a>" +' .
       '"</div>";' .
       'container.innerHTML=' .
-        'logoHtml+' .
+        'officialLogoHtml+' .
         '"<div class=\'tau-login-welcome\'>" +' .
-          '"<div class=\'tau-campus-inst\'>Universidad CESMAG</div>" +' .
-          '"<div class=\'tau-campus-title\'>Campus Virtual</div>" +' .
-          '"<div class=\'tau-campus-divider\'></div>" +' .
+          '"<div class=\'tau-campus-brand\'>TAU Campus Virtual</div>" +' .
+          '"<div class=\'tau-campus-inst\'>UNICESMAG</div>" +' .
           '"<p>Inicia sesión con tu cuenta Google institucional</p>" +' .
+          '"<div class=\'tau-campus-meta\'>Vigilada Mineducacion</div>" +' .
         '"</div>" +' .
         '"<div class=\'tau-login-btnwrap\'><div class=\'tau-login-btnbox\'>" + googleBtnHtml + "</div></div>" +' .
         'cardFooterHtml;' .
       'if(!document.getElementById("tau-presencial-card")){' .
-        'var logoCloneHtml="";' .
-        'var logoEl=container.querySelector("#loginlogo");' .
-        'if(logoEl){var lc=logoEl.cloneNode(true);lc.id="tau-presencial-loginlogo";logoCloneHtml=lc.outerHTML;}' .
         'var presencialCard=document.createElement("div");' .
         'presencialCard.id="tau-presencial-card";' .
         'presencialCard.className="login-container tau-login-card-presencial";' .
         'presencialCard.innerHTML=' .
-          'logoCloneHtml+' .
+          'officialLogoHtml.replace("id=\'loginlogo\'","id=\'tau-presencial-loginlogo\'")+' .
           '"<div class=\'tau-login-welcome\'>" +' .
-            '"<div class=\'tau-campus-inst\'>Universidad CESMAG</div>" +' .
-            '"<div class=\'tau-campus-title\'>Campus Presencial</div>" +' .
-            '"<div class=\'tau-campus-divider\'></div>" +' .
+            '"<div class=\'tau-campus-brand\'>TAU Campus Presencial</div>" +' .
+            '"<div class=\'tau-campus-inst\'>UNICESMAG</div>" +' .
             '"<p>Accede a la plataforma académica presencial</p>" +' .
+            '"<div class=\'tau-campus-meta\'>Vigilada Mineducacion</div>" +' .
           '"</div>" +' .
           '"<div class=\'tau-login-btnwrap\'><div class=\'tau-login-btnbox\'>" +' .
-            '"<a href=\'https://uv4.unicesmag.edu.co/login/index.php\' class=\'login-identityprovider-btn btn\'>" +' .
+            '"<a href=\'https://www.unicesmag.edu.co/tau/\' class=\'login-identityprovider-btn btn\'>" +' .
               '"<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#c62b3a\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'>" +' .
                 '"<path d=\'M22 10v6M2 10l10-5 10 5-10 5z\'></path>" +' .
                 '"<path d=\'M6 12v5c3 3 9 3 12 0v-5\'></path>" +' .
@@ -2421,11 +2434,12 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
       '});' .
     '}' .
     'var TAU_ERR={' .
-      '"no-account":{t:"Cuenta no encontrada",m:"No encontramos ninguna cuenta TAU con este correo. Usa tu correo <b>@unicesmag.edu.co</b>."},' .
-      '"wrong-pass":{t:"Credenciales incorrectas",m:"Verifica que uses tu <b>cuenta Google institucional @unicesmag.edu.co</b>, no una personal."},' .
-      '"blocked":{t:"Cuenta bloqueada",m:"Tu cuenta está bloqueada temporalmente. Espera unos minutos o contacta soporte."},' .
-      '"no-auth":{t:"Método no permitido",m:"Solo se permite inicio de sesión con <b>Google institucional</b>. El acceso directo está deshabilitado."},' .
-      '"generic":{t:"Error de acceso",m:"No fue posible iniciar sesión. Contacta a soporte si el problema persiste."}' .
+      '"no-account":{t:"Cuenta no encontrada",m:"Este correo no esta registrado en TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."},' .
+      '"wrong-pass":{t:"Credenciales incorrectas",m:"El acceso solo esta permitido con tu cuenta Google institucional <b>@unicesmag.edu.co</b>. No uses cuentas personales como Gmail."},' .
+      '"blocked":{t:"Cuenta bloqueada",m:"Tu cuenta existe, pero esta suspendida para ingreso. Si necesitas acceso como docente o estudiante, solicita la habilitacion al administrador."},' .
+      '"no-auth":{t:"Metodo no permitido",m:"Solo se permite el ingreso con <b>Google institucional</b> y con usuarios autorizados dentro de la plataforma."},' .
+      '"unauthorized-email":{t:"Correo no autorizado",m:"Este correo no tiene autorizacion de ingreso en TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."},' .
+      '"generic":{t:"Error de acceso",m:"No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en TAU Campus Virtual e intenta nuevamente."}' .
     '};' .
     'function tauShowToast(key){' .
       'var d=TAU_ERR[key]||TAU_ERR["generic"];' .
@@ -2453,6 +2467,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
       'if(m.includes("no se pudo encontrar")||m.includes("correo electr"))k="no-account";' .
       'else if(m.includes("contrase")||m.includes("incorrecta")||m.includes("incorrectos"))k="wrong-pass";' .
       'else if(m.includes("bloqueado")||m.includes("bloqueada")||m.includes("suspendid"))k="blocked";' .
+      'else if(m.includes("autorizad")||m.includes("permitid")||m.includes("dominio")||m.includes("institucional"))k="unauthorized-email";' .
       'else if(m.includes("plugin")||m.includes("no est"))k="no-auth";' .
       'tauShowToast(k);' .
     '});' .
@@ -2905,8 +2920,13 @@ $loginStyle_disabled = '<style>'
     . 'body#page-login-index .loginform{display:block!important;margin:0!important;width:100%!important;}'
     . 'body#page-login-index .loginform>.col{width:100%!important;max-width:100%!important;flex:none!important;padding:0!important;}'
     . 'body#page-login-index .login-identityprovider-btn{width:100%!important;min-width:0!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;}'
-    . 'body#page-login-index #loginlogo,body#page-login-index #tau-presencial-loginlogo{display:block!important;text-align:center!important;margin-bottom:.75rem!important;}'
-    . 'body#page-login-index #loginlogo img,body#page-login-index #tau-presencial-loginlogo img{max-width:260px!important;height:auto!important;}'
+    . 'body#page-login-index #loginlogo,body#page-login-index #tau-presencial-loginlogo{display:block!important;text-align:center!important;margin:0 auto .95rem!important;}'
+    . 'body#page-login-index #loginlogo img,body#page-login-index #tau-presencial-loginlogo img{max-width:156px!important;height:auto!important;}'
+    . 'body#page-login-index .tau-login-welcome{text-align:center!important;max-width:290px!important;margin:8px auto 18px!important;}'
+    . 'body#page-login-index .tau-campus-brand{font-size:.96rem!important;font-weight:800!important;letter-spacing:.11em!important;line-height:1.35!important;text-transform:uppercase!important;color:#7b1225!important;margin-bottom:.45rem!important;}'
+    . 'body#page-login-index .tau-campus-inst{font-size:.72rem!important;font-weight:800!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:#c62b3a!important;margin-bottom:.55rem!important;}'
+    . 'body#page-login-index .tau-campus-meta{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin:1rem auto 0!important;padding:.3rem .78rem!important;border-radius:999px!important;background:linear-gradient(180deg,#d9dde3 0%,#c2c8d1 100%)!important;color:#434b56!important;font-size:.62rem!important;font-weight:800!important;letter-spacing:.06em!important;text-transform:uppercase!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 5px 14px rgba(31,35,40,.10)!important;}'
+    . 'body#page-login-index .tau-login-welcome p{font-size:.84rem!important;line-height:1.6!important;color:#707782!important;margin:0!important;}'
     . 'body#page-login-index .login-identityproviders h2{display:none!important;}'
     . 'body#page-login-index .tau-login-global-footer{width:100%!important;text-align:center!important;margin-top:20px!important;display:flex!important;justify-content:center!important;align-items:center!important;}'
     . 'body#page-login-index .tau-login-global-footer .d-flex{display:flex!important;justify-content:center!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important;padding:8px 0 4px!important;width:100%!important;}'
@@ -2943,10 +2963,10 @@ $loginStyle_disabled = '<style>'
     . '#numbers .rate-box.bg-cloudburst:hover,#numbers .rate-box-2:hover{box-shadow:0 16px 40px rgba(0, 0, 0, 0.35)!important;}'
     . '#numbers .rate-box h3{font-family:\'Manrope\',sans-serif!important;color:#ffffff!important;font-size:56px!important;font-weight:800!important;line-height:1.1!important;margin-bottom:18px!important;letter-spacing:-1.5px!important;text-shadow:0 2px 10px rgba(0, 0, 0, 0.15)!important;}'
     . '#numbers .rate-box p{font-family:\'Manrope\',sans-serif!important;color:rgba(255,255,255,0.9)!important;font-size:0.85rem!important;font-weight:700!important;letter-spacing:0.8px!important;text-transform:uppercase!important;line-height:1.4!important;}'
-    . 'body#page-login-index .tau-login-card-foot-controls{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;margin-top:12px!important;padding-top:16px!important;border-top:1px dashed rgba(0,0,0,0.08)!important;width:100%!important;box-sizing:border-box!important;}'
+    . 'body#page-login-index .tau-login-card-foot-controls{display:flex!important;justify-content:center!important;align-items:center!important;gap:12px!important;margin-top:12px!important;padding-top:16px!important;border-top:1px dashed rgba(0,0,0,0.08)!important;width:100%!important;box-sizing:border-box!important;}'
     . '[data-bs-theme="dark"] body#page-login-index .tau-login-card-foot-controls{border-top-color:rgba(255,255,255,0.08)!important;}'
-    . 'body#page-login-index .tau-lang-selector-custom{position:relative!important;}'
-    . 'body#page-login-index .tau-lang-btn,body#page-login-index .tau-cookie-btn{display:inline-flex!important;align-items:center!important;gap:6px!important;padding:6px 14px!important;border-radius:20px!important;background:rgba(0,0,0,0.03)!important;border:1px solid rgba(0,0,0,0.06)!important;color:#555!important;font-size:0.76rem!important;font-weight:600!important;text-decoration:none!important;cursor:pointer!important;transition:all 0.2s ease!important;line-height:1.2!important;}'
+    . 'body#page-login-index .tau-lang-selector-custom{position:relative!important;display:flex!important;justify-content:center!important;}'
+    . 'body#page-login-index .tau-lang-btn,body#page-login-index .tau-cookie-btn{display:inline-flex!important;align-items:center!important;gap:6px!important;padding:6px 14px!important;border-radius:20px!important;background:rgba(0,0,0,0.03)!important;border:1px solid rgba(0,0,0,0.06)!important;color:#555!important;font-size:0.76rem!important;font-weight:600!important;text-decoration:none!important;cursor:pointer!important;transition:all 0.2s ease!important;line-height:1.2!important;min-width:150px!important;justify-content:center!important;}'
     . '[data-bs-theme="dark"] body#page-login-index .tau-lang-btn,[data-bs-theme="dark"] body#page-login-index .tau-cookie-btn{background:rgba(255,255,255,0.04)!important;border-color:rgba(255,255,255,0.08)!important;color:#ccc!important;}'
     . 'body#page-login-index .tau-lang-btn:hover,body#page-login-index .tau-cookie-btn:hover{background:rgba(198,43,58,0.08)!important;border-color:rgba(198,43,58,0.2)!important;color:#c62b3a!important;}'
     . '[data-bs-theme="dark"] body#page-login-index .tau-lang-btn:hover,[data-bs-theme="dark"] body#page-login-index .tau-cookie-btn:hover{background:rgba(232,113,124,0.12)!important;border-color:rgba(232,113,124,0.25)!important;color:#e8717c!important;}'
@@ -2990,9 +3010,9 @@ $darkModeScript = '<script>
 $fontHead = '<link rel="preconnect" href="https://fonts.googleapis.com">'
     . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
     . '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">'
-    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260615i">'
+    . '<link rel="stylesheet" href="/local/tau_course_creator_ai/assets/css/tau_global.css?v=20260621n">'
     . '<style>#page-my-index #page-header .mb-2, #page-my-index .mb-2 span.h2, #page-my-index .welcome-message { display: none !important; }</style>'
-    . '<script>(function(){var t=localStorage.getItem("tau-theme")||"light";document.documentElement.setAttribute("data-bs-theme",t);})();</script>';
+    . '<script>(function(){var t=localStorage.getItem("tau-theme")||"light";document.documentElement.setAttribute("data-bs-theme",t);if(window.history.replaceState){window.history.replaceState(null,null,window.location.href);}})();</script>';
 set_config('additionalhtmlhead', $fontHead);
 fwrite(STDOUT, "  [ok] Manrope font\n");
 
@@ -3010,7 +3030,7 @@ set_config('frontpageloggedin', '2,1');
 $assets = [
     ['source' => $brandingroot . '/assets/official/cesmag-tau-wordmark.png', 'filearea' => 'logo',         'config' => 'logo'],
     ['source' => $brandingroot . '/assets/official/tau-official-icon.png',   'filearea' => 'favicon',      'config' => 'favicon'],
-    ['source' => $brandingroot . '/assets/official/tau-hero-bg.jpg',        'filearea' => 'sliderimage1', 'config' => 'sliderimage1'],
+    ['source' => $brandingroot . '/assets/official/tau-hero-bg.jpg',         'filearea' => 'sliderimage1', 'config' => 'sliderimage1'],
 ];
 // Clear any previously-uploaded loginbgimg so our CSS gradient takes over
 $filestorage->delete_area_files($systemcontext->id, 'theme_moove', 'loginbgimg', 0);

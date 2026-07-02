@@ -14,6 +14,12 @@ class course_builder {
     /** @var array The course blueprint */
     private array $blueprint = [];
 
+    /** @var int|null ID of the created feedback module */
+    private ?int $last_feedback_cmid = null;
+
+    /** @var int|null ID of the last graded/interactive activity */
+    private ?int $last_graded_cmid = null;
+
     public function __construct(?callable $on_progress = null) {
         $this->on_progress = $on_progress;
     }
@@ -23,25 +29,56 @@ class course_builder {
      * Returns the new course id.
      */
     public function build(array $blueprint, int $category_id): int {
-        global $DB;
+        global $DB, $USER;
 
+        if (isset($blueprint['sections'])) {
+            $this->inject_evaluation_survey_to_blueprint($blueprint['sections']);
+        }
         $this->blueprint = $blueprint;
         $this->progress('Creating course structure...');
 
         $course = $this->create_course($blueprint, $category_id);
 
+        // Auto-enrol the creator (current user) in the newly created course.
+        if (!empty($USER->id) && $USER->id > 0 && !isguestuser($USER)) {
+            try {
+                $enrol = enrol_get_plugin('manual');
+                if ($enrol) {
+                    $instance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+                    if (!$instance) {
+                        $fields = array('courseid' => $course->id, 'enrol' => 'manual', 'status' => 0); // Active
+                        $enrol->add_instance($course, $fields);
+                        $instance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+                    }
+                    if ($instance) {
+                        $roleid = get_config('core', 'creatornewroleid');
+                        if (empty($roleid)) {
+                            $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
+                            $roleid = $teacherrole ? $teacherrole->id : 3;
+                        }
+                        $enrol->enrol_user($instance, $USER->id, $roleid);
+                        $this->progress('Auto-enrolled creator as course manager/teacher.');
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->progress('Auto-enrolment failed: ' . $e->getMessage());
+                debugging('tau_course_creator_ai: auto-enrolment failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            }
+        }
+
         $sections = $blueprint['sections'] ?? [];
-        $num_sections = count($sections);
+        $num_sections = $this->get_visible_section_count($sections);
 
         // Ensure sections exist
         course_create_sections_if_missing($course, $num_sections);
 
         foreach ($sections as $idx => $section_data) {
-            $this->build_section($course, $idx + 1, $section_data);
+            $this->build_section($course, $idx, $section_data);
         }
 
         // Rebuild section cache
         rebuild_course_cache($course->id, true);
+        \local_tau_course_creator_ai\recordings_manager::ensure_recordings_section((int)$course->id);
 
         return $course->id;
     }
@@ -52,6 +89,9 @@ class course_builder {
     public function apply_to_existing_course(int $courseid, array $blueprint): void {
         global $DB;
 
+        if (isset($blueprint['sections'])) {
+            $this->inject_evaluation_survey_to_blueprint($blueprint['sections']);
+        }
         $this->blueprint = $blueprint;
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
         $sections = $blueprint['sections'] ?? [];
@@ -60,13 +100,14 @@ class course_builder {
         }
 
         $this->progress('Applying predesigned structure to the created course...');
-        course_create_sections_if_missing($course, count($sections));
+        course_create_sections_if_missing($course, $this->get_visible_section_count($sections));
 
         foreach ($sections as $idx => $sectiondata) {
-            $this->build_section($course, $idx + 1, $sectiondata);
+            $this->build_section($course, $idx, $sectiondata);
         }
 
         rebuild_course_cache($course->id, true);
+        \local_tau_course_creator_ai\recordings_manager::ensure_recordings_section((int)$course->id);
     }
 
     /**
@@ -98,9 +139,10 @@ class course_builder {
     // ── Private: course ────────────────────────────────────────────────────────
 
     private function create_course(array $blueprint, int $category_id): \stdClass {
+        global $CFG;
         $name      = $blueprint['courseName']        ?? 'Nuevo Curso';
         $desc      = $blueprint['courseDescription'] ?? '';
-        $num_sec   = count($blueprint['sections']    ?? []);
+        $num_sec   = $this->get_visible_section_count($blueprint['sections'] ?? []);
 
         $data                = new \stdClass();
         $data->fullname      = $name;
@@ -111,14 +153,31 @@ class course_builder {
         $data->summary       = $desc;
         $data->summaryformat = FORMAT_HTML;
         $data->format        = 'topics';
+        $data->hiddensections = 0; // Show hidden sections in collapsed form for 'Próximamente' UI
         $data->numsections   = $num_sec;
+        $data->newsitems     = 0;
         $data->visible       = 1;
         $data->lang          = '';
+        $data->enablecompletion = 1;
         
         // Map custom field value
         $data->customfield_publish_apoyo_academico = !empty($blueprint['publishApoyo']) ? 1 : 0;
 
-        return create_course($data);
+        $newcourse = create_course($data);
+        
+        // Force the gradebook to use Simple Weighted Mean of Grades (2) instead of Natural (13)
+        require_once($CFG->libdir.'/gradelib.php');
+        $category = \grade_category::fetch_course_category($newcourse->id);
+        if ($category) {
+            $category->aggregation = 2; // Simple weighted mean
+            $category->update();
+        }
+
+        return $newcourse;
+    }
+
+    private function get_visible_section_count(array $sections): int {
+        return max(count($sections) - 1, 0);
     }
 
     private function unique_shortname(string $name): string {
@@ -152,28 +211,38 @@ class course_builder {
 
     private function build_section(\stdClass $course, int $idx, array $section): void {
         global $DB;
+        $isfrontsection = $this->is_institutional_front_section($section);
+        $sectionvisible = $this->should_section_start_visible($idx, $section);
 
         $rec = $DB->get_record('course_sections', ['course' => $course->id, 'section' => $idx]);
         if ($rec) {
             $rec->name          = $section['title']   ?? '';
-            $rec->summary       = $section['summary'] ?? '';
+            $rec->summary       = $isfrontsection ? '' : ($section['summary'] ?? '');
             $rec->summaryformat = FORMAT_HTML;
+            if (property_exists($rec, 'visible')) {
+                $rec->visible = $sectionvisible ? 1 : 0;
+            }
+            if (property_exists($rec, 'availability')) {
+                $rec->availability = null;
+            }
             $DB->update_record('course_sections', $rec);
         }
 
-        // Inyectar Banner Principal del Módulo
-        $mod_title = htmlspecialchars($section['title'] ?? "Módulo $idx");
-        $main_banner = '<div class="tau-banner-modulo"><span>' . $mod_title . '</span><div class="tau-banner-logo"></div></div>';
-        $this->create_label($course, $idx, [
-            'title' => 'Banner Principal',
-            'description' => $main_banner
-        ]);
+        if (!$isfrontsection) {
+            // Inyectar Banner Principal del Módulo
+            $mod_title = htmlspecialchars($section['title'] ?? "Módulo $idx");
+            $main_banner = '<div class="tau-banner-modulo"><span>' . $mod_title . '</span><div class="tau-banner-logo"></div></div>';
+            $this->create_label($course, $idx, [
+                'title' => 'Banner Principal',
+                'description' => $main_banner
+            ]);
+        }
 
         $last_category = null;
         foreach (($section['activities'] ?? []) as $activity) {
             try {
                 $current_category = $activity['category'] ?? null;
-                if ($current_category && $current_category !== $last_category) {
+                if (!$isfrontsection && $current_category && $current_category !== $last_category) {
                     $banner_titles = [
                         'tema' => 'Temas',
                         'complementario' => 'Material Complementario',
@@ -201,6 +270,137 @@ class course_builder {
 
     // ── Private: activity dispatch ────────────────────────────────────────────
 
+    public function migrate_legacy_duplicate_general_section(int $courseid): bool {
+        global $DB;
+
+        $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+        $sections = $DB->get_records('course_sections', ['course' => $courseid], 'section ASC');
+        if (!$this->course_has_legacy_duplicate_general($sections)) {
+            return false;
+        }
+
+        $indexed = [];
+        foreach ($sections as $record) {
+            $indexed[(int)$record->section] = $record;
+        }
+        $maxsection = max(array_keys($indexed));
+
+        for ($sectionnum = 1; $sectionnum <= $maxsection; $sectionnum++) {
+            if (!isset($indexed[$sectionnum], $indexed[$sectionnum - 1])) {
+                continue;
+            }
+
+            $source = clone $indexed[$sectionnum];
+            $target = clone $indexed[$sectionnum - 1];
+
+            foreach ($this->parse_section_sequence((string)($source->sequence ?? '')) as $cmid) {
+                $cm = $DB->get_record('course_modules', ['id' => $cmid], 'id,section', IGNORE_MISSING);
+                if ($cm) {
+                    $cm->section = $target->id;
+                    $DB->update_record('course_modules', $cm);
+                }
+            }
+
+            $target->name = $source->name;
+            $target->summary = $source->summary;
+            $target->summaryformat = $source->summaryformat;
+            $target->sequence = $source->sequence;
+            if (property_exists($target, 'visible') && property_exists($source, 'visible')) {
+                $target->visible = $source->visible;
+            }
+            if (property_exists($target, 'availability') && property_exists($source, 'availability')) {
+                $target->availability = $source->availability;
+            }
+            $DB->update_record('course_sections', $target);
+        }
+
+        if (isset($indexed[$maxsection])) {
+            $last = clone $indexed[$maxsection];
+            $last->name = '';
+            $last->summary = '';
+            $last->summaryformat = FORMAT_HTML;
+            $last->sequence = '';
+            if (property_exists($last, 'availability')) {
+                $last->availability = null;
+            }
+            $DB->update_record('course_sections', $last);
+        }
+
+        course_get_format($course)->update_course_format_options([
+            'numsections' => max($maxsection - 1, 0),
+        ]);
+        rebuild_course_cache($courseid, true);
+        return true;
+    }
+
+    private function course_has_legacy_duplicate_general(array $sections): bool {
+        $indexed = [];
+        foreach ($sections as $section) {
+            if (is_object($section) && isset($section->section)) {
+                $indexed[(int)$section->section] = $section;
+            }
+        }
+
+        if (!isset($indexed[0], $indexed[1], $indexed[2])) {
+            return false;
+        }
+
+        $sectionzero = $indexed[0];
+        $sectionone = $indexed[1];
+        $sectiontwo = $indexed[2];
+
+        $zeroempty = trim((string)($sectionzero->sequence ?? '')) === ''
+            && trim(strip_tags((string)($sectionzero->summary ?? ''))) === '';
+        if (!$zeroempty) {
+            return false;
+        }
+
+        return $this->normalize_section_name((string)($sectionone->name ?? '')) === 'general'
+            && $this->normalize_section_name((string)($sectiontwo->name ?? '')) === 'informacion general';
+    }
+
+    private function normalize_section_name(string $name): string {
+        $name = \core_text::strtolower(trim($name));
+        $name = str_replace(
+            ['á', 'é', 'í', 'ó', 'ú', 'ñ'],
+            ['a', 'e', 'i', 'o', 'u', 'n'],
+            $name
+        );
+        return preg_replace('/\s+/', ' ', $name);
+    }
+
+    private function parse_section_sequence(string $sequence): array {
+        if ($sequence === '') {
+            return [];
+        }
+        return array_values(array_filter(array_map('intval', explode(',', $sequence))));
+    }
+
+    private function is_institutional_front_section(array $section): bool {
+        $title = \core_text::strtolower(trim((string)($section['title'] ?? '')));
+        return $title === 'general' || $title === 'información general' || $title === 'informacion general';
+    }
+
+    private function should_section_start_visible(int $idx, array $section): bool {
+        if ($idx === 0 || $this->is_institutional_front_section($section)) {
+            return true;
+        }
+
+        $visibleacademicsections = 0;
+        foreach (($this->blueprint['sections'] ?? []) as $sectionindex => $sectiondata) {
+            if ((int)$sectionindex === 0 || $this->is_institutional_front_section((array)$sectiondata)) {
+                continue;
+            }
+
+            $visibleacademicsections++;
+            if ((int)$sectionindex === $idx) {
+                return $visibleacademicsections <= 1;
+            }
+        }
+
+        return true;
+    }
+
     private function create_activity(\stdClass $course, int $section, array $a): void {
         $type  = $a['type']  ?? 'label';
         $title = $a['title'] ?? 'Activity';
@@ -216,6 +416,10 @@ class course_builder {
             case 'glossary': $this->create_glossary($course, $section, $a); break;
             case 'feedback': $this->create_feedback($course, $section, $a); break;
             case 'resource':
+                if (!empty($a['uploadedfile']['content']) && !empty($a['uploadedfile']['name'])) {
+                    $this->create_resource_file($course, $section, $a);
+                    break;
+                }
                 // Check if title has presentation/slide/diapositiva
                 $title_lower = mb_strtolower($title);
                 if (strpos($title_lower, 'presentación') !== false ||
@@ -232,6 +436,29 @@ class course_builder {
             case 'h5pactivity': $this->create_h5pactivity($course, $section, $a); break;
             default:            $this->create_label($course, $section, $a);       break;
         }
+
+        global $DB;
+        $new_cm = $DB->get_record('course_modules', ['course' => $course->id], 'id', 'id DESC', IGNORE_MULTIPLE);
+        
+        if ($new_cm) {
+            // Track last graded activity to use as a condition for the feedback
+            if (!in_array($type, ['label', 'feedback'])) {
+                $this->last_graded_cmid = (int)$new_cm->id;
+            }
+
+            // If this is the feedback, and it requires the previous activity
+            if ($type === 'feedback' && !empty($a['requires_previous']) && !empty($this->last_graded_cmid)) {
+                $new_cm->availability = '{"op":"&","c":[{"type":"completion","cm":' . $this->last_graded_cmid . ',"e":1}],"showc":[true]}';
+                $DB->update_record('course_modules', $new_cm);
+            }
+        }
+
+        if (!empty($a['requires_feedback']) && !empty($this->last_feedback_cmid)) {
+            if ($new_cm) {
+                $new_cm->availability = '{"op":"&","c":[{"type":"completion","cm":' . $this->last_feedback_cmid . ',"e":1}],"showc":[true]}';
+                $DB->update_record('course_modules', $new_cm);
+            }
+        }
     }
 
     // ── Private: activity creators ────────────────────────────────────────────
@@ -241,6 +468,12 @@ class course_builder {
         require_once($CFG->dirroot . '/mod/page/lib.php');
 
         $content = $a['content'] ?? '';
+        if ($this->is_inline_institutional_page($a, $content)) {
+            $inline = $a;
+            $inline['description'] = $content ?: ($a['description'] ?? '');
+            $this->create_label($course, $section, $inline);
+            return;
+        }
         if (!$content) {
             $title_esc = htmlspecialchars($a['title']       ?? '', ENT_QUOTES, 'UTF-8');
             $desc_esc  = htmlspecialchars($a['description'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -266,11 +499,68 @@ class course_builder {
         $mod->name          = $a['title']       ?? 'Page';
         $mod->intro         = $a['description'] ?? '';
         $mod->introformat   = FORMAT_HTML;
-        $mod->content       = $content;
+$mod->content       = $content;
         $mod->contentformat = FORMAT_HTML;
         $mod->course        = $course->id;
         $mod->section       = $section;
         $mod->visible       = 1;
+        $this->apply_introeditor($mod);
+
+        create_module($mod);
+    }
+
+    private function is_inline_institutional_page(array $activity, string $content): bool {
+        $title = \core_text::strtolower(trim((string)($activity['title'] ?? '')));
+        if ($title !== 'bienvenida') {
+            return false;
+        }
+        return $content !== '';
+    }
+
+    private function create_resource_file(\stdClass $course, int $section, array $a): void {
+        global $CFG, $USER;
+        require_once($CFG->dirroot . '/mod/resource/lib.php');
+
+        $upload = $a['uploadedfile'] ?? null;
+        $filename = clean_param($upload['name'] ?? 'documento.pdf', PARAM_FILE);
+        if (!$filename) {
+            $filename = 'documento.pdf';
+        }
+        if (!preg_match('/\.pdf$/i', $filename)) {
+            $filename .= '.pdf';
+        }
+
+        $content = base64_decode((string)($upload['content'] ?? ''), true);
+        if ($content === false || $content === '') {
+            $this->create_page($course, $section, $a);
+            return;
+        }
+
+        $draftitemid = file_get_unused_draft_itemid();
+        $usercontext = \context_user::instance($USER->id ?? 2);
+        $fs = get_file_storage();
+        $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea'  => 'draft',
+            'itemid'    => $draftitemid,
+            'filepath'  => '/',
+            'filename'  => $filename,
+        ], $content);
+
+        $mod                  = new \stdClass();
+        $mod->modulename      = 'resource';
+        $mod->name            = $a['title'] ?? 'Documento PDF';
+        $mod->intro           = $a['description'] ?? '';
+        $mod->introformat     = FORMAT_HTML;
+        $mod->files           = $draftitemid;
+        $mod->display         = 0;
+        $mod->showsize        = 1;
+        $mod->showtype        = 1;
+        $mod->showdescription = 1;
+        $mod->course          = $course->id;
+        $mod->section         = $section;
+        $mod->visible         = 1;
         $this->apply_introeditor($mod);
 
         create_module($mod);
@@ -338,7 +628,7 @@ class course_builder {
         $mod->assignfeedback_comments_enabled     = 1;
         $mod->assignfeedback_file_enabled         = 1;
         
-        $mod->grade                        = 100;
+        $mod->grade                        = 5;
         
         $this->apply_introeditor($mod);
 
@@ -525,11 +815,18 @@ class course_builder {
         $mod->page_after_submit            = '¡Gracias por completar la encuesta!';
         $mod->page_after_submitformat      = FORMAT_HTML;
         $mod->site_after_submit            = '';
-        $mod->completionsubmit             = 0;
+        $mod->completionsubmit             = 1;
+        $mod->completion                   = 2; // COMPLETION_TRACKING_AUTOMATIC
         $mod->timemodified                 = time();
         $this->apply_introeditor($mod);
 
-        create_module($mod);
+        $cm = create_module($mod);
+        if ($cm) {
+            $this->last_feedback_cmid = $cm->coursemodule;
+            if (!empty($cm->instance)) {
+                $this->add_questions_to_feedback($cm->instance);
+            }
+        }
     }
 
     private function create_quiz(\stdClass $course, int $section, array $a): void {
@@ -552,7 +849,7 @@ class course_builder {
         $mod->navmethod             = 'free';
         $mod->shuffleanswers        = 1;
         $mod->sumgrades             = 0;
-        $mod->grade                 = 100;
+        $mod->grade                 = 5;
         $mod->timecreated           = time();
         $mod->timemodified          = time();
         $mod->overduehandling       = 'autosubmit';
@@ -775,7 +1072,7 @@ class course_builder {
         $mod->course         = $course->id;
         $mod->section        = $section;
         $mod->visible        = 1;
-        $mod->grade          = (int) ($a['grade'] ?? 100);
+        $mod->grade          = (int) ($a['grade'] ?? 5);
         $mod->displayoptions = 15;  // show title + description + copyright + icon
         $mod->enabletracking = 1;   // record xAPI statements for gradebook
         $mod->grademethod    = 1;   // highest grade attempt
@@ -1155,5 +1452,86 @@ if(typeof window.tauNextSlide==="undefined"){
             'format' => $moduleinfo->introformat ?? FORMAT_HTML,
             'itemid' => 0,
         ];
+    }
+
+    private function inject_evaluation_survey_to_blueprint(array &$sections): void {
+        if (empty($sections)) {
+            return;
+        }
+        $last_section_idx = -1;
+        $last_activity_idx = -1;
+        
+        for ($i = count($sections) - 1; $i >= 0; $i--) {
+            if (!empty($sections[$i]['activities'])) {
+                $acts = $sections[$i]['activities'];
+                for ($j = count($acts) - 1; $j >= 0; $j--) {
+                    $type = $acts[$j]['type'] ?? '';
+                    if (in_array($type, ['assign', 'quiz', 'forum', 'h5pactivity', 'page', 'resource'])) {
+                        $last_section_idx = $i;
+                        $last_activity_idx = $j;
+                        break 2;
+                    }
+                }
+                if ($last_section_idx === -1) {
+                    $last_section_idx = $i;
+                    $last_activity_idx = count($acts) - 1;
+                    break;
+                }
+            }
+        }
+
+        if ($last_section_idx !== -1 && $last_activity_idx !== -1) {
+            $feedback_activity = [
+                'type' => 'feedback',
+                'title' => 'Encuesta de Satisfacción del Curso',
+                'description' => 'Ayúdanos a mejorar evaluando el curso y al docente. Esta encuesta es anónima y obligatoria para acceder a tu última actividad.',
+                'category' => 'evaluacion',
+                'requires_previous' => true
+            ];
+            $sections[$last_section_idx]['activities'][$last_activity_idx]['requires_feedback'] = true;
+            array_splice($sections[$last_section_idx]['activities'], $last_activity_idx, 0, [$feedback_activity]);
+        }
+    }
+
+    private function add_questions_to_feedback(int $feedback_id): void {
+        global $DB;
+        $questions = [
+            ['typ' => 'label', 'name' => 'Diseño y Contenido', 'presentation' => ''],
+            ['typ' => 'multichoicerated', 'name' => 'Los objetivos del curso fueron claros desde el inicio.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'Los materiales de estudio (textos, videos, etc.) facilitaron mi aprendizaje.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'La carga de trabajo y el tiempo asignado fueron adecuados para la duración del curso.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'label', 'name' => 'Desempeño Docente', 'presentation' => ''],
+            ['typ' => 'multichoicerated', 'name' => 'El docente demostró un amplio dominio de la temática enseñada.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'El docente resolvió dudas de manera oportuna, clara y con buena disposición.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'La retroalimentación (calificación/comentarios) recibida fue útil para mejorar.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'label', 'name' => 'Metodología e Interacción', 'presentation' => ''],
+            ['typ' => 'multichoicerated', 'name' => 'El modelo de enseñanza y metodologías activas utilizadas promovieron mi participación (no fue solo una clase magistral).', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'La interacción y espacios de debate enriquecieron mi proceso de aprendizaje.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'label', 'name' => 'Plataforma Tecnológica', 'presentation' => ''],
+            ['typ' => 'multichoicerated', 'name' => 'La plataforma virtual (Campus) fue fácil de navegar, intuitiva y accesible.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'Los recursos tecnológicos (foros, entregas, interactividades) funcionaron correctamente.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'label', 'name' => 'Satisfacción General', 'presentation' => ''],
+            ['typ' => 'multichoicerated', 'name' => 'Los resultados de aprendizaje o competencias propuestas se cumplieron.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'El sistema de evaluación fue justo y coherente con las temáticas enseñadas.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'multichoicerated', 'name' => 'Recomendaría este curso a otras personas.', 'presentation' => "r>>>>>1/Totalmente en desacuerdo\\n2/En desacuerdo\\n3/Neutral\\n4/De acuerdo\\n5/Totalmente de acuerdo"],
+            ['typ' => 'label', 'name' => 'Comentarios Abiertos', 'presentation' => ''],
+            ['typ' => 'textarea', 'name' => '¿Qué aspecto del curso consideras que fue el más valioso para tu formación?', 'presentation' => '30|5'],
+            ['typ' => 'textarea', 'name' => '¿Qué oportunidades de mejora o sugerencias harías para el docente o el curso?', 'presentation' => '30|5'],
+        ];
+
+        $position = 1;
+        foreach ($questions as $q) {
+            $item = new \stdClass();
+            $item->feedback = $feedback_id;
+            $item->template = 0;
+            $item->name = $q['name'];
+            $item->label = '';
+            $item->presentation = $q['presentation'];
+            $item->typ = $q['typ'];
+            $item->hasvalue = ($q['typ'] === 'label') ? 0 : 1;
+            $item->position = $position++;
+            $item->required = ($q['typ'] === 'label') ? 0 : 1;
+            $DB->insert_record('feedback_item', $item);
+        }
     }
 }

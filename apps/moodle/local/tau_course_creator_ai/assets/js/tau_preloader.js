@@ -20,7 +20,7 @@
                     '<circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.08)" stroke-width="1.8"/>' +
                     '<circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="url(#tau-pl-grad)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="90 186"/>' +
                 '</svg>' +
-                '<img class="tau-pl-icon" src="/pluginfile.php/1/theme_moove/favicon/0/tau-official-icon.png" alt="TAU">' +
+                '<img class="tau-pl-icon" src="/theme/tau_branding/assets/official/tau-official-icon.png" alt="" onload="this.style.opacity=1" style="opacity:0; transition:opacity 0.15s ease;">' +
             '</div>' +
             '<div class="tau-pl-label">TAU CAMPUS VIRTUAL</div>' +
         '</div>';
@@ -75,7 +75,17 @@
         }, 60000);
     }
 
+    window.addEventListener("beforeunload", function() {
+        var preloader = mountPreloader();
+        if (preloader) {
+            preloader.classList.remove("tau-pl-out");
+        }
+    });
+
     document.addEventListener("click", function(e) {
+        if (e.defaultPrevented) {
+            return;
+        }
         var link = e.target.closest("a[href]");
         if (!link) {
             return;
@@ -108,5 +118,6 @@
         if (preloader) {
             preloader.classList.remove("tau-pl-out");
         }
-    }, true);
+    }, false);
+
 })();
