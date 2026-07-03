@@ -106,7 +106,7 @@ echo $OUTPUT->header();
   <div class="cert-inner"></div>
 
   <div class="cert-logo">
-    <div class="cert-logo-text">UNIVERSIDAD CESMAG | TAU Campus Virtual</div>
+    <div class="cert-logo-text">UNIVERSIDAD CESMAG | E-TAU Campus Virtual</div>
   </div>
 
   <div class="cert-title">Certificado de Finalización</div>

@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Course Admin Buttons Injections */
+/* E-TAU Campus Virtual - Course Admin Buttons Injections */
 (function() {
     "use strict";
 

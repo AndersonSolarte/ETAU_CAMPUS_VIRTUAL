@@ -11,7 +11,7 @@ if (!is_siteadmin() && !has_capability('local/tau_course_creator_ai:use', $conte
 
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/tau_course_creator_ai/index.php'));
-$PAGE->set_title('Crear curso con IA — TAU Campus Virtual');
+$PAGE->set_title('Crear curso con IA — E-TAU Campus Virtual');
 $PAGE->set_heading('Crear curso con IA');
 $PAGE->set_pagelayout('standard');
 

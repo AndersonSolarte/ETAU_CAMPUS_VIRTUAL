@@ -94,7 +94,7 @@ Responde siempre en JSON con este formato exacto:
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       {
         role: "system",
-        content: `Eres el Tutor AI del curso "${req.courseName}" en TAU Campus Virtual.
+        content: `Eres el Tutor AI del curso "${req.courseName}" en E-TAU Campus Virtual.
 Eres un asistente educativo experto, amigable y conciso.
 Responde siempre en el mismo idioma que el estudiante.
 Limita tus respuestas a 3-4 oraciones a menos que se pida más detalle.

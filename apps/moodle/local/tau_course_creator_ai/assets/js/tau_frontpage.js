@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Frontpage Script */
+/* E-TAU Campus Virtual - Frontpage Script */
 (function() {
     "use strict";
 
@@ -89,7 +89,7 @@
             '<div class="tau-banner-overlay">' +
                 '<div class="tau-banner-card">' +
                     '<span class="tau-banner-pretitle">Universidad CESMAG</span>' +
-                    '<h1 class="tau-banner-title">TAU <span class="tau-accent-text">Campus Virtual</span></h1>' +
+                    '<h1 class="tau-banner-title"><span class="e-tau-design">E</span>-TAU <span class="tau-accent-text">Campus Virtual</span></h1>' +
                     '<span class="tau-banner-subtitle">UNICESMAG</span>' +
                     '<p class="tau-banner-desc">Tu plataforma de educacion y aprendizaje en linea para conectar tu talento con el futuro profesional.</p>' +
                     '<a href="#apoyo-academico" class="btn-tau-banner-explore">Explorar Cursos</a>' +

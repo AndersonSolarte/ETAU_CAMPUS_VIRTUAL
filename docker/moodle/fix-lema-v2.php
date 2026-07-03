@@ -41,7 +41,7 @@ $inject = <<<'INJECT'
 .tau-nw{animation:tau-nw 3.8s ease-in-out infinite alternate;}
 .tau-nw:nth-child(2){animation-delay:-.95s}.tau-nw:nth-child(3){animation-delay:-1.9s}.tau-nw:nth-child(4){animation-delay:-2.85s}
 
-/* Etiqueta TAU Campus Virtual encima del logo */
+/* Etiqueta E-TAU Campus Virtual encima del logo */
 .tau-hero-label{
     position:absolute;
     right:6%;
@@ -161,7 +161,7 @@ $inject = <<<'INJECT'
         if(!ss||document.querySelector(".tau-hero-label")) return;
         var lb=document.createElement("div");
         lb.className="tau-hero-label";
-        lb.innerHTML='<span>TAU Campus Virtual</span>';
+        lb.innerHTML='<span>E-TAU Campus Virtual</span>';
         ss.appendChild(lb);
     }
 

@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Frontpage Script */
+/* E-TAU Campus Virtual - Frontpage Script */
 (function() {
     "use strict";
 

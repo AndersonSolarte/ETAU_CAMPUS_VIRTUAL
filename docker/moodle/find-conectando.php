@@ -27,6 +27,6 @@ echo "\n=== additionalhtmlfooter actual ===\n";
 $f = get_config(false,'additionalhtmlfooter');
 echo "Bytes: " . strlen($f) . "\n";
 echo "Contiene tau-banner-card: " . (strpos($f,'tau-banner-card')!==false?'SI':'NO') . "\n";
-echo "Contiene TAU Campus Virtual: " . (strpos($f,'TAU Campus Virtual')!==false?'SI':'NO') . "\n";
+echo "Contiene E-TAU Campus Virtual: " . (strpos($f,'E-TAU Campus Virtual')!==false?'SI':'NO') . "\n";
 echo "Contiene Universidad CESMAG: " . (strpos($f,'Universidad CESMAG')!==false?'SI':'NO') . "\n";
 echo "\nPrimeros 300 chars:\n" . substr($f,0,300) . "\n";

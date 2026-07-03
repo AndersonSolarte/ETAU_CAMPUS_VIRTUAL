@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Course Edit AI Resource Creator */
+/* E-TAU Campus Virtual - Course Edit AI Resource Creator */
 (document.getElementById('mform1') || document.querySelector('form.mform') ? (function() {
     "use strict";
 

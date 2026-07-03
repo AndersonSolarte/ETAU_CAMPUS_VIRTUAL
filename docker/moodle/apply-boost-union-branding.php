@@ -18,7 +18,7 @@ $manropefont = '<link rel="preconnect" href="https://fonts.googleapis.com">'
 
 $footnote = <<<HTML
 <div class="tau-footer">
-  <span>TAU Campus Virtual</span>
+  <span>E-TAU Campus Virtual</span>
   <span>Vigilada Mineducacion</span>
   <a href="mailto:tau-ayuda@unicesmag.edu.co">tau-ayuda@unicesmag.edu.co</a>
 </div>
@@ -63,7 +63,7 @@ $settings = [
     'additionalhtml_head' => $manropefont,
 
     'infobannerenabled' => 'yes',
-    'infobannertext' => 'Bienvenido a TAU Campus Virtual. Acceso institucional para la comunidad CESMAG.',
+    'infobannertext' => 'Bienvenido a E-TAU Campus Virtual. Acceso institucional para la comunidad CESMAG.',
     'infobannerbgcolor' => '#1f4b99',
     'infobannerorder' => 1,
     'infobannermode' => 'perpetual',

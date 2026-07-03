@@ -15,7 +15,7 @@ $PAGE->set_pagelayout('standard');
 
 $course     = $courseid ? get_course($courseid) : null;
 $siteurl    = $CFG->wwwroot;
-$org_name   = $SITE->fullname ?? 'TAU Campus Virtual';
+$org_name   = $SITE->fullname ?? 'E-TAU Campus Virtual';
 $issue_date = date('Y-m-d');
 
 echo $OUTPUT->header();

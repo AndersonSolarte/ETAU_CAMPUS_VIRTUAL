@@ -124,7 +124,7 @@ $footer .= '
         var area = document.createElement("div");
         area.className = "tau-logo-area";
         area.innerHTML =
-            "<img src=\"/theme/tau_branding/assets/official/tau-official-icon.png\" alt=\"TAU Campus Virtual\">" +
+            "<img src=\"/theme/tau_branding/assets/official/tau-official-icon.png\" alt=\"E-TAU Campus Virtual\">" +
             "<div class=\"tau-hero-lema\">" +
                 "<p class=\"tau-hero-lema-q\">" +
                     "&ldquo;<strong>Hombres nuevos</strong><br>para <strong>tiempos nuevos</strong>&rdquo;" +

@@ -1,6 +1,6 @@
 <?php
 /**
- * TAU Campus Virtual — Rediseño profesional v11
+ * E-TAU Campus Virtual — Rediseño profesional v11
  * Filosofía: navbar ROJO (para que el logo azul/blanco resalte)
  *            contenido AZUL institucional + BLANCO (como el sitio oficial CESMAG)
  *            rojo solo en navbar, botones CTA y acentos

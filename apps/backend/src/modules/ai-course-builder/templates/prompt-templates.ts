@@ -20,7 +20,7 @@ REGLAS:
 9. Las rúbricas deben tener criterios medibles y descriptores claros.
 
 CONTEXTO INSTITUCIONAL:
-- Institución: TAU Campus Virtual
+- Institución: E-TAU Campus Virtual
 - Modalidad: Virtual / E-learning
 - LMS: Moodle
 - Enfoque pedagógico: Constructivismo, Aprendizaje Activo`;

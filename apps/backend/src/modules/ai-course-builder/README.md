@@ -1,6 +1,6 @@
 # AI Course Builder — Documentación Técnica
 
-Módulo de generación automática de cursos usando IA para TAU Campus Virtual.
+Módulo de generación automática de cursos usando IA para E-TAU Campus Virtual.
 
 ---
 

@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Login Page Script */
+/* E-TAU Campus Virtual - Login Page Script */
 (function() {
     "use strict";
 
@@ -23,8 +23,8 @@
 
         var officialLogoHtml = "" +
             "<div id='loginlogo' class='login-logo tau-login-official-logo'>" +
-                "<img id='logoimage' src='/theme/tau_branding/assets/official/tau-official-icon.png' class='img-fluid' alt='TAU Campus Virtual'>" +
-                "<h1 class='login-heading visually-hidden'>Entrar a TAU Campus Virtual</h1>" +
+                "<img id='logoimage' src='/theme/tau_branding/assets/official/tau-official-icon.png' class='img-fluid' alt='E-TAU Campus Virtual'>" +
+                "<h1 class='login-heading visually-hidden'>Entrar a E-TAU Campus Virtual</h1>" +
             "</div>";
 
         var googleBtn = container.querySelector(".login-identityprovider-btn");
@@ -110,7 +110,7 @@
         virtualCard.id = "tau-virtual-card";
         virtualCard.className = "login-container tau-login-card-virtual";
         virtualCard.innerHTML = officialLogoHtml +
-            buildWelcomeBlock("TAU Campus Virtual", "Inicia sesion con tu cuenta Google institucional") +
+            buildWelcomeBlock("<span class='e-tau-design'>E</span>-TAU Campus Virtual", "Inicia sesion con tu cuenta Google institucional") +
             "<div class='tau-login-btnwrap'><div class='tau-login-btnbox'>" +
             "</div></div>" +
             cardFooterHtml;
@@ -148,7 +148,7 @@
         var TAU_ERR = {
             "no-account": {
                 t: "Cuenta no encontrada",
-                m: "Este correo no esta registrado en TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."
+                m: "Este correo no esta registrado en E-TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."
             },
             "wrong-pass": {
                 t: "Credenciales incorrectas",
@@ -164,11 +164,11 @@
             },
             "unauthorized-email": {
                 t: "Correo no autorizado",
-                m: "Este correo no tiene autorizacion de ingreso en TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."
+                m: "Este correo no tiene autorizacion de ingreso en E-TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."
             },
             "generic": {
                 t: "Error de acceso",
-                m: "No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en TAU Campus Virtual e intenta nuevamente."
+                m: "No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en E-TAU Campus Virtual e intenta nuevamente."
             }
         };
 

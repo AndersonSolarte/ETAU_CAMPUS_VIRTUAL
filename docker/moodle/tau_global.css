@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Master Stylesheet */
+/* E-TAU Campus Virtual - Master Stylesheet */
 
 /* Import all modular component stylesheets */
 @import url('tau_preloader.css?v=20260615f');
@@ -154,7 +154,7 @@ footer .madeby {
 }
 
 .tau-banner-modulo::before {
-    content: 'TAU CAMPUS VIRTUAL' !important;
+    content: 'E-TAU CAMPUS VIRTUAL' !important;
     position: absolute !important;
     top: 18px !important;
     left: 30px !important;

@@ -3,7 +3,7 @@ require_once('../../config.php');
 
 $PAGE->set_url('/local/tau_soporte/tutoriales.php');
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title('Tutoriales — TAU Campus Virtual');
+$PAGE->set_title('Tutoriales — E-TAU Campus Virtual');
 $PAGE->set_heading('Tutoriales de uso de la plataforma');
 $PAGE->set_pagelayout('standard');
 
@@ -220,7 +220,7 @@ echo $OUTPUT->header();
 
 <div class="tau-tutorials-hero">
     <h1><i class="fa fa-play-circle" aria-hidden="true"></i> Capacitación Docente y Estudiantil</h1>
-    <p>Recursos y tutoriales en video para sacar el máximo provecho de TAU Campus Virtual</p>
+    <p>Recursos y tutoriales en video para sacar el máximo provecho de E-TAU Campus Virtual</p>
 </div>
 
 <div class="tau-card-grid">

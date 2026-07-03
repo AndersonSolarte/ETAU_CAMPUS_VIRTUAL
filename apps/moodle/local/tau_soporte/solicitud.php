@@ -3,7 +3,7 @@ require_once('../../config.php');
 
 $PAGE->set_url('/local/tau_soporte/solicitud.php');
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title('Realizar Solicitud — TAU Campus Virtual');
+$PAGE->set_title('Realizar Solicitud — E-TAU Campus Virtual');
 $PAGE->set_heading('Soporte Campus Virtual');
 $PAGE->set_pagelayout('standard');
 
@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
         // Send email to support address
         $supportEmail = 'tau-ayuda@unicesmag.edu.co';
         $subject = "[TAU Soporte] {$categoria} — {$nombre}";
-        $body    = "Nueva solicitud de soporte TAU Campus Virtual\n\n"
+        $body    = "Nueva solicitud de soporte E-TAU Campus Virtual\n\n"
                  . "Nombre:    {$nombre}\n"
                  . "Correo:    {$correo}\n"
                  . "Rol:       {$rol}\n"
                  . "Categoría: {$categoria}\n\n"
                  . "Descripción:\n{$mensaje}\n\n"
-                 . "---\nEnviado desde TAU Campus Virtual el " . userdate(time());
+                 . "---\nEnviado desde E-TAU Campus Virtual el " . userdate(time());
 
         $fakeUser       = new stdClass();
         $fakeUser->id   = -99;
@@ -335,7 +335,7 @@ echo $OUTPUT->header();
         ['¿En cuánto tiempo me responden?',
          'El equipo de soporte atiende solicitudes en días hábiles. El tiempo de respuesta promedio es de 4 a 8 horas hábiles.'],
         ['¿Puedo acceder desde el celular?',
-         'Sí. TAU Campus Virtual está optimizado para dispositivos móviles. También puedes descargar la aplicación oficial de Moodle y configurar nuestra URL.'],
+         'Sí. E-TAU Campus Virtual está optimizado para dispositivos móviles. También puedes descargar la aplicación oficial de Moodle y configurar nuestra URL.'],
     ];
     foreach ($faqs as $i => $faq):
     ?>

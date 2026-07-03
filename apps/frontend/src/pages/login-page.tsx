@@ -169,7 +169,7 @@ export function LoginPage() {
             </div>
 
             <p className="mt-6 text-center text-xs text-white/30">
-              TAU Campus Virtual · CESMAG · Pasto, Colombia
+              E-TAU Campus Virtual · CESMAG · Pasto, Colombia
             </p>
           </div>
         </motion.div>

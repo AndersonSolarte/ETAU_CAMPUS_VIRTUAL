@@ -40,9 +40,9 @@ $hero_and_lema_css = '
     to   { opacity:1; transform:translateY(-50%) scale(1); }
 }
 
-/* Etiqueta "TAU Campus Virtual" encima del logo — CSS puro */
+/* Etiqueta "E-TAU Campus Virtual" encima del logo — CSS puro */
 #mooveslideshow::before {
-    content: "TAU Campus Virtual" !important;
+    content: "E-TAU Campus Virtual" !important;
     position: absolute !important;
     right: 6% !important;
     top: 18% !important;

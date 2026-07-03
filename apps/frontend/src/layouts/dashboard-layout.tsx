@@ -190,7 +190,7 @@ export function DashboardLayout() {
             </button>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-blue-600">
-                TAU Campus Virtual
+                E-TAU Campus Virtual
               </p>
               <p className="text-xs text-slate-400">Panel institucional</p>
             </div>

@@ -56,7 +56,7 @@ export function AdminDashboardPage() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-600">Panel Ejecutivo</p>
           <h1 className="mt-1 text-2xl font-bold text-slate-900">Centro de operación institucional</h1>
-          <p className="mt-1 text-sm text-slate-500">TAU Campus Virtual · {new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+          <p className="mt-1 text-sm text-slate-500">E-TAU Campus Virtual · {new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
         </div>
         <Link
           to="/dashboard/ai-course-builder"

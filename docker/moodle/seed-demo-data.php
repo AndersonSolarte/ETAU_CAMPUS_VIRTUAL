@@ -15,7 +15,7 @@ if (file_exists($MARKER)) {
     exit(0);
 }
 
-fwrite(STDOUT, "Seeding TAU Campus Virtual demo data...\n");
+fwrite(STDOUT, "Seeding E-TAU Campus Virtual demo data...\n");
 
 // ── 1. Categorías académicas ───────────────────────────────────
 $categories = [
@@ -183,7 +183,7 @@ foreach ($teachers as $teacherData) {
         $teacherData['lang']        = 'es';
         $teacherData['country']     = 'CO';
         $teacherData['city']        = 'Pasto';
-        $teacherData['description'] = 'Docente TAU Campus Virtual';
+        $teacherData['description'] = 'Docente E-TAU Campus Virtual';
 
         $uid = user_create_user((object) $teacherData, false, false);
         $user = $DB->get_record('user', ['id' => $uid]);

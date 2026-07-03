@@ -377,7 +377,7 @@ function local_tau_course_creator_ai_before_footer(): string {
         box-shadow: 0 18px 42px rgba(75, 15, 24, 0.18) !important;
     }
     .tau-banner-modulo::before {
-        content: "TAU CAMPUS VIRTUAL" !important;
+        content: "E-TAU CAMPUS VIRTUAL" !important;
         position: absolute !important;
         top: 18px !important;
         left: 30px !important;

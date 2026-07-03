@@ -15,7 +15,7 @@ $brandingroot  = $CFG->dirroot . '/theme/tau_branding';
 
 $extrascss = <<<'NEWSCSS'
 /* ═══════════════════════════════════════════════════
-   TAU Campus Virtual — Moove theme v2
+   E-TAU Campus Virtual — Moove theme v2
    Palette: Red #c62b3a  |  TAU Blue #1e3a8a
    ═══════════════════════════════════════════════════ */
 
@@ -1930,13 +1930,13 @@ foreach ($themeSettings as $name => $value) {
 // ─── Front page: slider & marketing boxes ───────────────────────────────────
 
 set_config('slidercount', '1', 'theme_moove');
-set_config('slidertitle1', 'Bienvenido a TAU Campus Virtual', 'theme_moove');
+set_config('slidertitle1', 'Bienvenido a E-TAU Campus Virtual', 'theme_moove');
 set_config('slidercap1',   'Tu plataforma de aprendizaje oficial de la Universidad CESMAG en línea', 'theme_moove');
 
 set_config('displaymarketingbox', '1', 'theme_moove');
 set_config('marketingheading', 'Todo lo que necesitas para aprender', 'theme_moove');
 set_config('marketingcontent',
-    'TAU Campus Virtual te conecta con tus cursos, docentes y compañeros. '
+    'E-TAU Campus Virtual te conecta con tus cursos, docentes y compañeros. '
     . 'Accede a todo tu material académico desde cualquier dispositivo.',
     'theme_moove'
 );
@@ -1955,7 +1955,7 @@ foreach ($marketing as $i => [$heading, $content]) {
 
 // Numbers section
 set_config('numbersfrontpage', '1', 'theme_moove');
-set_config('numbersfrontpagecontent', '<h2>Impulsando el futuro del aprendizaje profesional en la Universidad CESMAG</h2><p>TAU Campus Virtual es nuestro ecosistema digital diseñado para conectar a estudiantes y docentes con las mejores metodologías ágiles, tecnología de vanguardia y una comunidad académica comprometida con la excelencia y la innovación educativa.</p>', 'theme_moove');
+set_config('numbersfrontpagecontent', '<h2>Impulsando el futuro del aprendizaje profesional en la Universidad CESMAG</h2><p>E-TAU Campus Virtual es nuestro ecosistema digital diseñado para conectar a estudiantes y docentes con las mejores metodologías ágiles, tecnología de vanguardia y una comunidad académica comprometida con la excelencia y la innovación educativa.</p>', 'theme_moove');
 
 // Social / footer links
 set_config('mail', 'tau-ayuda@unicesmag.edu.co', 'theme_moove');
@@ -2117,7 +2117,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
   'sessionStorage.removeItem("tau-google-auth");' .
   'var _plT=Date.now();' .
   'var _pl=document.createElement("div");_pl.id="tau-preloader";' .
-  '_pl.innerHTML=\'<div class="tau-pl-inner"><div class="tau-pl-ring-wrap"><svg class="tau-pl-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.12)" stroke-width="2"/><circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="#c62b3a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="188 88"/></svg><img class="tau-pl-icon" src="/theme/tau_branding/assets/official/tau-official-icon.png" alt="" onload="this.style.opacity=1" style="opacity:0; transition:opacity 0.15s ease;"></div><div class="tau-pl-label">TAU CAMPUS VIRTUAL</div></div>\';' .
+  '_pl.innerHTML=\'<div class="tau-pl-inner"><div class="tau-pl-ring-wrap"><svg class="tau-pl-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="44" stroke="rgba(198,43,58,0.12)" stroke-width="2"/><circle class="tau-pl-arc" cx="50" cy="50" r="44" stroke="#c62b3a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="188 88"/></svg><img class="tau-pl-icon" src="/theme/tau_branding/assets/official/tau-official-icon.png" alt="" onload="this.style.opacity=1" style="opacity:0; transition:opacity 0.15s ease;"></div><div class="tau-pl-label">E-TAU CAMPUS VIRTUAL</div></div>\';' .
   'document.documentElement.appendChild(_pl);' .
   'var hideLoader=function(){var el=document.getElementById("tau-preloader");if(!el)return;el.classList.add("tau-pl-out");setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},320);};' .
   'window.addEventListener("load",function(){var e=Date.now()-_plT;setTimeout(hideLoader,Math.max(0,1650-e));});' .
@@ -2340,7 +2340,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
     'var container=document.querySelector("body#page-login-index .login-container");' .
     'var wrapper=document.querySelector("body#page-login-index .login-wrapper");' .
     'if(container&&wrapper){' .
-      'var officialLogoHtml="<div id=\'loginlogo\' class=\'login-logo tau-login-official-logo\'><img id=\'logoimage\' src=\'/theme/tau_branding/assets/official/tau-official-icon.png\' class=\'img-fluid\' alt=\'TAU Campus Virtual\'><h1 class=\'login-heading visually-hidden\'>Entrar a TAU Campus Virtual</h1></div>";' .
+      'var officialLogoHtml="<div id=\'loginlogo\' class=\'login-logo tau-login-official-logo\'><img id=\'logoimage\' src=\'/theme/tau_branding/assets/official/tau-official-icon.png\' class=\'img-fluid\' alt=\'E-TAU Campus Virtual\'><h1 class=\'login-heading visually-hidden\'>Entrar a E-TAU Campus Virtual</h1></div>";' .
       'var googleBtn=container.querySelector(".login-identityprovider-btn");' .
       'var googleBtnHtml="";' .
       'if(googleBtn){googleBtnHtml=googleBtn.outerHTML;}' .
@@ -2387,7 +2387,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
       'container.innerHTML=' .
         'officialLogoHtml+' .
         '"<div class=\'tau-login-welcome\'>" +' .
-          '"<div class=\'tau-campus-brand\'>TAU Campus Virtual</div>" +' .
+          '"<div class=\'tau-campus-brand\'>E-TAU Campus Virtual</div>" +' .
           '"<div class=\'tau-campus-inst\'>UNICESMAG</div>" +' .
           '"<p>Inicia sesión con tu cuenta Google institucional</p>" +' .
           '"<div class=\'tau-campus-meta\'>Vigilada Mineducacion</div>" +' .
@@ -2434,12 +2434,12 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
       '});' .
     '}' .
     'var TAU_ERR={' .
-      '"no-account":{t:"Cuenta no encontrada",m:"Este correo no esta registrado en TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."},' .
+      '"no-account":{t:"Cuenta no encontrada",m:"Este correo no esta registrado en E-TAU Campus Virtual. Debes ingresar con un correo institucional autorizado y previamente creado en la plataforma."},' .
       '"wrong-pass":{t:"Credenciales incorrectas",m:"El acceso solo esta permitido con tu cuenta Google institucional <b>@unicesmag.edu.co</b>. No uses cuentas personales como Gmail."},' .
       '"blocked":{t:"Cuenta bloqueada",m:"Tu cuenta existe, pero esta suspendida para ingreso. Si necesitas acceso como docente o estudiante, solicita la habilitacion al administrador."},' .
       '"no-auth":{t:"Metodo no permitido",m:"Solo se permite el ingreso con <b>Google institucional</b> y con usuarios autorizados dentro de la plataforma."},' .
-      '"unauthorized-email":{t:"Correo no autorizado",m:"Este correo no tiene autorizacion de ingreso en TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."},' .
-      '"generic":{t:"Error de acceso",m:"No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en TAU Campus Virtual e intenta nuevamente."}' .
+      '"unauthorized-email":{t:"Correo no autorizado",m:"Este correo no tiene autorizacion de ingreso en E-TAU Campus Virtual. Debes usar tu cuenta institucional <b>@unicesmag.edu.co</b> registrada previamente en la plataforma."},' .
+      '"generic":{t:"Error de acceso",m:"No fue posible validar tu acceso. Verifica que tu correo institucional este autorizado en E-TAU Campus Virtual e intenta nuevamente."}' .
     '};' .
     'function tauShowToast(key){' .
       'var d=TAU_ERR[key]||TAU_ERR["generic"];' .
@@ -2501,7 +2501,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
     'var h="";' .
     'h+=\'<div class="tau-pd-header">\';' .
     'var title="¡Hola, "+d.firstname+"! <span class=\'wave\'>👋<\/span>";' .
-    'var subtitle="Tu progreso académico en TAU Campus Virtual";' .
+    'var subtitle="Tu progreso académico en E-TAU Campus Virtual";' .
     'if(d.role==="teacher"){subtitle="Panel de Labor Docente — Resumen de tus clases";}' .
     'else if(d.role==="admin"){subtitle="Panel de Control de la Plataforma — Estado y salud general de Moodle";}' .
     'h+=\'<div class="tau-pd-greeting">\'+title+\'<\/div>\';' .
@@ -2683,7 +2683,7 @@ $topofbody_disabled = '<style>' . $dashboard_css_raw . '</style><script>(functio
       '}' .
     '});' .
     'var banner=document.querySelector("#mooveslideshow .carousel-inner");' .
-    'if(banner){banner.insertAdjacentHTML("beforeend",\'<div class="tau-banner-overlay"><div class="tau-banner-card"><span class="tau-banner-pretitle">TAU Campus Virtual</span><h1 class="tau-banner-title">Conectando <span class="tau-accent-text">saberes</span></h1><span class="tau-banner-subtitle">Educación con Propósito</span><p class="tau-banner-desc">Accede a tus cursos, recursos académicos y herramientas de aprendizaje en un entorno diseñado para tu crecimiento profesional.</p><a href="/login" class="btn-tau-banner-explore">Ingresar a mi espacio</a></div></div>\');}' .
+    'if(banner){banner.insertAdjacentHTML("beforeend",\'<div class="tau-banner-overlay"><div class="tau-banner-card"><span class="tau-banner-pretitle">E-TAU Campus Virtual</span><h1 class="tau-banner-title">Conectando <span class="tau-accent-text">saberes</span></h1><span class="tau-banner-subtitle">Educación con Propósito</span><p class="tau-banner-desc">Accede a tus cursos, recursos académicos y herramientas de aprendizaje en un entorno diseñado para tu crecimiento profesional.</p><a href="/login" class="btn-tau-banner-explore">Ingresar a mi espacio</a></div></div>\');}' .
   '}' .
   /* ── Inyectar el código de diseño de botones del constructor en la cabecera ── */
   'var checkBtnT=setInterval(function(){' .

@@ -1,6 +1,6 @@
 <?php
 /**
- * TAU Campus Virtual — Rediseño profesional
+ * E-TAU Campus Virtual — Rediseño profesional
  * Paleta: Azul profundo #0a2547 (base) + Carmesí #c0253a (acento) + Blanco
  * Filosofía: azul = institución/confianza, rojo = acción/energía, blanco = limpieza
  */

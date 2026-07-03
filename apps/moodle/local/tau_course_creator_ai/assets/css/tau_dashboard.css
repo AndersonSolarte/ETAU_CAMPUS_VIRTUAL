@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Dashboard Styles */
+/* E-TAU Campus Virtual - Dashboard Styles */
 @keyframes tauDashIn {
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }

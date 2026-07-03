@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Dashboard Script */
+/* E-TAU Campus Virtual - Dashboard Script */
 (function() {
     "use strict";
 
@@ -283,7 +283,7 @@
 
                     var h = '<div class="tau-pd-header">';
                     var greeting = "¡Hola, " + d.firstname + "! <span class='wave'>👋</span>";
-                    var subtitle = "Tu progreso académico en TAU Campus Virtual";
+                    var subtitle = "Tu progreso académico en E-TAU Campus Virtual";
 
                     if (d.role === "teacher") {
                         subtitle = "Panel de Labor Docente — Resumen de tus clases";

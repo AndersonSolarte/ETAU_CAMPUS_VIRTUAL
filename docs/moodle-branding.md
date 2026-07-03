@@ -1,6 +1,6 @@
 # Moodle Branding Guide
 
-Guia operativa para el branding institucional de TAU Campus Virtual sobre Boost Union.
+Guia operativa para el branding institucional de E-TAU Campus Virtual sobre Boost Union.
 
 ## Que queda automatizado
 

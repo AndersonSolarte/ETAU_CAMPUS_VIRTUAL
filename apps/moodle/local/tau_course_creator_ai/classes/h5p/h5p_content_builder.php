@@ -24,14 +24,14 @@ class h5p_content_builder {
         // - changes[].author: /^.{1,255}$/, changes[].log: /^.{1,5000}$/s (non-empty)
         if (empty($h5p_meta['authors'])) {
             $h5p_meta['authors'] = [
-                ['name' => 'TAU Campus Virtual', 'role' => 'Author'],
+                ['name' => 'E-TAU Campus Virtual', 'role' => 'Author'],
             ];
         }
         if (empty($h5p_meta['changes'])) {
             $h5p_meta['changes'] = [
                 [
                     'date'   => date('d-m-y G:i:s'),
-                    'author' => 'TAU Campus Virtual',
+                    'author' => 'E-TAU Campus Virtual',
                     'log'    => 'Generado automaticamente',
                 ],
             ];

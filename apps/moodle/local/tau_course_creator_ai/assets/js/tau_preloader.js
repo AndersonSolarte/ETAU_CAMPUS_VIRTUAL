@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Preloader Script */
+/* E-TAU Campus Virtual - Preloader Script */
 (function() {
     "use strict";
 
@@ -22,7 +22,7 @@
                 '</svg>' +
                 '<img class="tau-pl-icon" src="/theme/tau_branding/assets/official/tau-official-icon.png" alt="" onload="this.style.opacity=1" style="opacity:0; transition:opacity 0.15s ease;">' +
             '</div>' +
-            '<div class="tau-pl-label">TAU CAMPUS VIRTUAL</div>' +
+            '<div class="tau-pl-label"><span class="e-tau-design" style="font-size:1.1em;">E</span>-TAU CAMPUS VIRTUAL</div>' +
         '</div>';
         document.documentElement.appendChild(preloader);
 

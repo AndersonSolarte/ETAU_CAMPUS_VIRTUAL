@@ -121,7 +121,7 @@ export function HomePage() {
             variants={fade}
             className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/60"
           >
-            TAU Campus Virtual integra Moodle 5 con paneles modernos basados en IA,
+            E-TAU Campus Virtual integra Moodle 5 con paneles modernos basados en IA,
             experiencias diferenciadas por rol y arquitectura enterprise lista para escalar.
           </motion.p>
 
@@ -205,7 +205,7 @@ export function HomePage() {
         </motion.div>
 
         <footer className="border-t border-white/8 py-6 text-center text-xs text-white/25">
-          TAU Campus Virtual · CESMAG · Pasto, Colombia · {new Date().getFullYear()}
+          E-TAU Campus Virtual · CESMAG · Pasto, Colombia · {new Date().getFullYear()}
         </footer>
       </div>
     </main>

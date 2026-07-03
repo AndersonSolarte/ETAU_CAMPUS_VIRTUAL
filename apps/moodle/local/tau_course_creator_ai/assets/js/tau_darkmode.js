@@ -1,4 +1,4 @@
-/* TAU Campus Virtual - Dark Mode Switcher Script */
+/* E-TAU Campus Virtual - Dark Mode Switcher Script */
 (function() {
     "use strict";
 
